@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = {
   entry: [
-    './client/file.jsx'
+    './client/components/file.jsx'
   ],
   output: {
     path: path.join(__dirname, '/client'),
@@ -21,7 +21,6 @@ module.exports = {
         // To circumvent error: '$export is not a function'
         exclude: /node_modules/,
         loader: 'babel-loader',
-        include: __dirname,
         query: {
           presets: ['es2015', 'react'],
         }
