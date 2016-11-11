@@ -1,0 +1,29 @@
+{
+  "name": "codeoff",
+  "version": "1.0.0",
+  "description": "a code challenge web app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oneoffcharacters/thesis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oneoffcharacters/thesis/issues"
+  },
+  "homepage": "https://github.com/oneoffcharacters/thesis#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "enzyme": "^2.6.0",
+    "express": "^4.14.0",
+    "jest": "^17.0.0",
+    "mocha": "^3.1.2",
+    "morgan": "^1.7.0",
+    "react": "^15.3.2"
+  }
+}
