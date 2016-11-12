@@ -11,7 +11,7 @@ class Repl extends React.Component {
 	  	};
     }
 
-  componentDidUpdate() {
+  componentDidMount() {
   	console.log('this.createREPL', this.createREPL)
   	this.createREPL();
   }
