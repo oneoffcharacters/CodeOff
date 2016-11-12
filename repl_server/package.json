@@ -4,6 +4,7 @@
   "description": "",
   "main": "repl_server.js",
   "scripts": {
+    "start": "node repl_server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
