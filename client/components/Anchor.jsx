@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Test from './test';
+import Home from './homepage';
 
-class Anchor extends React.Component {
+export default class Anchor extends React.Component {
 	render() {
 		return(
 			<div>
-				<h1>HELLO</h1>
+				<h1 className='title'>HELLO WEBPACK</h1>
 				<Test />
+        <Home />
 			</div>
 		)
 	}
