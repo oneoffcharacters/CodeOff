@@ -1,13 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 
 import Anchor from '../client/components/Anchor';
-import Test from '../client/components/test';
 
 describe('<Anchor />', () => {
-  it('should', () => {
+
+  it('should render the title correctly', () => {
     const wrapper = shallow(<Anchor />);
-    expect(wrapper);
+    // expect(wrapper.find('h1')).to.have.length(1);
+    expect(wrapper.find('h1').text()).to.equal('HELLO WEBPACK');
   })
+  
+  it('should render the <Test /> component', () => {
+    const wrapper = shallow(<Anchor />);
+    expect(wrapper.find('Test')).to.have.length(1);
+  })  
 });
