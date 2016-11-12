@@ -20,10 +20,7 @@ module.exports = {
         test: /\.jsx?$/,
         // To circumvent error: '$export is not a function'
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-        }
+        loader: 'babel-loader'
       }
     ]
   },
