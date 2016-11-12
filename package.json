@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "test": "mocha --require test/helpers/setup.js",
-    "build": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
+    "build": "webpack -p --config webpack.config.js --progress --profile --colors",
     "dev": "npm run build && npm run start"
   },
   "repository": {
