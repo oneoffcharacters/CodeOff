@@ -15,6 +15,6 @@ describe('<Anchor />', () => {
   it('should render the <Home /> component', () => {
     const wrapper = shallow(<Anchor />);
     expect(wrapper.find('Home')).to.have.length(1);
-    console.log(wrapper);
+    // console.log(wrapper);
   }) 
 });

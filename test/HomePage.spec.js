@@ -10,4 +10,9 @@ describe('<Home />', () => {
     const wrapper = shallow(<Home />);
     expect(wrapper.find('Header')).to.have.length(1);
   })
-})
+
+  it('should render a <Landing /> component', () => {
+    const wrapper = shallow(<Home />);
+    expect(wrapper.find('Landing')).to.have.length(1);
+  })
+})  
