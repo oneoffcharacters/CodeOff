@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "test": "mocha --require test/helpers/setup.js",
-    "build": "webpack -p --config webpack.config.js --progress --profile --colors"
+    "build": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
+    "dev": "npm run build && npm run start"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,11 @@
   "dependencies": {
     "codemirror": "^5.20.2",
     "express": "^4.14.0",
+    "history": "^1.17.0",
     "morgan": "^1.7.0",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-router": "^3.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
