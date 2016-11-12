@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mount, shallow, render } from 'enzyme';
 
 import Anchor from '../client/components/Anchor';
+import Home from '../client/components/Homepage';
 
 describe('<Anchor />', () => {
 
