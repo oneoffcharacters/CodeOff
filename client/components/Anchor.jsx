@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Test from './test';
-import Home from './homepage';
+import Home from './Homepage';
 
 export default class Anchor extends React.Component {
 	render() {
