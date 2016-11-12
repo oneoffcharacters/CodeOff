@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Test from './test';
 
-class Anchor extends React.Component {
+export default class Anchor extends React.Component {
 	render() {
 		return(
 			<div>
