@@ -12,8 +12,9 @@ describe('<Anchor />', () => {
     expect(wrapper.find('h1').text()).to.equal('HELLO WEBPACK');
   })
   
-  it('should render the <Test /> component', () => {
+  it('should render the <Home /> component', () => {
     const wrapper = shallow(<Anchor />);
-    expect(wrapper.find('Test')).to.have.length(1);
-  })  
+    expect(wrapper.find('Home')).to.have.length(1);
+    // console.log(wrapper);
+  }) 
 });
