@@ -7,7 +7,7 @@ export default class Home extends React.Component {
     return (
       <div>
         <Header />
-        <Landing />
+        {this.props.children}
       </div>
     )
   }

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "test": "mocha --require test/helpers/setup.js",
-    "build": "webpack -p --config webpack.config.js --progress --profile --colors",
-    "dev": "npm run build && npm run start"
+    "build": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
+    "dev": "npm run build ; npm run start"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,11 @@
   },
   "homepage": "https://github.com/oneoffcharacters/thesis#readme",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "codemirror": "^5.20.2",
     "express": "^4.14.0",
     "history": "^1.17.0",
+    "jquery": "^3.1.1",
     "morgan": "^1.7.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
