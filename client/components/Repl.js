@@ -15,5 +15,3 @@ class Repl extends React.Component {
     )
   }
 }
-
-export default Repl
