@@ -10,8 +10,10 @@ class Repl extends React.Component {
   render() {
     return (
 	      <div id="editor">
-	      	Dashboard
+	      	Repl
 	      </div>
     )
   }
 }
+
+export default Repl

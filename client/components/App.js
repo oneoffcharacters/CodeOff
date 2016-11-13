@@ -11,4 +11,6 @@ export default class App extends React.Component {
 
     )
   }
-}  
+}
+
+exports default App
