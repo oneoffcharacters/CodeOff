@@ -12,7 +12,7 @@ class Repl extends React.Component {
     }
 
   componentDidMount() {
-  	console.log('this.createREPL', this.createREPL)
+  	// console.log('this.createREPL', this.createREPL)
   	this.createREPL();
   }
 
