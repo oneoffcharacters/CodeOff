@@ -7,7 +7,8 @@
     "start": "nodemon server/server.js",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
-    "dev": "npm run build ; npm run start"
+    "dev": "npm run build ; npm run start",
+    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "jsdom": "^9.8.3",
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
+    "nyc": "^8.4.0",
     "react-addons-test-utils": "^15.3.2",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
