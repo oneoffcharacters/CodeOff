@@ -29,5 +29,5 @@ node_modules/
 bower_components/
 
 client/*build.js
-.nyc-output
 coverage
+.nyc_output
