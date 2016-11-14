@@ -5,7 +5,7 @@ import Header from './Header'
 export default class Home extends React.Component {
   render() {
     return (
-      <div>
+      <div className="HomePage">
         <Header />
         {this.props.children}
       </div>
