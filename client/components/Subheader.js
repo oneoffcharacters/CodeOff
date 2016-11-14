@@ -3,7 +3,9 @@ import React from 'react';
 const Subheader = () => {
 
 	return (
-    <div>Subheader</div>
+    <div className="subheader">
+
+    </div>
 	)
 }
 
