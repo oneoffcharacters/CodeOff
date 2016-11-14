@@ -33,10 +33,10 @@ class Repl extends React.Component {
       var editor = ace.edit("editor");
 
       editor.setTheme("ace/theme/dreamweaver");
-      editor.getSession().setMode("ace/mode/javascript"); // going to execute js
-      editor.getSession().setUseSoftTabs(true); // use soft-tabs
-      editor.setHighlightActiveLine(false); // sets line highlighting
-      document.getElementById('editor').style.fontSize='13px'; // sets the font-size
+      editor.getSession().setMode("ace/mode/javascript");
+      editor.getSession().setUseSoftTabs(true);
+      editor.setHighlightActiveLine(false);
+      document.getElementById('editor').style.fontSize='13px';
       editor.getSession().setUseWrapMode(true);
       editor.setShowPrintMargin(false);
       editor.resize();
@@ -58,22 +58,22 @@ class Repl extends React.Component {
       // this.socket.emit('text change', text);
     }
 
-    //Need to import Jquery for this
-    // sendCode() {
-    //   $.ajax({
-    //     method: 'POST',
-    //     url: '/api/replservice/runcode',
-    //     data: {code: this.state.text},
-    //     success: (data) => {
-    //       this.socket.emit('append result', data);
-    //       // $('.response').append(data);
-    //       // console.log('after socket');
-    //     },
-    //     error: (jqXHR, textStatus, errorThrown) => {
-    //       console.log(textStatus, errorThrown, jqXHR);
-    //     }
-    //   });
-    // }
+    sendCode() {
+      console.log('this.state.text', this.state.text)
+      // $.ajax({
+      //   method: 'POST',
+      //   url: '/api/replservice/runcode',
+      //   data: {code: this.state.text},
+      //   success: (data) => {
+      //     this.socket.emit('append result', data);
+      //     // $('.response').append(data);
+      //     // console.log('after socket');
+      //   },
+      //   error: (jqXHR, textStatus, errorThrown) => {
+      //     console.log(textStatus, errorThrown, jqXHR);
+      //   }
+      // });
+    }
 
     startConsole () {
       // move jqconsole out
@@ -103,7 +103,7 @@ class Repl extends React.Component {
   render() {
     return (
       <div className="container-fluid no-pad">
-        <Subheader />
+        <Subheader sendCode={this.sendCode.bind(this)} />
         <div id="wrapper">
           <div className="container  no-pad" id="editor-container">
             <div className="col-sm-12 col-md-6 no-pad">
