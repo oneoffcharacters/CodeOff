@@ -11,8 +11,22 @@
 //     expect(wrapper.find('Header')).to.have.length(1);
 //   })
 
+<<<<<<< e12f1a4d0f8b335555730aae21275ffc9901d459
 //   it('should render a <Landing /> component', () => {
 //     const wrapper = shallow(<Home />);
 //     expect(wrapper.find('Landing')).to.have.length(1);
 //   })
 // })  
+||||||| merged common ancestors
+  it('should render a <Landing /> component', () => {
+    const wrapper = shallow(<Home />);
+    expect(wrapper.find('Landing')).to.have.length(1);
+  })
+}) 
+=======
+  it('should render a <Landing /> component', () => {
+    const wrapper = shallow(<Home />);
+    expect(wrapper.find('Landing')).to.have.length(1);
+  })
+}) 
+>>>>>>> added additional tests for homepage component
