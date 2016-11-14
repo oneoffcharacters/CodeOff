@@ -24,8 +24,8 @@ class Repl extends React.Component {
       // //set initially
       // resizeAce();
 
-      // this.startConsole = this.startConsole.bind(this);
-      // this.startConsole();
+      this.startConsole = this.startConsole.bind(this);
+      this.startConsole();
 
     }
 
@@ -77,7 +77,7 @@ class Repl extends React.Component {
 
     startConsole () {
       // move jqconsole out
-      var jqconsole = $('#console-terminal-editor').jqconsole('Hi\n', '>>>');
+      var jqconsole = $('#console-terminal-editor').jqconsole('>>>');
 
       this.setState({
         console: jqconsole
