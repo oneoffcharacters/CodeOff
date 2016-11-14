@@ -7,7 +7,6 @@ export default class Home extends React.Component {
     return (
       <div className="HomePage">
         <Header />
-        {this.props.children}
       </div>
     )
   }
