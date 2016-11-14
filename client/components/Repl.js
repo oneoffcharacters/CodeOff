@@ -5,7 +5,7 @@ import jQuery from 'jquery';
 const $ = jQuery;
 // jq-console is throwing 'ReferenceError: jQuery is not defined' in testing
 // is it necessary / being imported properly?
-// import jqconsole from 'jq-console';
+import jqconsole from 'jq-console';
 
 class Repl extends React.Component {
     constructor(props) {
@@ -54,12 +54,35 @@ class Repl extends React.Component {
       this.setState({
         text: text
       });
-      console.log('text, e', text, e)
+      console.log('text', e)
       // this.socket.emit('text change', text);
     }
 
     sendCode() {
       console.log('this.state.text', this.state.text)
+      fetch('api/repl', {
+        method: 'POST', 
+        mode: 'cors', 
+        redirect: 'follow',
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: JSON.stringify({
+            code: this.state.text
+        })
+      })
+      .then(function(response) {
+        console.log('The first response before parsing is',  response)
+        console.log('The first response after parsing is',  response.body.json())
+        return response.body.json()
+      })
+      .then(function(parsedResponse) {
+        this.state.console.Write(parsedResponse);
+        console.log('parsedResponse', parsedResponse)
+      })
+      .catch(function(err) {
+        console.log('Send code errored out',  err)
+      })
       // $.ajax({
       //   method: 'POST',
       //   url: '/api/replservice/runcode',

@@ -22,9 +22,11 @@
   "homepage": "https://github.com/oneoffcharacters/thesis#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
     "codemirror": "^5.20.2",
     "express": "^4.14.0",
     "history": "^1.17.0",
+    "jq-console": "^2.13.2",
     "jquery": "^3.1.1",
     "morgan": "^1.7.0",
     "react": "^15.3.2",

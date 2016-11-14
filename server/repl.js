@@ -5,7 +5,8 @@ const stream = require('stream');
 
 module.exports = {
   runCode: (code, path, callback) => {
-
+    console.log('The code is ', code);
+    
     //sanitize the repl input
     var codeSanitized = code.split('\n').map((section) => {
       var trimmed = section.trim();
