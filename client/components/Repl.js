@@ -1,7 +1,11 @@
 import React from 'react';
-import $ from 'jquery'; 
-import jqconsole from 'jq-console';
 import Subheader from './Subheader'
+import ReactDOM from 'react-dom';
+import jQuery from 'jquery'; 
+const $ = jQuery;
+// jq-console is throwing 'ReferenceError: jQuery is not defined' in testing
+// is it necessary / being imported properly?
+// import jqconsole from 'jq-console';
 
 class Repl extends React.Component {
     constructor(props) {
