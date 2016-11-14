@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery'; 
 import jqconsole from 'jq-console';
+import Subheader from './Subheader'
 
 class Repl extends React.Component {
     constructor(props) {
@@ -13,6 +14,11 @@ class Repl extends React.Component {
 
     componentDidMount() {
       this.editor = this.editorSetup();
+
+      // //listen for changes
+      // $(window).resize(resizeAce);
+      // //set initially
+      // resizeAce();
 
       // this.startConsole = this.startConsole.bind(this);
       // this.startConsole();
@@ -30,9 +36,14 @@ class Repl extends React.Component {
       editor.getSession().setUseWrapMode(true);
       editor.setShowPrintMargin(false);
       editor.resize();
+      editor.setAutoScrollEditorIntoView(true);
 
       return editor;
     }
+
+    resizeAce() {
+      return $('#editor').height($(window).height());
+    };
 
     handleKeyPress (e) {
       var text = this.editor.getValue();
@@ -84,12 +95,39 @@ class Repl extends React.Component {
       });
     }
 
+
   render() {
     return (
-    	<div className="expanded row">
-	    	  <div className="small-12 medium-6 column" id="editor" onKeyUp={this.handleKeyPress.bind(this)}> </div>
-	    	  {/*<div id="console-terminal-editor"></div>*/}
-    	</div>
+      <div className="container-fluid no-pad">
+        <Subheader />
+        <div id="wrapper">
+          <div className="container  no-pad" id="editor-container">
+            <div className="col-sm-12 col-md-6 no-pad">
+              <div className="panel">
+                <div className="panel-heading">
+                Panel
+                </div>
+                <div className="panel-body no-pad">
+                  <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}> </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-12 col-md-6 no-pad">
+              <div className="panel">
+                <div className="panel-heading">
+                  <h3 className="panel-title">Console</h3>
+                </div>
+
+                <div className="panel-body no-pad">
+                  <div className="home-editor">
+                    <div id="console-terminal-editor" className="home-console"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
