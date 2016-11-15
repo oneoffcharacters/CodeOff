@@ -1,7 +1,7 @@
-sudo: required
+# sudo: required
 
-services:
-  - docker
+# services:
+#   - docker
 
 language: node_js
 
@@ -12,9 +12,9 @@ node_js:
 notifications:
   slack: hr48:SvKuG55pxLTMA8jOhiUECDOH
 
-before_install:
-  - docker build -qt rdgifford/thesis .
-  - docker ps -a
+# before_install:
+#   - docker build -qt rdgifford/thesis .
+#   - docker ps -a
 
 after_success:
   - bash deploy.sh
