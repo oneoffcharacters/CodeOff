@@ -16,10 +16,6 @@ module.exports = {
       nsp.emit('alter text', msg);
     });
 
-     socket.on('append result', (msg, test) => {
-       nsp.emit('alter result', msg, test);
-     });
-
      socket.on('disconnect', () => {
        console.log('a user has disconnected');
      });
