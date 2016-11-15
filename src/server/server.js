@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const runCode = require('./repl').runCode
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 // REQUEST LOGGING
 app.use(morgan('dev'));
