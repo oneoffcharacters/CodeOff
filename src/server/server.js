@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 // app.use('/api/replservice', replRouter);
 
 // STATIC ASSETS
-app.use(express.static('client'));
+app.use(express.static('src/client'));
 // app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
