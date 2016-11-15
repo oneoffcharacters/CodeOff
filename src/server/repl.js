@@ -50,8 +50,9 @@ module.exports = {
       var server = repl.start({input: input, output:output, terminal: false, ignoreUndefined: true});
       server.on('exit', () => {
         console.log('Received "exit" event from repl!');
+        console.log('data after exit', data)
         data = data.replace(/(\.)+/g, '');
-        data = data.replace(/( \>)+/g, "> ");
+        data = data.slice(2)
         callback(data);
       });
 
