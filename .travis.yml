@@ -4,3 +4,5 @@ node_js:
   - "4"
 notifications:
   slack: hr48:SvKuG55pxLTMA8jOhiUECDOH
+after_success:
+  - bash deploy.sh
