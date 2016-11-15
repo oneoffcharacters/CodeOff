@@ -11,7 +11,7 @@ class Repl extends React.Component {
     constructor(props) {
 	    super(props);
 	    this.state = {
-	    	text:'',
+	    	text:'console.log(\'hello world\');',
 	    	console:''
 	  	};
     }
