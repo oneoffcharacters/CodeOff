@@ -1,13 +1,13 @@
 import React from 'react';
 import Subheader from './Subheader'
 import ReactDOM from 'react-dom';
-import chance from 'chance'
+// const chance = window.chance
 // jq-console is throwing 'ReferenceError: jQuery is not defined' in testing
 // is it necessary / being imported properly?
-// import jqconsole from 'jq-console';
-
-// const clientId = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
-let socket;
+import jqconsole from 'jq-console';
+// console.log(window.chance.string())
+const clientID = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
+let publicSocket, privateSocket
 
 class Repl extends React.Component {
     constructor(props) {
@@ -23,6 +23,7 @@ class Repl extends React.Component {
       this.editor = this.editorSetup();
       console.log('this',  this)
       this.socket = this.setupSocket();
+      this.pairMe()
       // //listen for changes
       // $(window).resize(resizeAce);
       // //set initially
@@ -49,16 +50,25 @@ class Repl extends React.Component {
     }
 
     setupSocket() {
-      // var socket = io.connect('http://localhost');
-      console.log(socket);
-      socket = io();
-      console.log(socket);
+      publicSocket = io();
+      privateSocket = io(clientID)
 
-      // const connectionSocket = io(window.location.pathname); // FIX ME
-      // clientSocket = io();
-      console.log('window.location', window.location)
-      window.location.href += '/' + 'xyz'
-      console.log('window.location', window.location)
+      publicSocket.on('connect', (data) => {
+        window.location.pathname =  data.namespace;
+
+        console.log('Data from publicSocket', data)
+      });
+
+      // privateSocket.on('connectionReq', (connectionReq) => {
+      //   console.log('The private connectionReq has been made',  connectionReq)
+      // });
+
+    }
+
+    pairMe() {
+      publicSocket.emit('message', {
+        clientID: clientID
+      });
     }
 
     resizeAce() {
@@ -87,31 +97,6 @@ class Repl extends React.Component {
           console.log(textStatus, errorThrown, jqXHR);
         }
       });
-
-      //=====LEAVE THIS IN FOR SHERMAN TO INSPECT=========
-      // fetch('api/repl', {
-      //   method: 'POST', 
-      //   mode: 'cors', 
-      //   redirect: 'follow',
-      //   headers: new Headers({
-      //     'Content-Type': 'application/x-www-form-urlencoded'
-      //   }),
-      //   body: JSON.stringify({
-      //       code: this.state.text
-      //   })
-      // })
-      // .then(function(response) {
-      //   console.log('this', context);
-      //   return response.json()
-      //   });
-      // })
-      // .then(function(parsedResponse) {
-      //   console.log('parsedResponse', parsedResponse)
-      //   
-      // })
-      // .catch(function(err) {
-      //   console.log('Send code errored out',  err)
-      // })
 
     }
 
@@ -143,7 +128,7 @@ class Repl extends React.Component {
   render() {
     return (
       <div className="container-fluid no-pad">
-        <Subheader sendCode={this.sendCode.bind(this)} />
+        <Subheader sendCode={this.sendCode.bind(this)} sendCode={this.pairMe.bind(this) />
         <div id="wrapper">
           <div className="container  no-pad" id="editor-container">
             <div className="col-sm-12 col-md-6 no-pad">
