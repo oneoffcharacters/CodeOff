@@ -6,10 +6,8 @@ export default class Header extends React.Component {
       <div className="Header">
         <h1 className="HeaderName">CodeOff</h1>
 
-        <div>
           <h1 className="HeaderNav">Register</h1>
           <h1 className="HeaderNav">Sign In</h1>
-        </div>
       </div>
     )
   }
