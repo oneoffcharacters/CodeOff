@@ -14,6 +14,9 @@ app.use(express.static('src/client'));
 // app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+const server = app.listen(3000, () => console.log('App listening on port 3000'))
+const io = require('socket.io')(server);
+
 app.post('/api/repl', (req, res) => {
 	  runCode(req.body.code, req.path, (data) => {
 	    if (!res.headerSent) {
@@ -28,6 +31,12 @@ app.post('/api/repl', (req, res) => {
 	  });
 	});
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+ 
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
 
 
-app.listen(3000, () => console.log('App listening on port 3000'))
