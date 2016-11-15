@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow, render } from 'enzyme';
 
-import Home from '../client/components/Homepage';
+import Home from '../src/client/components/Homepage';
 
 describe('<Home />', () => {
 
