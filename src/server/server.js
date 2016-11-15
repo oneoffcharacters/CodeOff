@@ -7,6 +7,8 @@ const Chance = require('chance')
 const chance = new Chance();
 
 
+
+
 // const util = require('util')
 // REQUEST LOGGING
 app.use(morgan('dev'));
@@ -33,33 +35,34 @@ app.post('/api/repl', (req, res) => {
 	});
 });
 
-const waiting_queue = [];
-const active_cache = {};
+// const waiting_queue = [];
+// const active_cache = {};
+var cached = {}, ukey = '';
 
 app.post('/api/enqueue',  (req, res) => {
-	const create_namespace = (path, io) => {
+	const createNamespace = (path, io) => {
 		console.log('created namespace');
 		var nsp = io.of(path);
 		nsp.on('connection', (socket) => {
-			console.log('a user has connected', path);
+			console.log('a user has connected to the namespace', path);
 
-			socket.on('append result', (msg, test) => {
-				nsp.emit('alter result', msg, test);
+			socket.on('win', (message) => {
+				nsp.emit('lost', message);
 			});
 
 			socket.on('disconnect', () => {
-				console.log('a user has disconnected');
+				console.log('a user has disconnected from the namespace');
 			});
 		});
 	}
 
 	ukey = '/' + chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-	create_namespace(ukey, io);
+	enqueue(ukey, io);
 	cached[ukey] = ukey;
 	res.send(ukey);
 })
 
-function setPairingListeners = (io) {
+function setPairingListeners (io) {
   var context = this;
   io.on('connection', function(socket){
     socket.on('message', function(obj){
