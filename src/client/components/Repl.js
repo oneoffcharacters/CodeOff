@@ -14,7 +14,7 @@ class Repl extends React.Component {
 	    this.state = {
 	    	text:"console.log('hello world');",
 	    	console:''
-	  	};
+	  	};  
     }
 
 
