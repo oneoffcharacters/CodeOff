@@ -60,46 +60,43 @@ class Repl extends React.Component {
 
     sendCode() {
       const context = this;
-      console.log('this.state.text', this.state.text)
-      fetch('api/repl', {
-        method: 'POST', 
-        mode: 'cors', 
-        redirect: 'follow',
-        headers: new Headers({
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }),
-        body: JSON.stringify({
-            code: this.state.text
-        })
-      })
-      .then(function(response) {
-        console.log('this', context);
-        return response.clone().json().catch(function() {
-          console.log('The result was converted to text')
-          return response.text();
-        });
-      })
-      .then(function(parsedResponse) {
-        console.log('parsedResponse', parsedResponse)
-        console.log('this2', context);
-        context.state.console.Write(parsedResponse.consoleText);
-      })
-      .catch(function(err) {
-        console.log('Send code errored out',  err)
-      })
-      // $.ajax({
-      //   method: 'POST',
-      //   url: '/api/replservice/runcode',
-      //   data: {code: this.state.text},
-      //   success: (data) => {
-      //     this.socket.emit('append result', data);
-      //     // $('.response').append(data);
-      //     // console.log('after socket');
-      //   },
-      //   error: (jqXHR, textStatus, errorThrown) => {
-      //     console.log(textStatus, errorThrown, jqXHR);
-      //   }
-      // });
+      $.ajax({
+        method: 'POST',
+        url: 'api/repl',
+        data: {code: this.state.text},
+        success: (data) => {
+          context.state.console.Write(JSON.parse(data).consoleText);
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+          console.log(textStatus, errorThrown, jqXHR);
+        }
+      });
+
+      //=====LEAVE THIS IN FOR SHERMAN TO INSPECT=========
+      // fetch('api/repl', {
+      //   method: 'POST', 
+      //   mode: 'cors', 
+      //   redirect: 'follow',
+      //   headers: new Headers({
+      //     'Content-Type': 'application/x-www-form-urlencoded'
+      //   }),
+      //   body: JSON.stringify({
+      //       code: this.state.text
+      //   })
+      // })
+      // .then(function(response) {
+      //   console.log('this', context);
+      //   return response.json()
+      //   });
+      // })
+      // .then(function(parsedResponse) {
+      //   console.log('parsedResponse', parsedResponse)
+      //   
+      // })
+      // .catch(function(err) {
+      //   console.log('Send code errored out',  err)
+      // })
+
     }
 
     startConsole () {
