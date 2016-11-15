@@ -6,12 +6,13 @@ const $ = jQuery;
 // jq-console is throwing 'ReferenceError: jQuery is not defined' in testing
 // is it necessary / being imported properly?
 import jqconsole from 'jq-console';
+var socket;
 
 class Repl extends React.Component {
     constructor(props) {
 	    super(props);
 	    this.state = {
-	    	text:'console.log(\'hello world\');',
+	    	text:"console.log('hello world');",
 	    	console:''
 	  	};
     }
@@ -19,7 +20,8 @@ class Repl extends React.Component {
 
     componentDidMount() {
       this.editor = this.editorSetup();
-
+      console.log('this',  this)
+      this.socket = this.setupSocket();
       // //listen for changes
       // $(window).resize(resizeAce);
       // //set initially
@@ -43,6 +45,13 @@ class Repl extends React.Component {
       editor.setValue('console.log(\'hello world\');', 1)
 
       return editor;
+    }
+
+    setupSocket() {
+      // var socket = io.connect('http://localhost');
+      console.log(socket);
+      socket = io();
+      console.log(socket);
     }
 
     resizeAce() {
