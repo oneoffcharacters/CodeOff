@@ -16,6 +16,7 @@ class Repl extends React.Component {
 	  	};
     }
 
+
     componentDidMount() {
       this.editor = this.editorSetup();
 
@@ -26,7 +27,6 @@ class Repl extends React.Component {
 
       this.startConsole = this.startConsole.bind(this);
       this.startConsole();
-
     }
 
     editorSetup () {
@@ -59,6 +59,7 @@ class Repl extends React.Component {
     }
 
     sendCode() {
+      const context = this;
       console.log('this.state.text', this.state.text)
       fetch('api/repl', {
         method: 'POST', 
@@ -72,13 +73,16 @@ class Repl extends React.Component {
         })
       })
       .then(function(response) {
-        console.log('The first response before parsing is',  response)
-        console.log('The first response after parsing is',  response.body.json())
-        return response.body.json()
+        console.log('this', context);
+        return response.clone().json().catch(function() {
+          console.log('The result was converted to text')
+          return response.text();
+        });
       })
       .then(function(parsedResponse) {
-        this.state.console.Write(parsedResponse);
         console.log('parsedResponse', parsedResponse)
+        console.log('this2', context);
+        context.state.console.Write(parsedResponse.consoleText);
       })
       .catch(function(err) {
         console.log('Send code errored out',  err)
