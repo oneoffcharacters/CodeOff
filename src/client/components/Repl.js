@@ -1,12 +1,13 @@
 import React from 'react';
 import Subheader from './Subheader'
 import ReactDOM from 'react-dom';
-import jQuery from 'jquery'; 
-const $ = jQuery;
+import chance from 'chance'
 // jq-console is throwing 'ReferenceError: jQuery is not defined' in testing
 // is it necessary / being imported properly?
-import jqconsole from 'jq-console';
-var socket;
+// import jqconsole from 'jq-console';
+
+// const clientId = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
+let socket;
 
 class Repl extends React.Component {
     constructor(props) {
@@ -52,6 +53,12 @@ class Repl extends React.Component {
       console.log(socket);
       socket = io();
       console.log(socket);
+
+      // const connectionSocket = io(window.location.pathname); // FIX ME
+      // clientSocket = io();
+      console.log('window.location', window.location)
+      window.location.href += '/' + 'xyz'
+      console.log('window.location', window.location)
     }
 
     resizeAce() {

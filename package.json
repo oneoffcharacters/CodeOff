@@ -7,6 +7,7 @@
     "start": "nodemon src/server/server.js",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors",
+    "build-w": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
     "dev": "npm run build ; npm run start",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
@@ -23,6 +24,7 @@
   "dependencies": {
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "chance": "^1.0.4",
     "codemirror": "^5.20.2",
     "express": "^4.14.0",
     "history": "^1.17.0",
