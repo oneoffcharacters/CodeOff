@@ -8,6 +8,7 @@
 // import React from 'react';
 // import { expect, should } from 'chai';
 // import { mount, shallow, render } from 'enzyme';
+// import sinon from 'sinon';
 
 // import Repl from '../src/client/components/Repl';
 
@@ -18,4 +19,10 @@
 //     const wrapper = shallow(<Repl />);
 //     expect(wrapper).to.exist;
 //   })
+
+//   it('should render the subheader component', () => {
+//     const wrapper = shallow(<Repl />);
+//     expect(wrapper.find('Subheader')).to.have.length(1);
+//   })
+
 // })
