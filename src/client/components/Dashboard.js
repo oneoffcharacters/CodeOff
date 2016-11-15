@@ -8,9 +8,11 @@ class Dashboard extends React.Component {
     return (
       <div>
         <DashboardHeader />
-        <button class="Start">Start Coding</button>
-        <Leaderboard />
-        <Profile />
+        <button className="DashboardStartButton">Start Coding</button>
+        <div className="DashboardMainComponents">
+          <Leaderboard />
+          <Profile />
+        </div>
       </div>
     )
   }
