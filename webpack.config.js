@@ -3,13 +3,13 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './client/components/Anchor.jsx'
+    './src/client/components/Anchor.jsx'
   ],
   output: {
-    path: path.join(__dirname, '/client'),
+    path: path.join(__dirname, 'src/client'),
  	  filename: 'build.js',
   },
-	resolve: {
+  resolve: {
 		extensions: [
       '', '.js', '.jsx'
     ],

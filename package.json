@@ -1,10 +1,10 @@
 {
-  "name": "codeoff",
+  "name": "CodeOff",
   "version": "1.0.0",
-  "description": "a code challenge web app",
-  "main": "index.js",
+  "description": "Mario kart meets coding challenges",
+  "main": "src/server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "start": "nodemon src/server/server.js",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors",
     "dev": "npm run build ; npm run start",
