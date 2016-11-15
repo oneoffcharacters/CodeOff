@@ -1,5 +1,6 @@
 .HomePage {
   background: #F5F5F5;
+  /*border: 5px solid black;*/
 }
 
 /*need to install/include fonts*/
@@ -8,6 +9,8 @@
 /*Header*/
 .Header {
   background: #2C3840;
+  display: flex;
+  /*border: 5px solid green;*/
 }
 
 .HeaderName {
@@ -30,6 +33,7 @@
 /*Hero*/
 .Hero {
   background: #F5F5F5;
+  /*border: 5px solid yellow;*/
 }
 
 .HeroText {
@@ -38,6 +42,11 @@
   color: #555E6B;
   letter-spacing: 0;
   line-height: 48px;
+  text-align: center;
+}
+
+.HeroButtons {
+  text-align: center;
 }
 
 /*Play Now button*/
@@ -74,6 +83,13 @@
   color: #212121;
   letter-spacing: 0;
   line-height: 60px;
+  text-align: center;
+}
+
+.features {
+  display: flex;
+  text-align: center;
+  /*border: 5px solid blue;*/
 }
 
 .feature-title {
@@ -97,6 +113,8 @@
 /*Footer*/
 .Footer {
   background: #2C3840;
+  display: flex;
+  /*border: 5px solid orange;*/
 }
 
 .footer-name {
