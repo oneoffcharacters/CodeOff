@@ -70,3 +70,53 @@
 .ProfileContentMain {
   /*border: 1px solid black;*/
 }
+||||||| merged common ancestors
+=======
+.DashboardHeader {
+  background: #2C3840;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.DashboardHeaderName {
+  font-family: .SFNSDisplay-Regular;
+  font-size: 29px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+.DashboardHeaderPicture {
+  max-height: 45px;
+  /*padding-right: 5px;*/
+}
+
+.DashboardStartButton {
+  display: flex;
+  background: #E67F38;
+  border-radius: 100px;
+  font-family: Raleway-ExtraBold;
+  font-size: 24px;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+}
+
+.DashboardMainComponents {
+  display: flex;
+  justify-content: space-around;
+}
+
+.LeaderboardContent {
+  border: 2px solid black;
+  width: 300px;
+}
+
+.LeaderboardContentHeader {
+  display: flex;
+}
+
+.ProfileContent {
+  border: 2px solid black;
+  width: 300px;
+}

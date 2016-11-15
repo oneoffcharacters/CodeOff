@@ -4,6 +4,7 @@ export default class Leaderboard extends React.Component {
   render() {
     return (
       <div>
+<<<<<<< ef475d1fbd5b90080f1e1f5cff57ca3ead3bfd9a
 
         <h2>Leaderboard</h2>
 
@@ -20,6 +21,21 @@ export default class Leaderboard extends React.Component {
 
         </div>
 
+||||||| merged common ancestors
+        <h1>Leaderboard</h1>
+=======
+
+        <h1>Leaderboard</h1>
+
+        <div className="LeaderboardContent">
+          <div className="LeaderboardContentHeader">
+            <h2>Rank</h2>
+            <h2>User</h2>
+            <h2>Score</h2>
+          </div>
+        </div>
+
+>>>>>>> Adds styling for dashboard page
       </div>
     )
   }
