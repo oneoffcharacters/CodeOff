@@ -11,7 +11,7 @@ class Repl extends React.Component {
     constructor(props) {
 	    super(props);
 	    this.state = {
-	    	text:'None',
+	    	text:'',
 	    	console:''
 	  	};
     }
@@ -31,7 +31,6 @@ class Repl extends React.Component {
 
     editorSetup () {
       var editor = ace.edit("editor");
-
       editor.setTheme("ace/theme/dreamweaver");
       editor.getSession().setMode("ace/mode/javascript");
       editor.getSession().setUseSoftTabs(true);
@@ -41,6 +40,7 @@ class Repl extends React.Component {
       editor.setShowPrintMargin(false);
       editor.resize();
       editor.setAutoScrollEditorIntoView(true);
+      editor.setValue('console.log(\'hello world\');', 1)
 
       return editor;
     }
