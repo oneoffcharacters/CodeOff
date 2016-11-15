@@ -25,7 +25,7 @@ app.post('/api/repl', (req, res) => {
 
 	    	const consoleText = data
 	    	responseBody.consoleText = consoleText
-	    	console.log('The code about to be sent is', JSON.stringify(responseBody))
+	    	const strinfgBody =  JSON.stringify(JSON.stringify(responseBody))
 	      res.send(JSON.stringify(responseBody));
 	    }
 	  });
