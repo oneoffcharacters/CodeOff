@@ -1,0 +1,131 @@
+.HomePage {
+  background: #F5F5F5;
+}
+
+/*need to install/include fonts*/
+
+
+/*Header*/
+.Header {
+  background: #2C3840;
+}
+
+.HeaderName {
+  font-family: .SFNSDisplay-Regular;
+  font-size: 29px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+.HeaderNav {
+  font-family: Raleway-Regular;
+  font-size: 29px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+
+
+
+/*Hero*/
+.Hero {
+  background: #F5F5F5;
+}
+
+.HeroText {
+  font-family: Raleway-Bold;
+  font-size: 36px;
+  color: #555E6B;
+  letter-spacing: 0;
+  line-height: 48px;
+}
+
+/*Play Now button*/
+.PlayNow {
+  background: #E67F38;
+  border-radius: 100px;
+  font-family: Raleway-ExtraBold;
+  font-size: 18px;
+  color: #FFFFFF;
+  letter-spacing: 3.6px;
+}
+
+/*Learn More Button*/
+.LearnMore {
+  background: #FFFFFF;
+  border-radius: 100px;
+  font-family: Raleway-Regular;
+  font-size: 18px;
+  color: #555E6B;
+  letter-spacing: 3.6px;
+}
+
+
+
+
+/*Features*/
+.Features {
+  background: #FFFFFF;
+}
+
+.features-heading {
+  font-family: .SFNSDisplay-Regular;
+  font-size: 45px;
+  color: #212121;
+  letter-spacing: 0;
+  line-height: 60px;
+}
+
+.feature-title {
+  font-family: .AppleSystemUIFont;
+  font-size: 15px;
+  color: #212121;
+  letter-spacing: 3px;
+}
+
+.feature-text {
+  font-family: .AppleSystemUIFont;
+  font-size: 17.5px;
+  color: #9FA3A7;
+  letter-spacing: 0;
+  line-height: 27.5px;
+}
+
+
+
+
+/*Footer*/
+.Footer {
+  background: #2C3840;
+}
+
+.footer-name {
+  font-family: .SFNSDisplay-Regular;
+  font-size: 42px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+.AboutUs {
+  font-family: .SFNSText-Regular;
+  font-size: 12px;
+  color: #FFFFFF;
+  letter-spacing: 2.4px;
+}
+
+.AboutUsText {
+  font-family: .SFNSText-Regular;
+  font-size: 14px;
+  color: #C8C8C8;
+  letter-spacing: 0;
+  line-height: 26px;
+}
+
+.QuestionButton {
+  border: 3px solid #E67F38;
+  border-radius: 100px;
+  font-family: .SFNSText-Regular;
+  font-size: 12px;
+  color: #FFFFFF;
+  letter-spacing: 2.4px;
+}

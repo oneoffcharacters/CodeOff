@@ -7,7 +7,8 @@
     "start": "nodemon server/server.js",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors",
-    "dev": "npm run build && npm run start"
+    "dev": "npm run build ; npm run start",
+    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,13 @@
   },
   "homepage": "https://github.com/oneoffcharacters/thesis#readme",
   "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
     "codemirror": "^5.20.2",
     "express": "^4.14.0",
     "history": "^1.17.0",
+    "jq-console": "^2.13.2",
+    "jquery": "^3.1.1",
     "morgan": "^1.7.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -37,10 +42,12 @@
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
     "enzyme": "^2.6.0",
+    "imports-loader": "^0.6.5",
     "jest": "^17.0.0",
     "jsdom": "^9.8.3",
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
+    "nyc": "^8.4.0",
     "react-addons-test-utils": "^15.3.2",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"

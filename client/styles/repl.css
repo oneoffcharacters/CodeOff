@@ -1,0 +1,33 @@
+html,body { 
+	height: 100%; 
+	min-height: 100%;
+  margin: 0px; 
+  padding: 0px;
+  background-color: red;
+}
+
+.editor-wrapper {
+  /*position: relative;*/
+  height:100%;
+  widows: 100%;
+}
+
+#editor { 
+  /*position: absolute;*/
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 400px;
+}
+
+@media (min-width: 1200px){
+  .container {
+      width: 100%;
+  }
+}
+
+.no-pad {
+  padding-left: 0;
+  padding-right: 0;
+}
