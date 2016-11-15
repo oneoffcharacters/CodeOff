@@ -28,6 +28,6 @@ dist/
 node_modules/
 bower_components/
 
-client/*build.js
+src/client/*build.js
 coverage
 .nyc_output
