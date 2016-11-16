@@ -1,6 +1,6 @@
 const repl = require('repl');
 const stream = require('stream');
-const replService = require('./repl')
+const replService = require('./replService')
 
 module.exports = {
   codeOutput: (req, res) => {

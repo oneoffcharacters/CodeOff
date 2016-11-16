@@ -43,7 +43,7 @@ class Repl extends React.Component {
       publicSocket = io();
 
       //Creates a unique client ID that this client will listen for socket events on
-      const clientID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+      const clientID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
       this.setState({clientID: clientID});
 
       publicSocket.on('connect', (data) => {
