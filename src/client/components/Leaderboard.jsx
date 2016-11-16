@@ -29,10 +29,15 @@ export default class Leaderboard extends React.Component {
 
         <div className="LeaderboardContent">
           <div className="LeaderboardContentHeader">
-            <h2>Rank</h2>
-            <h2>User</h2>
-            <h2>Score</h2>
+            <h4>Rank</h4>
+            <h4>User</h4>
+            <h4>Score</h4>
           </div>
+
+          <div className="LeaderboardContentMain">
+            
+          </div>
+
         </div>
 
 >>>>>>> Adds styling for dashboard page
