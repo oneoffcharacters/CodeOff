@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 // is it necessary / being imported properly?
 import jqconsole from 'jq-console';
 // console.log(window.chance.string())
-const clientID = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
+// const clientID = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
 let publicSocket, privateSocket
 
 class Repl extends React.Component {
@@ -14,7 +14,8 @@ class Repl extends React.Component {
 	    super(props);
 	    this.state = {
 	    	text:"console.log('hello world');",
-	    	console:''
+	    	console:'',
+        clientID:''
 	  	};  
     }
 
@@ -51,13 +52,24 @@ class Repl extends React.Component {
 
     setupSocket() {
       publicSocket = io();
-      privateSocket = io(clientID)
+      // privateSocket = io(clientID)
+      fetch('/api/enqueue')
+      .then((rawID) => {
+        return rawID.text()
+      })
+      .then((ID) => {
+        this.setState({clientID: ID})
+      })
 
       publicSocket.on('connect', (data) => {
-        window.location.pathname =  data.namespace;
+        // window.location.pathname =  data.namespace;
 
-        console.log('Data from publicSocket', data)
+        console.log('Data from publicSocket', data, 'Data from publicSocket')
       });
+
+      publicSocket.on(this.state.clientID, (data) => {
+        console.log('The client was notified of a succesful pair!')
+      })
 
       // privateSocket.on('connectionReq', (connectionReq) => {
       //   console.log('The private connectionReq has been made',  connectionReq)
@@ -67,7 +79,7 @@ class Repl extends React.Component {
 
     pairMe() {
       publicSocket.emit('message', {
-        clientID: clientID
+        clientID: this.state.clientID
       });
     }
 
@@ -128,7 +140,7 @@ class Repl extends React.Component {
   render() {
     return (
       <div className="container-fluid no-pad">
-        <Subheader sendCode={this.sendCode.bind(this)} sendCode={this.pairMe.bind(this) />
+        <Subheader pairMe={this.pairMe.bind(this)} sendCode={this.sendCode.bind(this)} />
         <div id="wrapper">
           <div className="container  no-pad" id="editor-container">
             <div className="col-sm-12 col-md-6 no-pad">
