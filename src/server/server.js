@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-const runCode = require('./repl').runCode
 const bodyParser = require('body-parser');
 const routes = require('./routes')
+const Chance = require('chance')
+const chance = new Chance();
+// const chance = new Chance()
 
 //Middleware
 app.use(morgan('dev'));
@@ -16,7 +18,7 @@ const io = require('socket.io')(server);
 
 //Run the code from the editor and return the result
 app.post('/api/codeOutput', (req, res) => {
-	routes.codeOutput(req)
+	routes.codeOutput(req, res)
 });
 
 const createNamespace = (userID, io) => {
