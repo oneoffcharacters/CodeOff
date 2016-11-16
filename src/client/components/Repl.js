@@ -82,18 +82,25 @@ class Repl extends React.Component {
     //Submit the value of the code in the editor to the server for evaluation
     sendCode() {
       const context = this;
-      $.ajax({
-        method: 'POST',
-        url: 'api/codeOutput',
-        data: {code: this.state.text},
-        success: (data) => {
-          //With the result, write the data to the console
-          context.state.console.Write(JSON.parse(data).consoleText);
-        },
-        error: (jqXHR, textStatus, errorThrown) => {
-          console.log(jqXHR, textStatus, errorThrown);
-        }
-      });
+
+      fetch('api/codeOutput',  {
+        method: 'post', 
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            code: this.state.text
+          })
+        })
+      .then((output) => {
+        return output.json();
+      })
+      .then((codeResponse) => {
+        context.state.console.Write(codeResponse.consoleText);
+      })
+      .catch((err) => {
+        throw new Error('The response from the REPL server is invalid');
+      })
     }
 
     //Create the console element to be displayed on the div #console-terminal-editor
