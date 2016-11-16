@@ -53,7 +53,7 @@ const createNamespace = (userID, io) => {
 let activeUsers = {}
 app.get('/api/enqueue',  (req, res) => {
 	userID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-	createNamespace(userID, io);
+	// createNamespace(userID, io);
 	activeUsers[userID] = true;
 	res.send(userID);
 })
@@ -64,19 +64,23 @@ function setPairingListeners (io) {
 
   io.on('connection', function(socket){
     socket.on('message', function(obj){
-    	console.log('The object being recieved is',  obj)
+    	if (!obj.clientID) {return;}
+    	console.log('The object being recieved from message event is',  obj)
       if (!active_cache[obj.clientID]){
         waiting_queue.push(obj.clientID);
         active_cache[obj.clientID] = true;
-        console.log('waiting_queue.length', waiting_queue.length);
       }
       console.log('People in the queue:', waiting_queue.length)
+      console.log('queue:', waiting_queue)
       if (waiting_queue.length > 1){
-        var ukey = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-        // waiting_queue.push(ukey);
-        createNamespace(ukey, io);
-        io.emit(waiting_queue.shift(), {pairedKey:ukey});
-        io.emit(waiting_queue.shift(), {pairedKey:ukey});
+        var pairedKey = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+        // waiting_queue.push(pairedKey);
+        createNamespace(pairedKey, io);
+        console.log('waiting_queue', waiting_queue)
+        console.log('pairedKey', pairedKey)
+        io.emit(waiting_queue.shift(), {pairedKey:pairedKey});
+        io.emit(waiting_queue.shift(), {pairedKey:pairedKey});
+        console.log('waiting_queue', waiting_queue)
       }
     });
   });
