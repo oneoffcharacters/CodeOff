@@ -1,9 +1,10 @@
 const repl = require('repl');
 const stream = require('stream');
+const replService = require('./repl')
 
 module.exports = {
-  codeOutput: (req) => {
-    runCode(req.body.code, req.path, (data) => {
+  codeOutput: (req, res) => {
+    replService.runCode(req.body.code, req.path, (data) => {
       const responseBody = {}
 
       //Get the output of the code and put it in an object
