@@ -9,6 +9,7 @@ const pairingService = require('./pairingService')
 app.use(morgan('dev'));
 app.use(express.static('src/client'));
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
 
 //Create the server and the socket connection
 const server = app.listen(3000, () => console.log('App listening on port 3000'))
