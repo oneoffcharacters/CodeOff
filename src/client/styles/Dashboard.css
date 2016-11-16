@@ -36,12 +36,14 @@
 
 .LeaderboardContent {
   border: 2px solid black;
-  width: 300px;
+  min-width: 300px;
 }
 
 .LeaderboardContentHeader {
   display: flex;
   justify-content: space-around;
+  background: #2C3840;
+  color: #FFFFFF;
 }
 
 .LeaderboardContentMain {
@@ -50,12 +52,14 @@
 
 .ProfileContent {
   border: 2px solid black;
-  width: 300px;
+  min-width: 300px;
 }
 
 .ProfileContentHeader {
   display: flex;
   justify-content: space-around;
+  background: #2C3840;
+  color: #FFFFFF;
 }
 
 .ProfileContentTitle {
