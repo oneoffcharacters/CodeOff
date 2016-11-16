@@ -35,10 +35,6 @@ app.post('/api/repl', (req, res) => {
 	});
 });
 
-// const waiting_queue = [];
-// const active_cache = {};
-// var cached = {}, ukey = '';
-
 const createNamespace = (userID, io) => {
 	console.log('created namespace for ', userID);
 	var nsp = io.of('/' + userID);
@@ -50,13 +46,6 @@ const createNamespace = (userID, io) => {
 		});
 	});
 };
-let activeUsers = {}
-app.get('/api/enqueue',  (req, res) => {
-	userID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-	// createNamespace(userID, io);
-	activeUsers[userID] = true;
-	res.send(userID);
-})
 
 function setPairingListeners (io) {
 	let active_cache = {};
@@ -73,13 +62,24 @@ function setPairingListeners (io) {
       console.log('People in the queue:', waiting_queue.length)
       console.log('queue:', waiting_queue)
       if (waiting_queue.length > 1){
-        var pairedKey = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-        // waiting_queue.push(pairedKey);
-        createNamespace(pairedKey, io);
+        var pairID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+        // waiting_queue.push(pairID);
+        createNamespace(pairID, io);
         console.log('waiting_queue', waiting_queue)
-        console.log('pairedKey', pairedKey)
-        io.emit(waiting_queue.shift(), {pairedKey:pairedKey});
-        io.emit(waiting_queue.shift(), {pairedKey:pairedKey});
+        console.log('pairID', pairID)
+        const pair1 = waiting_queue.shift()
+        const pair2 = waiting_queue.shift()
+
+        io.emit(pair1, {
+        	type: 'init',
+        	pairID: pairID,
+        	opponentID: pair2
+        });
+        io.emit(pair2, {
+        	type: 'init',
+        	pairID: pairID,
+        	opponentID: pair1
+        });
         console.log('waiting_queue', waiting_queue)
       }
     });
@@ -87,14 +87,5 @@ function setPairingListeners (io) {
 }
 
 setPairingListeners(io)
-
-// const queue = [];
-// io.on('connection', (socket) => {
-// 	console.log('a user connected');
-
-// 	socket.on('disconnect', () => {
-// 		console.log('user disconnected');
-// 	});
-// });
 
 module.exports = app;
