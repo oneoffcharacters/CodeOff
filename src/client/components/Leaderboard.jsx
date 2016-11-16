@@ -5,7 +5,7 @@ export default class Leaderboard extends React.Component {
     return (
       <div>
 
-        <h1>Leaderboard</h1>
+        <h2>Leaderboard</h2>
 
         <div className="LeaderboardContent">
           <div className="LeaderboardContentHeader">
@@ -24,3 +24,5 @@ export default class Leaderboard extends React.Component {
     )
   }
 }
+
+// LeaderboardContentMain: pass in props of all users and iterate over them and return an <li> with rank, user and score

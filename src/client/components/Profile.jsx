@@ -4,7 +4,7 @@ export default class Profile extends React.Component {
   render() {
     return (
       <div>
-        <h1>Profile</h1>
+        <h2>Profile</h2>
 
         <div className="ProfileContent">
           <div className="ProfileContentHeader">
@@ -14,6 +14,10 @@ export default class Profile extends React.Component {
           </div>
 
           <div>
+            <h4 className="ProfileContentTitle">Previous Games</h4>
+          </div>
+
+          <div className="ProfileContentMain">
             
           </div>
         </div>
@@ -21,3 +25,5 @@ export default class Profile extends React.Component {
     )
   }
 }
+
+// ProfileContentMain: pass in props of a users' games and iterate over them and return an <li> with each matchup
