@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const app = express();
 const runCode = require('./repl').runCode
 const bodyParser = require('body-parser');
+const routes = require('./routes')
 
 //Middleware
 app.use(morgan('dev'));
@@ -14,18 +15,8 @@ const server = app.listen(3000, () => console.log('App listening on port 3000'))
 const io = require('socket.io')(server);
 
 //Run the code from the editor and return the result
-app.post('/api/repl', (req, res) => {
-	runCode(req.body.code, req.path, (data) => {
-		if (!res.headerSent) {
-			const responseBody = {}
-
-			const consoleText = data
-			responseBody.consoleText = consoleText
-
-			const strinfgBody =  JSON.stringify(JSON.stringify(responseBody))
-			res.send(JSON.stringify(responseBody));
-		}
-	});
+app.post('/api/codeOutput', (req, res) => {
+	routes.codeOutput(req)
 });
 
 const createNamespace = (userID, io) => {
