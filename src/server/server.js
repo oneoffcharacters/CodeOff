@@ -37,58 +37,60 @@ app.post('/api/repl', (req, res) => {
 
 // const waiting_queue = [];
 // const active_cache = {};
-var cached = {}, ukey = '';
+// var cached = {}, ukey = '';
 
-app.post('/api/enqueue',  (req, res) => {
-	const createNamespace = (path, io) => {
-		console.log('created namespace');
-		var nsp = io.of(path);
-		nsp.on('connection', (socket) => {
-			console.log('a user has connected to the namespace', path);
+const createNamespace = (userID, io) => {
+	console.log('created namespace for ', userID);
+	var nsp = io.of('/' + userID);
+	nsp.on('connection', (socket) => {
+		console.log('a user has connected to the namespace', path);
 
-			socket.on('win', (message) => {
-				nsp.emit('lost', message);
-			});
-
-			socket.on('disconnect', () => {
-				console.log('a user has disconnected from the namespace');
-			});
+		socket.on('disconnect', () => {
+			console.log('a user has disconnected from the namespace');
 		});
-	}
-
-	ukey = '/' + chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-	enqueue(ukey, io);
-	cached[ukey] = ukey;
-	res.send(ukey);
+	});
+};
+let activeUsers = {}
+app.get('/api/enqueue',  (req, res) => {
+	userID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+	createNamespace(userID, io);
+	activeUsers[userID] = true;
+	res.send(userID);
 })
 
 function setPairingListeners (io) {
-  var context = this;
+	let active_cache = {};
+	let waiting_queue = [];
+
   io.on('connection', function(socket){
     socket.on('message', function(obj){
-      if (!active_cache[obj.client_id]){
-        waiting_queue.push(obj.client_id);
-        active_cache[obj.client_id] = true;
-        console.log(waiting_queue.length);
+    	console.log('The object being recieved is',  obj)
+      if (!active_cache[obj.clientID]){
+        waiting_queue.push(obj.clientID);
+        active_cache[obj.clientID] = true;
+        console.log('waiting_queue.length', waiting_queue.length);
       }
+      console.log('People in the queue:', waiting_queue.length)
       if (waiting_queue.length > 1){
-        var ukey = '/' + chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
-        addToCached(ukey);
-        context.create_namespace(ukey, io, 'pair');
-        io.emit(waiting_queue.shift(), {namespace:ukey});
-        io.emit(waiting_queue.shift(), {namespace:ukey});
+        var ukey = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+        // waiting_queue.push(ukey);
+        createNamespace(ukey, io);
+        io.emit(waiting_queue.shift(), {pairedKey:ukey});
+        io.emit(waiting_queue.shift(), {pairedKey:ukey});
       }
     });
   });
 }
 
-const queue = [];
-io.on('connection', (socket) => {
-	console.log('a user connected');
+setPairingListeners(io)
 
-	socket.on('disconnect', () => {
-		console.log('user disconnected');
-	});
-});
+// const queue = [];
+// io.on('connection', (socket) => {
+// 	console.log('a user connected');
+
+// 	socket.on('disconnect', () => {
+// 		console.log('user disconnected');
+// 	});
+// });
 
 module.exports = app;
