@@ -84,7 +84,7 @@ class Repl extends React.Component {
       const context = this;
       $.ajax({
         method: 'POST',
-        url: 'api/repl',
+        url: 'api/codeOutput',
         data: {code: this.state.text},
         success: (data) => {
           //With the result, write the data to the console
