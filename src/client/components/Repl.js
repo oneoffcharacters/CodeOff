@@ -8,6 +8,8 @@ import jqconsole from 'jq-console';
 // console.log(window.chance.string())
 // const clientID = chance.string({length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz'});
 let publicSocket, privateSocket
+// import Chance from 'chance';
+// const chance = new Chance();
 
 class Repl extends React.Component {
     constructor(props) {
@@ -52,24 +54,30 @@ class Repl extends React.Component {
 
     setupSocket() {
       publicSocket = io();
-      // privateSocket = io(clientID)
-      fetch('/api/enqueue')
-      .then((rawID) => {
-        return rawID.text()
-      })
-      .then((ID) => {
-        this.setState({clientID: ID})
-      })
+      const context = this;
+      const clientID = chance.string({length:5, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+      this.setState({clientID: clientID});
 
+      // fetch('/api/enqueue')
+      // .then((rawID) => {
+      //   return rawID.text()
+      // })
+      // .then((ID) => {
+      //   this.setState({clientID: ID})
+
+      // })
       publicSocket.on('connect', (data) => {
         // window.location.pathname =  data.namespace;
-
+        console.log('this.state.clientID', clientID)
         console.log('Data from publicSocket', data, 'Data from publicSocket')
       });
 
-      publicSocket.on(this.state.clientID, (data) => {
+      publicSocket.on(clientID, (data) => {
+        console.log('this inside clientID listener', this)
         console.log('The client was notified of a succesful pair!')
       })
+
+      console.log('OUTSIDE the clientID listener', this)
 
       // privateSocket.on('connectionReq', (connectionReq) => {
       //   console.log('The private connectionReq has been made',  connectionReq)
