@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # if pull request to branch production !!! and not from fork
+# $TRAVIS_PULL_REQUEST_BRANCH
 if [ $TRAVIS_BRANCH == 'production' ] ; then
   echo 'Attempting deploy...'
   docker build -q -t rdgifford/thesis .
