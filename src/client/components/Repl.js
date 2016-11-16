@@ -2,7 +2,7 @@ import React from 'react';
 import Subheader from './Subheader'
 import ReactDOM from 'react-dom';
 import jqconsole from 'jq-console';
-let publicSocket
+let publicSocket;
 
 class Repl extends React.Component {
     constructor(props) {
@@ -50,24 +50,28 @@ class Repl extends React.Component {
         console.log('The client has connected to the server socket');
       });
 
+      //Listen for events on destined for this client
       publicSocket.on(clientID, (data) => {
+        //On init, update the pairID and opponentID
         if (data.type === 'init') {
           this.setState({
             pairID: data.pairID,
             opponentID: data.opponentID
           })
         }
-        console.log(this.state)
         console.log('The client was notified of a succesful pair!')
       })
     }
 
+    //Transmit a message to the server that will add this user to the queue 
+      // (and return a user pair if there are enough people)
     pairMe() {
       publicSocket.emit('message', {
         clientID: this.state.clientID
       });
     }
 
+    //Update the value of the text editor into the state on every keypress
     handleKeyPress (e) {
       var text = this.editor.getValue();
       this.setState({
@@ -75,6 +79,7 @@ class Repl extends React.Component {
       });
     }
 
+    //Submit the value of the code in the editor to the server for evaluation
     sendCode() {
       const context = this;
       $.ajax({
@@ -82,15 +87,16 @@ class Repl extends React.Component {
         url: 'api/repl',
         data: {code: this.state.text},
         success: (data) => {
+          //With the result, write the data to the console
           context.state.console.Write(JSON.parse(data).consoleText);
         },
         error: (jqXHR, textStatus, errorThrown) => {
-          console.log(textStatus, errorThrown, jqXHR);
+          console.log(jqXHR, textStatus, errorThrown);
         }
       });
-
     }
 
+    //Create the console element to be displayed on the div #console-terminal-editor
     startConsole () {
       var jqconsole = $('#console-terminal-editor').jqconsole('>>>');
       this.setState({
