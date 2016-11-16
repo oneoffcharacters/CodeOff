@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # if pull request to branch production
-echo $TRAVIS_PULL_REQUEST_BRANCH && $TRAVIS_BRANCH
-if [ $TRAVIS_PULL_REQUEST_BRANCH == 'production' ] ; then
+if [ $TRAVIS_BRANCH == 'production' ] ; then
   echo 'Attempting deploy...'
+  docker build -q -t rdgifford/thesis .
+  # docker run -p 3000:3000 rdgifford/thesis
+  docker login
+  
+  docker ps -a
 else
   echo 'Not deploying, pull request branch is not production.'
 fi
