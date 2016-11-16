@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Subheader from '../src/client/components/Subheader';
 
 describe('<Subheader />', () => {
-  it('should render two buttons', () => {
+  it('should render three buttons', () => {
     const wrapper = render(<Subheader />);
     expect(wrapper.find('button')).to.have.length(3);
   })
