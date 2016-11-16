@@ -70,30 +70,10 @@
 .ProfileContentMain {
   /*border: 1px solid black;*/
 }
-||||||| merged common ancestors
-=======
-.DashboardHeader {
-  background: #2C3840;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-}
-
-.DashboardHeaderName {
-  font-family: .SFNSDisplay-Regular;
-  font-size: 29px;
-  color: #FFFFFF;
-  letter-spacing: 0;
-}
-
-.DashboardHeaderPicture {
-  max-height: 45px;
-  /*padding-right: 5px;*/
-}
 
 .DashboardStartButton {
   display: flex;
+  justify-content: space-around;
   background: #E67F38;
   border-radius: 100px;
   font-family: Raleway-ExtraBold;
@@ -114,9 +94,28 @@
 
 .LeaderboardContentHeader {
   display: flex;
+  justify-content: space-around;
+}
+
+.LeaderboardContentMain {
+  /*border: 1px solid black;*/
 }
 
 .ProfileContent {
   border: 2px solid black;
   width: 300px;
+}
+
+.ProfileContentHeader {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ProfileContentTitle {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ProfileContentMain {
+  /*border: 1px solid black;*/
 }

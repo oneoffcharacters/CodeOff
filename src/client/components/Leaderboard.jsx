@@ -25,7 +25,7 @@ export default class Leaderboard extends React.Component {
         <h1>Leaderboard</h1>
 =======
 
-        <h1>Leaderboard</h1>
+        <h2>Leaderboard</h2>
 
         <div className="LeaderboardContent">
           <div className="LeaderboardContentHeader">
