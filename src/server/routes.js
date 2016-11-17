@@ -1,7 +1,9 @@
 const repl = require('repl');
 const stream = require('stream');
 const replService = require('./replService')
+const testingService = require('./testingService')
 
+var assert = require('assert');
 
 module.exports = {
   codeOutput: (req, res) => {
@@ -22,5 +24,8 @@ module.exports = {
       res.setHeader('Content-Type', 'application/json');
       return res.status(200).json(replResponse);
     });
+  },
+  testCode: (req, res) => {
+    console.log('Test result route')
   }
 };
