@@ -9,9 +9,9 @@ const createNamespace = (ID, io) => {
   nsp.on('connection', (socket) => {
     console.log('a user has connected to the namespace', ID);
     socket.on('i won', (data) => {
-      console.log('The following client won',  data.winner)
+      console.log('The following client won',  data.client)
       nsp.emit('game won', {
-        winner: data.winner
+        client: data.client
       })
     });
     socket.on('disconnect', () => {
