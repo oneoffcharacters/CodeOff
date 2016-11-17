@@ -49,7 +49,7 @@ class Repl extends React.Component {
       console.log('Did win button clicked')
       console.log('this.state.battleSocket', this.state.battleSocket)
 
-      this.state.battleSocket.emit('client won', 
+      this.state.battleSocket.emit('i won', 
         {winner: this.state.clientID}
       )
     }
@@ -129,7 +129,8 @@ class Repl extends React.Component {
           })
           console.log('this.state.battleSocket', this.state.battleSocket)
           this.state.battleSocket.on('game won', (data) => {
-            if (data.userID != this.state.userID) {
+            console.log(data.winner , this.state.clientID)
+            if (data.winner != this.state.clientID) {
               console.log('The other guy won', data)
             } else {
               console.log('You must have won')
