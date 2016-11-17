@@ -9,9 +9,9 @@ const Subheader = ({ sendCode, pairMe, currentGameType, gameTimer, startGame , e
 			<div>{currentGameType}</div>
 			<div>{gameTimer}</div>
 			<GametypeOptions startGame={startGame} endGame={endGame} />
-			<button onClick={pairMe} className="btn btn-default run" type="submit">Pair Me</button>
+			<button onClick={pairMe} className="btn btn-default run pairMeBtn" type="submit">Pair Me</button>
 			<button onClick={sendCode} className="btn btn-default run sendCodeBtn" type="submit">Run</button>
-			<button className="btn btn-default submit" type="submit">Submit</button>
+			<button className="btn btn-default submitBtn" type="submit">Submit</button>
 		</div>
 
 	)
