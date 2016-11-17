@@ -17,6 +17,12 @@ describe('<Subheader />', () => {
     expect(wrapper.prop('sendCode')).to.eql(tester);
   })
 
+  it('should have props for sendCode and pairMe', function () {
+    const wrapper = shallow(<Subheader />);
+    expect(wrapper.props().sendCode).to.be.defined;
+    expect(wrapper.props().pairMe).to.be.defined;
+  });
+
   it('should fire sendCode event handler when button.sendCodeBtn is clicked', () => {
     const tester = sinon.spy();
     const wrapper = mount(<Subheader sendCode={tester} />);
