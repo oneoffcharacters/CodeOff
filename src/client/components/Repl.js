@@ -41,6 +41,7 @@ class Repl extends React.Component {
 
     setupSocket() {
       publicSocket = io();
+      console.log('publicSocket', publicSocket)
 
       //Creates a unique client ID that this client will listen for socket events on
       const clientID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
@@ -59,7 +60,7 @@ class Repl extends React.Component {
             opponentID: data.opponentID
           })
         }
-        console.log('The client was notified of a succesful pair!')
+        console.log('The client was notified of a succesful pair!', data)
       })
     }
 
@@ -96,7 +97,7 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        context.state.console.Write(codeResponse.consoleText);
+        context.state.console.Write(codeResponse.text);
       })
       .catch((err) => {
         throw new Error('The response from the REPL server is invalid');

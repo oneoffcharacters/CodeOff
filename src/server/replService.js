@@ -13,7 +13,6 @@ module.exports = {
       }
       return section;
     }).join('\n');
-    console.log('The sanitised code is', codeSanitized)
 
     //Convert the input string into a readable stream for use of the REPL module
     var input = new stream.Readable();
@@ -35,7 +34,6 @@ module.exports = {
     server.on('exit', () => {
       data = data.replace(/(\.)+/g, '');
       data = data.slice(2)
-      console.log('The output from the repl is', data)
       callback(data);
     });
   }

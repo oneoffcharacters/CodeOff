@@ -13,15 +13,14 @@ module.exports = {
     }
 
     replService.runCode(req.body.code, req.path, (data) => {
-      const responseBody = {}
+      const replResponse = {}
 
       //Get the output of the code and put it in an object
-      const consoleText = data
-      responseBody.consoleText = consoleText
+      const text = data
+      replResponse.text = text
 
-      //Double stringify because one didn't work
-      const stringBody =  JSON.stringify(responseBody)
-      return res.status(200).send(stringBody);
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(200).json(replResponse);
     });
   }
 };
