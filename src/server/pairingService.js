@@ -8,6 +8,12 @@ const createNamespace = (ID, io) => {
   
   nsp.on('connection', (socket) => {
     console.log('a user has connected to the namespace', ID);
+    socket.on('client won', (data) => {
+      console.log('The following client won',  data.winner)
+      socket.emit('game won', {
+        winner: data.winner
+      })
+    });
     socket.on('disconnect', () => {
       console.log('a user has disconnected from the namespace', ID);
     });
@@ -17,12 +23,12 @@ const createNamespace = (ID, io) => {
 //This will notify both of the pairs of their new opponents
 const notifyPair = (io, pair1, pair2, pairID) => {
   io.emit(pair1, {
-    type: 'init',
+    type: 'initBattle',
     pairID: pairID,
     opponentID: pair2
   });
   io.emit(pair2, {
-    type: 'init',
+    type: 'initBattle',
     pairID: pairID,
     opponentID: pair1
   });

@@ -20,6 +20,10 @@ app.post('/api/codeOutput', (req, res) => {
 	routes.codeOutput(req, res)
 });
 
+app.post('/api/testCode', (req, res) => {
+	routes.testCode(req, res)
+});
+
 pairingService.setPairingListeners(io)
 
 module.exports = app;
