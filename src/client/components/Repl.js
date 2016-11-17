@@ -27,20 +27,14 @@ class Repl extends React.Component {
 
     }
 
-    // componentWillMount () {
-    //   this.replContext = this; 
-    // }
-
-
+    //Increment the time to be displayed
     tickTime () {
-      //Increment the time to be displayed
       console.log(this)
       let time = this.state.gameTimer
       this.setState({gameTimer: (time + 1)})
     }
 
     //Transmit a message to the server that will add this user to the queue 
-      // (and return a user pair if there are enough people)
     pairMe() {
       publicSocket.emit('message', {
         clientID: this.state.clientID
@@ -67,38 +61,44 @@ class Repl extends React.Component {
       }
     }
 
+    continuePlaying(type) {
+      //TODO: Get a new question
+      //TODO: Start timer again
+      if (type === 'Battle') {
+        console.log('Battle will be continued')
+        const boundTick = this.tickTime.bind(this)
+        this.setState({
+          gameTimerInterval: setInterval(boundTick, 1000)
+        })
+      } else {
+        console.log('Solo will be continued')
+      }
+
+    }
+
     endGame(keepPlaying) {
-      console.log('Game ended')
+      //Reset the current games' state & timer
       clearInterval(this.state.gameTimerInterval)
       this.setState({
         gameTimer: 0,
         gameTimerInterval:''
       })
-      if (!keepPlaying) {
+
+      if (keepPlaying) {
+        this.continuePlaying(this.state.currentGameType)
+      } else {
         console.log('Dont keep playing')
+        this.state.battleSocket.emit('i resigned', 
+          {client: this.state.clientID}
+        )
         //In the case the user is quitting playing and does not want to continue
         this.setState({
           currentGameType: 'No game',
           pairID: '',
-          opponentID: ''
+          opponentID: '',
+          battleSocket: ''
         })
-        //Todo: Emit an event that will notify the other player of victory by default
-        this.state.battleSocket.emit('i resigned', 
-          {client: this.state.clientID}
-        )
-      } else {
-        console.log('Keep playing')
-        //In the case that the user has just lost, keep the pairing
-        //TODO: Get new questions
-        const context = this;
-        this.setState({
-          gameTimerInterval: setInterval(context.tickTime, 1000)
-        })
-
-        //Reset the timer, start the new timer
       }
-
-      //Notify the other client that the game has been ended if it's a two player game
     }
 
 
@@ -170,13 +170,6 @@ class Repl extends React.Component {
             }
           })
           console.log('The pair ID was set to', this.state.pairID)
-          // publicSocket.on(data.pairID, (data) => {
-          //   if (data.type === 'opponent won') {
-          //     console.log('Your opponent won', data.winner)
-          //     this.endGame();
-          //   }
-          //   console.log('A pair only communication was made', data)
-          // })
         }
         console.log('The client was notified of a succesful pair!', data)
       })
@@ -195,6 +188,7 @@ class Repl extends React.Component {
     }
 
     //Submit the value of the code in the editor to the server for evaluation
+    // then write response to console
     sendCode() {
       const context = this;
 
