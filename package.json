@@ -53,6 +53,7 @@
     "nyc": "^8.4.0",
     "react-addons-test-utils": "^15.3.2",
     "sinon": "^1.17.6",
+    "socket.io-client": "^1.5.1",
     "supertest": "^2.0.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
