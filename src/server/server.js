@@ -7,6 +7,15 @@ const pairingService = require('./pairingService')
 const challengeCtrl = require('../db/controllers/challengeCtrl');
 const mongoose = require('mongoose');
 
+//Connect to MongoDB
+mongoose.connect('mongodb://localhost/codeoff/challenge');
+
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => {
+  console.log('Mongoose connection is on ');
+});
+
 //Middleware
 app.use(morgan('dev'));
 app.use(express.static('src/client'));
@@ -27,6 +36,7 @@ app.post('/api/testCode', (req, res) => {
 });
 
 app.get('/api/challenge', challengeCtrl.serveChallenge);
+// app.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
 
 pairingService.setPairingListeners(io)
 
