@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 
 //Connect to MongoDB
 mongoose.connect('mongodb://localhost/codeoff/challenge');
+// TODO, CHALLENGE MODEL ISNT BEING FOUND....is it being imported correctly?
 
 const db = mongoose.connection;
 db.on('error', console.error);
