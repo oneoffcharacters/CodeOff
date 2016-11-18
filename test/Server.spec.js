@@ -36,5 +36,23 @@ describe('codeOutput endpoint', () => {
         text: '0\n1\n2\n3\n> '
       }, done);
   });
+  it('should successfully get from api/challenge endpoint', (done) => {
+    request(app)
+      .get('/api/challenge')
+      .expect(200)
+    done()
+  });
+  it('should successfully get from api/challenge/:id endpoint when id exists', (done) => {
+    request(app)
+      .get('/api/challenge/ReverseAString')
+      .expect(200)
+    done()
+  });
+    it('should fail to get from api/challenge/:id endpoint when id does not exists', (done) => {
+    request(app)
+      .get('/api/challenge/taco')
+      .expect(404)
+    done()
+  });
 });
 
