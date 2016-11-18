@@ -4,6 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const routes = require('./routes')
 const pairingService = require('./pairingService')
+const challengeCtrl = require('../db/controllers/challengeCtrl');
+const mongoose = require('mongoose');
 
 //Middleware
 app.use(morgan('dev'));
@@ -23,6 +25,8 @@ app.post('/api/codeOutput', (req, res) => {
 app.post('/api/testCode', (req, res) => {
 	routes.testCode(req, res)
 });
+
+app.get('/api/challenge', challengeCtrl.serveChallenge);
 
 pairingService.setPairingListeners(io)
 
