@@ -22,7 +22,6 @@ html,body {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 400px;
 }
 /*
 @media (min-width: 1200px){
@@ -39,6 +38,23 @@ html,body {
 .no-marg {
   margin-left: 0;
   margin-right: 0;
+}
+
+.repl-wrapper {
+  height: 86vh;
+}
+
+.repl-panel {
+  height: 100%;
+}
+
+.ace_gutter,
+.ace_content {
+  padding-top: 10px;
+}
+
+.ace_editor {
+  height: 100%;
 }
 /*=====Subheader======*/
 .subheader {

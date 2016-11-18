@@ -261,7 +261,7 @@ class Repl extends React.Component {
     //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
     return (
-        <div className="container-fluid no-pad">
+        <div className="repl">
           <Subheader
                     startFreshGame={this.startFreshGame.bind(this)} 
                     gameTimer={this.state.gameTimer} 
@@ -270,11 +270,11 @@ class Repl extends React.Component {
                     runCode={this.runCode.bind(this)} 
                     terminateGame={this.terminateGame.bind(this)}
                     didWin={this.didWin.bind(this)} />
-          <div className="row">
-            <div className="no-pad col-sm-12 col-md-6" id="editor-container">
+          <div className="row repl-wrapper">
+            <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
               <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}></div>
             </div>
-            <div className="col-sm-12 col-md-6 no-pad">
+            <div className="repl-panel col-sm-12 col-md-6 no-pad">
               <div id="console-terminal-editor" className="home-console"></div>
             </div>
           </div> 
