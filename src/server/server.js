@@ -8,7 +8,7 @@ const challengeCtrl = require('../db/controllers/challengeCtrl');
 const mongoose = require('mongoose');
 
 //Connect to MongoDB
-mongoose.connect('mongodb://localhost/codeoff/challenge');
+mongoose.connect('mongodb://localhost/codeoff');
 // TODO, CHALLENGE MODEL ISNT BEING FOUND....is it being imported correctly?
 
 const db = mongoose.connection;
@@ -36,7 +36,7 @@ app.post('/api/testCode', (req, res) => {
 	routes.testCode(req, res)
 });
 
-app.get('/api/challenge', challengeCtrl.serveChallenge);
+app.get('/api/challenge/:id', challengeCtrl.serveChallenge);
 // app.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
 
 pairingService.setPairingListeners(io)
