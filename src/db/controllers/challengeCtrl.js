@@ -1,8 +1,26 @@
 const mongoose = require('mongoose');
 const Challenge = require('../models/Challenge');
 
+exports.allChallenge = (req, res) => {
+  Challenge.find({}).exec((err, challenge) => {
+    if (err) {
+      console.log(err);
+    }
+
+    if (!challenge) {
+      res.status(404).send('no challenges in database');
+    } else {
+      res.json(challenge);
+    }
+
+  });
+}
+
 exports.serveChallenge = (req, res) => {
-  Challenge.findOne({name: req.params.id}).exec((err, challenge) => {
+  console.log('this is the id ', req.params.id);
+  console.log(typeof req.params.id);
+  Challenge.findOne({'name': req.params.id}).exec((err, challenge) => {
+    console.log('this is the challenge? ', challenge);
     if (err) {
       console.log(err);
     }
@@ -10,7 +28,7 @@ exports.serveChallenge = (req, res) => {
     if (!challenge) {
       res.status(404).send('challenge not found');
     } else {
-      res.status(200).send(Challenge.findOne({name: req.params.id}));
+      res.status(200).json(challenge);
     }
 
   });
