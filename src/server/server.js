@@ -36,7 +36,8 @@ app.post('/api/testCode', (req, res) => {
 	routes.testCode(req, res)
 });
 
-app.get('/api/challenge/:id', challengeCtrl.serveChallenge);
+app.get('/api/challenge', challengeCtrl.allChallenge); // returns all challeneges
+app.get('/api/challenge/:id', challengeCtrl.serveChallenge); // returns individual challenge
 // app.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
 
 pairingService.setPairingListeners(io)
