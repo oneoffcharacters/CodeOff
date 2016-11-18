@@ -29,7 +29,6 @@ class Repl extends React.Component {
 
     //Increment the time to be displayed
     tickTime () {
-      console.log(this)
       let time = this.state.gameTimer
       this.setState({gameTimer: (time + 1)})
     }
@@ -77,19 +76,22 @@ class Repl extends React.Component {
     }
 
     endGame(keepPlaying) {
+      //Called in the following cases
+        //User clicks end game
+        //User loses a game
+        //User has won a game (by default or because they were victorious)
       //Reset the current games' state & timer
       clearInterval(this.state.gameTimerInterval)
       this.setState({
         gameTimer: 0,
         gameTimerInterval:''
       })
-
       if (keepPlaying) {
         this.continuePlaying(this.state.currentGameType)
       } else {
-        console.log('Dont keep playing')
         this.state.battleSocket.emit('i resigned', 
-          {client: this.state.clientID}
+          {client: this.state.clientID,
+            opponent: this.state.opponentID}
         )
         //In the case the user is quitting playing and does not want to continue
         this.setState({
@@ -120,7 +122,6 @@ class Repl extends React.Component {
 
     setupSocket() {
       publicSocket = io();
-      console.log('publicSocket', publicSocket)
 
       //Creates a unique client ID that this client will listen for socket events on
       const clientID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
@@ -141,7 +142,6 @@ class Repl extends React.Component {
             gameTimerInterval: setInterval(boundTick, 1000)
           })
 
-          console.log('data.pairID is empty?', data.pairID)
           this.setState({
             pairID: data.pairID,
             opponentID: data.opponentID,
@@ -149,17 +149,14 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('game won', (data) => {
-            console.log(data , this.state.clientID)
             if (data.client === this.state.clientID) {
               console.log('You won')
             } else {
               console.log('The other guy won', data)
             }
             this.endGame(true)
-            this.startGame(this.state.currentGameType)
           })
-          this.state.battleSocket.on('i resigned', (data) => {
-            console.log(data.client , this.state.clientID)
+          this.state.battleSocket.on('opponent resigned', (data) => {
             if (data.client === this.state.clientID) {
               console.log('You resigned')
               this.endGame(false)
@@ -169,15 +166,10 @@ class Repl extends React.Component {
               console.log('You win by default, the other guy resigned', data)
             }
           })
-          console.log('The pair ID was set to', this.state.pairID)
         }
         console.log('The client was notified of a succesful pair!', data)
       })
-
-
     }
-
-
 
     //Update the value of the text editor into the state on every keypress
     handleKeyPress (e) {

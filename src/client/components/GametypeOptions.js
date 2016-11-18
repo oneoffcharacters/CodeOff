@@ -12,7 +12,7 @@ const GametypeOptions = ({ startGame , endGame}) => {
         <li key = {i} onClick={() => startGame(type)}>{type}</li>
       ))}
         <li className="divider"></li>
-        <li onClick={endGame} >End Game</li>
+        <li onClick={() => endGame(false)} >End Game</li>
       </ul>
     </div>
   )
