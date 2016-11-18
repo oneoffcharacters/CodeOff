@@ -56,6 +56,10 @@ html,body {
 .ace_editor {
   height: 100%;
 }
+
+.ace_gutter-active-line {
+  margin-top: 10px;
+}
 /*=====Subheader======*/
 .subheader {
   background: #555E6B;
