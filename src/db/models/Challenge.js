@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const challengeSchema = new Schema({
-  name: String,
+  name: {type: String, unique: true, required: true},
   difficulty: String,
-  attempts: String,
   solutions: String,
   prompt: String,
-  comments: String,
+  ex1: String,
+  ex2: String,
   // User has many Challenges, Challenge belongs to User
-  creator: ObjectId,
+  // creator: ObjectId,
 })
 
 // db is not yet defined, create and import connection before uncommenting
-// const Challenge = db.model('Challenge', challengeSchema);
+const Challenge = mongoose.model('Challenge', challengeSchema);
 
-exports = Challenge;
+module.exports = Challenge;
