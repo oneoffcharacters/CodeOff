@@ -52,9 +52,15 @@ class Repl extends React.Component {
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
-      this.setState({currentGameType: type})
-      if (type === 'Battle') {
-        this.pairMe();
+      //
+
+      if (this.state.opponentID) {
+        this.closeBattleSocket(type)
+      } else {
+        this.setState({currentGameType: type})
+        if (type === 'Battle') {
+          this.pairMe();
+        }
       }
     }
 
@@ -66,11 +72,24 @@ class Repl extends React.Component {
       });
     }
 
+    resetAndStopTime () {
+      clearInterval(this.state.gameTimerInterval)
+      this.setState({
+        gameTimer: 0,
+        gameTimerInterval:''
+      })
+    }
+
     newQuestionAndTime(type) {
       //Called when:
         //A user has lost or won and needs a new question / the time reset
       //TODO: Get a new question
       //TODO: Start timer again
+      clearInterval(this.state.gameTimerInterval)
+      this.setState({
+        gameTimer: 0,
+        gameTimerInterval:''
+      })
       const boundTick = this.tickTime.bind(this)
       this.setState({
         gameTimerInterval: setInterval(boundTick, 1000)
@@ -84,36 +103,40 @@ class Repl extends React.Component {
     }
     //newQuestionAndTime //A user has lost or won and needs a new question / the time reset
     //startFreshGame //Not in game at all, or opponent has left
-    
-    endGame(keepPlaying) {
-      //Called in the following cases
-        //User clicks end game - clear timer, interval, notify opponent
-        //User loses a game - clear timer, interval, startFreshGame
-        //User has won a game through coding
-        //By default or because they were victorious)
-      //Reset the current games' state & timer
-      clearInterval(this.state.gameTimerInterval)
-      this.setState({
-        gameTimer: 0,
-        gameTimerInterval:''
-      })
-      if (keepPlaying) {
-        this.newQuestionAndTime(this.state.currentGameType)
+    processWinOrLoss (outcome) {
+      //User has won a game - clear timer, interval, newQuestionAndTime
+      //User loses a game - clear timer, interval, newQuestionAndTime
+      newQuestionAndTime(this.state.currentGameType)
+      if (outcome === 'victory') {
+        console.log('You are victorious')
       } else {
-        this.state.battleSocket.emit('i resigned', 
-          {client: this.state.clientID,
-            opponent: this.state.opponentID}
-        )
-        //In the case the user is quitting playing and does not want to continue
+        console.log('You lost')
+      }
+    }
+
+    closeBattleSocket (newType) {
+      //In the case the user is quitting playing and does not want to continue
         this.setState({
-          currentGameType: 'No game',
+          currentGameType: newType,
           pairID: '',
           opponentID: '',
           battleSocket: ''
         })
       }
-    }
 
+    terminateGame (keepPlaying) {
+      //User clicks end game - clear timer, interval, notify opponent
+      //User has won by default - clear timer, interval, startFreshGame
+      this.resetAndStopTime();
+      if (keepPlaying) {
+        this.startFreshGame(this.state.currentGameType)
+      } else {
+        this.state.battleSocket.emit('i resigned', 
+          {client: this.state.clientID,
+            opponent: this.state.opponentID}
+        )
+      }
+    }
 
     editorSetup () {
       var editor = ace.edit("editor");
@@ -161,19 +184,20 @@ class Repl extends React.Component {
 
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
+              // this.newQuestionAndTime(this.state.currentGameType)
               console.log('You won')
             } else {
+              // this.newQuestionAndTime(this.state.currentGameType)
               console.log('The other guy won', data)
             }
-            this.endGame(true)
           })
           this.state.battleSocket.on('opponent resigned', (data) => {
+            console.log('The data on the resignation is ', data)
             if (data.client === this.state.clientID) {
+              this.closeBattleSocket(this.state.currentGameType)
               console.log('You resigned')
-              this.endGame(false)
             } else {
-              this.endGame(true)
-              this.startFreshGame(this.state.currentGameType)
+              this.terminateGame(true)
               console.log('You win by default, the other guy resigned', data)
             }
           })
@@ -244,7 +268,7 @@ class Repl extends React.Component {
                   currentGameType={this.state.currentGameType} 
                   pairMe={this.pairMe.bind(this)} 
                   sendCode={this.sendCode.bind(this)} 
-                  endGame={this.endGame.bind(this)}
+                  terminateGame={this.terminateGame.bind(this)}
                   didWin={this.didWin.bind(this)} />
 
         <div id="wrapper">
