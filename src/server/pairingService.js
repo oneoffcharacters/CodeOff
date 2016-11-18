@@ -1,6 +1,9 @@
 const Chance = require('chance')
 const chance = new Chance();
 
+let queueIDList = {};
+let queue = [];
+
 //Create a namespace for a socket connection for a specific ID
 const createNamespace = (ID, io) => {
   console.log('created namespace for ', ID);
@@ -14,7 +17,17 @@ const createNamespace = (ID, io) => {
         client: data.client
       })
     });
-    socket.on('disconnect', () => {
+    socket.on('i resigned', (data) => {
+      console.log('The following resigned',  data.client)
+      console.log('The before after is ', queueIDList)
+      delete queueIDList[data.opponent];
+      delete queueIDList[data.client]
+      console.log('The queue after is ', queueIDList)
+      nsp.emit('opponent resigned', {
+        client: data.client
+      })
+    });
+    socket.on('disconnect', (data) => {
       console.log('a user has disconnected from the namespace', ID);
     });
   });
@@ -47,9 +60,6 @@ const dequeue = (io, queue) => {
 }
 
 const setPairingListeners = (io) => {
-  let queueIDList = {};
-  let queue = [];
-
   io.on('connection', function(socket){
     socket.on('message', function(obj){
       //Return out of function if the client ID is empty
