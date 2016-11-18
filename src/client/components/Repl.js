@@ -1,5 +1,6 @@
 import React from 'react';
 import Subheader from './Subheader'
+import QuestionPrompt from './QuestionPrompt'
 import ReactDOM from 'react-dom';
 import jqconsole from 'jq-console';
 let publicSocket;
@@ -289,6 +290,7 @@ class Repl extends React.Component {
                 <div className="panel-body no-pad">
                   <div className="home-editor">
                     <div id="console-terminal-editor" className="home-console"></div>
+                    <QuestionPrompt />
                   </div>
                 </div>
               </div>
