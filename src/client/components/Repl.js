@@ -29,17 +29,11 @@ class Repl extends React.Component {
 
     //Increment the time to be displayed
     tickTime () {
-      console.log(this)
       let time = this.state.gameTimer
       this.setState({gameTimer: (time + 1)})
     }
 
-    //Transmit a message to the server that will add this user to the queue 
-    pairMe() {
-      publicSocket.emit('message', {
-        clientID: this.state.clientID
-      });
-    }
+
 
     //TODO: Complete getQuestion function
     getQuestion() {
@@ -54,53 +48,92 @@ class Repl extends React.Component {
     }
 
     //Todo: Update these two functions to be called from the Subheader and actually do the desired actions
-    startGame(type) {
-      this.setState({currentGameType: type})
-      if (type === 'Battle') {
-        this.pairMe();
-      }
-    }
+    startFreshGame(type) {
+      //Called when:
+        // a user is not even in an existing game
+        // a user has had their opponent leave
+      //
 
-    continuePlaying(type) {
-      //TODO: Get a new question
-      //TODO: Start timer again
-      if (type === 'Battle') {
-        console.log('Battle will be continued')
-        const boundTick = this.tickTime.bind(this)
-        this.setState({
-          gameTimerInterval: setInterval(boundTick, 1000)
-        })
+      if (this.state.opponentID) {
+        this.closeBattleSocket(type)
       } else {
-        console.log('Solo will be continued')
+        this.setState({currentGameType: type})
+        if (type === 'Battle') {
+          this.pairMe();
+        }
       }
-
     }
 
-    endGame(keepPlaying) {
-      //Reset the current games' state & timer
+    //Request the server to add this user to the queue
+    pairMe() {
+      //Called only when startFreshGame is called
+      publicSocket.emit('message', {
+        clientID: this.state.clientID
+      });
+    }
+
+    resetAndStopTime () {
       clearInterval(this.state.gameTimerInterval)
       this.setState({
         gameTimer: 0,
         gameTimerInterval:''
       })
+      console.log('The time has been reset and stopped')
+    }
 
-      if (keepPlaying) {
-        this.continuePlaying(this.state.currentGameType)
+    newQuestionAndTime(type) {
+      //Called when:
+        //A user has lost or won and needs a new question / the time reset
+      //TODO: Get a new question
+      //TODO: Start timer again
+      this.resetAndStopTime()
+      const boundTick = this.tickTime.bind(this)
+      this.setState({
+        gameTimerInterval: setInterval(boundTick, 1000)
+      })
+      if (type === 'Battle') {
+        console.log('Battle will be continued')
       } else {
-        console.log('Dont keep playing')
-        this.state.battleSocket.emit('i resigned', 
-          {client: this.state.clientID}
-        )
-        //In the case the user is quitting playing and does not want to continue
+        console.log('Solo will be continued')
+      }
+
+    }
+    //newQuestionAndTime //A user has lost or won and needs a new question / the time reset
+    //startFreshGame //Not in game at all, or opponent has left
+    processWinOrLoss (outcome) {
+      //User has won a game - clear timer, interval, newQuestionAndTime
+      //User loses a game - clear timer, interval, newQuestionAndTime
+      this.newQuestionAndTime(this.state.currentGameType)
+      if (outcome === 'win') {
+        console.log('You are victorious')
+      } else {
+        console.log('You lost')
+      }
+    }
+
+    closeBattleSocket (newType) {
+      //In the case the user is quitting playing and does not want to continue
         this.setState({
-          currentGameType: 'No game',
+          currentGameType: newType,
           pairID: '',
           opponentID: '',
           battleSocket: ''
         })
       }
-    }
 
+    terminateGame (keepPlaying) {
+      //User clicks end game - clear timer, interval, notify opponent
+      //User has won by default - clear timer, interval, startFreshGame
+      this.resetAndStopTime();
+      if (keepPlaying) {
+        this.startFreshGame(this.state.currentGameType)
+      } else {
+        this.state.battleSocket.emit('i resigned', 
+          {client: this.state.clientID,
+            opponent: this.state.opponentID}
+        )
+      }
+    }
 
     editorSetup () {
       var editor = ace.edit("editor");
@@ -120,7 +153,6 @@ class Repl extends React.Component {
 
     setupSocket() {
       publicSocket = io();
-      console.log('publicSocket', publicSocket)
 
       //Creates a unique client ID that this client will listen for socket events on
       const clientID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
@@ -141,7 +173,6 @@ class Repl extends React.Component {
             gameTimerInterval: setInterval(boundTick, 1000)
           })
 
-          console.log('data.pairID is empty?', data.pairID)
           this.setState({
             pairID: data.pairID,
             opponentID: data.opponentID,
@@ -149,35 +180,28 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('game won', (data) => {
-            console.log(data , this.state.clientID)
             if (data.client === this.state.clientID) {
-              console.log('You won')
+              // this.newQuestionAndTime(this.state.currentGameType)
+              this.processWinOrLoss('win');
             } else {
-              console.log('The other guy won', data)
+              // this.newQuestionAndTime(this.state.currentGameType)
+              this.processWinOrLoss('loss');
             }
-            this.endGame(true)
-            this.startGame(this.state.currentGameType)
           })
-          this.state.battleSocket.on('i resigned', (data) => {
-            console.log(data.client , this.state.clientID)
+          this.state.battleSocket.on('opponent resigned', (data) => {
+            console.log('The data on the resignation is ', data)
             if (data.client === this.state.clientID) {
+              this.closeBattleSocket(this.state.currentGameType)
               console.log('You resigned')
-              this.endGame(false)
             } else {
-              this.endGame(true)
-              this.startGame(this.state.currentGameType)
+              this.terminateGame(true)
               console.log('You win by default, the other guy resigned', data)
             }
           })
-          console.log('The pair ID was set to', this.state.pairID)
         }
         console.log('The client was notified of a succesful pair!', data)
       })
-
-
     }
-
-
 
     //Update the value of the text editor into the state on every keypress
     handleKeyPress (e) {
@@ -236,12 +260,12 @@ class Repl extends React.Component {
   render() {
     return (
       <div className="container-fluid no-pad">
-        <Subheader startGame={this.startGame.bind(this)} 
+        <Subheader startFreshGame={this.startFreshGame.bind(this)} 
                   gameTimer={this.state.gameTimer} 
                   currentGameType={this.state.currentGameType} 
                   pairMe={this.pairMe.bind(this)} 
                   sendCode={this.sendCode.bind(this)} 
-                  endGame={this.endGame.bind(this)}
+                  terminateGame={this.terminateGame.bind(this)}
                   didWin={this.didWin.bind(this)} />
 
         <div id="wrapper">

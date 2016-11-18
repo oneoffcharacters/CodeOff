@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GametypeOptions = ({ startGame , endGame}) => {
+const GametypeOptions = ({ startFreshGame , terminateGame}) => {
   const gameTypes = ['Solo', 'Battle']
   
   return (
@@ -9,10 +9,10 @@ const GametypeOptions = ({ startGame , endGame}) => {
       <span className="caret"></span></button>
       <ul className="dropdown-menu">
       {gameTypes.map((type, i) => (
-        <li key = {i} onClick={() => startGame(type)}>{type}</li>
+        <li key = {i} onClick={() => startFreshGame(type)}>{type}</li>
       ))}
         <li className="divider"></li>
-        <li onClick={endGame} >End Game</li>
+        <li onClick={() => terminateGame(false)} >End Game</li>
       </ul>
     </div>
   )
