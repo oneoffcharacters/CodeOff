@@ -66,6 +66,13 @@ html,body {
   color:white;
   font-size: 18px;
 }
+
+#gameoptions {
+  color: white;
+  vertical-align: bottom;
+  background-color: rgba(0, 0, 255, 0.0);
+}
+
 /*=======Console========*/
 #console-terminal-editor {
    height: 100%;
