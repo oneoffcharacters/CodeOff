@@ -8,8 +8,8 @@ const GametypeOptions = ({ startGame , endGame}) => {
       <button className="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">_
       <span className="caret"></span></button>
       <ul className="dropdown-menu">
-      {gameTypes.map((type) => (
-        <li onClick={() => startGame(type)}>{type}</li>
+      {gameTypes.map((type, i) => (
+        <li key = {i} onClick={() => startGame(type)}>{type}</li>
       ))}
         <li className="divider"></li>
         <li onClick={endGame} >End Game</li>
