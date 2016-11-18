@@ -21,7 +21,7 @@ const Subheader = ({ runCode, currentGameType, gameTimer, startFreshGame , termi
 			<GametypeOptions startFreshGame={startFreshGame} terminateGame={terminateGame} />
 			<span className="gametype">{currentGameType}</span>
 			<span className="gametimer">{"Time: " + prettyTime(gameTimer)}</span>
-			<button onClick={runCode} className="btn btn-default run sendCodeBtn" type="submit">Run</button>
+			<button onClick={runCode} className="btn btn-default run runCodeBtn" type="submit">Run</button>
 			<button className="btn btn-default submitBtn" type="submit">Submit</button>
 			<button onClick={didWin} className="btn btn-default run" type="submit">I Won</button>
 		</div>
