@@ -78,6 +78,7 @@ class Repl extends React.Component {
         gameTimer: 0,
         gameTimerInterval:''
       })
+      console.log('The time has been reset and stopped')
     }
 
     newQuestionAndTime(type) {
@@ -85,11 +86,7 @@ class Repl extends React.Component {
         //A user has lost or won and needs a new question / the time reset
       //TODO: Get a new question
       //TODO: Start timer again
-      clearInterval(this.state.gameTimerInterval)
-      this.setState({
-        gameTimer: 0,
-        gameTimerInterval:''
-      })
+      this.resetAndStopTime()
       const boundTick = this.tickTime.bind(this)
       this.setState({
         gameTimerInterval: setInterval(boundTick, 1000)
@@ -106,8 +103,8 @@ class Repl extends React.Component {
     processWinOrLoss (outcome) {
       //User has won a game - clear timer, interval, newQuestionAndTime
       //User loses a game - clear timer, interval, newQuestionAndTime
-      newQuestionAndTime(this.state.currentGameType)
-      if (outcome === 'victory') {
+      this.newQuestionAndTime(this.state.currentGameType)
+      if (outcome === 'win') {
         console.log('You are victorious')
       } else {
         console.log('You lost')
@@ -185,10 +182,10 @@ class Repl extends React.Component {
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
               // this.newQuestionAndTime(this.state.currentGameType)
-              console.log('You won')
+              this.processWinOrLoss('win');
             } else {
               // this.newQuestionAndTime(this.state.currentGameType)
-              console.log('The other guy won', data)
+              this.processWinOrLoss('loss');
             }
           })
           this.state.battleSocket.on('opponent resigned', (data) => {
