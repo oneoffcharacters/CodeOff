@@ -4,8 +4,8 @@ const GametypeOptions = ({ startFreshGame , terminateGame}) => {
   const gameTypes = ['Solo', 'Battle']
   
   return (
-    <div className="dropdown">
-      <button className="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">_
+    <div className="dropdown dropdown-inline fa fa-bars">
+      <button className="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
       <span className="caret"></span></button>
       <ul className="dropdown-menu">
       {gameTypes.map((type, i) => (

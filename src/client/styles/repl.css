@@ -24,16 +24,21 @@ html,body {
   left: 0;
   height: 400px;
 }
-
+/*
 @media (min-width: 1200px){
   .container {
       width: 100%;
   }
-}
+}*/
 
 .no-pad {
   padding-left: 0;
   padding-right: 0;
+}
+
+.no-marg {
+  margin-left: 0;
+  margin-right: 0;
 }
 /*=====Subheader======*/
 .subheader {
@@ -44,14 +49,26 @@ html,body {
  display: block;
 }
 
-.subheader .run,
-.subheader .submit{
+.subheader .btn{
   float:right;
 }
 
+.dropdown-inline {
+  display: inline-block;
+}
+
+.gametype {
+  color:white;
+  font-size: 24px;
+}
+
+.gametimer {
+  color:white;
+  font-size: 18px;
+}
 /*=======Console========*/
 #console-terminal-editor {
-   height: 383px;
+   height: 100%;
    background: #F4F2F2;
    border: 4px solid #979797;
    border: 4px solid #979797;
@@ -61,6 +78,9 @@ html,body {
 =====Question Modal======
 =======================*/
 
+/* Rectangle: */
+
+
 .question {
     height: 0%;
     width: 50%;
@@ -68,7 +88,8 @@ html,body {
     z-index: 1;
     bottom: 0;
     right: 0;
-    background-color: #111;
+    background-color: #D8D8D8;
+    box-shadow: 0 -1px 4px 0 rgba(0,0,0,0.50);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -86,7 +107,7 @@ html,body {
 }
 
 .question a:hover{
-    color: #f1f1f1;
+    color: #555E6B;
 }
 
 .question .closebtn {

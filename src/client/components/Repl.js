@@ -214,7 +214,7 @@ class Repl extends React.Component {
 
     //Submit the value of the code in the editor to the server for evaluation
     // then write response to console
-    sendCode() {
+    runCode() {
       const context = this;
 
       fetch('api/codeOutput',  {
@@ -230,6 +230,7 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
+        context.state.console.Reset()
         context.state.console.Write(codeResponse.text);
       })
       .catch((err) => {
@@ -260,44 +261,24 @@ class Repl extends React.Component {
     //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
     return (
-      <div className="container-fluid no-pad">
-        <Subheader startFreshGame={this.startFreshGame.bind(this)} 
-                  gameTimer={this.state.gameTimer} 
-                  currentGameType={this.state.currentGameType} 
-                  pairMe={this.pairMe.bind(this)} 
-                  sendCode={this.sendCode.bind(this)} 
-                  terminateGame={this.terminateGame.bind(this)}
-                  didWin={this.didWin.bind(this)} />
-
-        <div id="wrapper">
-          <div className="container  no-pad" id="editor-container">
-            <div className="col-sm-12 col-md-6 no-pad">
-              <div className="panel">
-                <div className="panel-heading">
-                Panel
-                </div>
-                <div className="panel-body no-pad">
-                  <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}> </div>
-                </div>
-              </div>
+        <div className="container-fluid no-pad">
+          <Subheader
+                    startFreshGame={this.startFreshGame.bind(this)} 
+                    gameTimer={this.state.gameTimer} 
+                    currentGameType={this.state.currentGameType} 
+                    pairMe={this.pairMe.bind(this)} 
+                    runCode={this.runCode.bind(this)} 
+                    terminateGame={this.terminateGame.bind(this)}
+                    didWin={this.didWin.bind(this)} />
+          <div className="row">
+            <div className="no-pad col-sm-12 col-md-6" id="editor-container">
+              <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}></div>
             </div>
             <div className="col-sm-12 col-md-6 no-pad">
-              <div className="panel">
-                <div className="panel-heading">
-                  <h3 className="panel-title">Console</h3>
-                </div>
-
-                <div className="panel-body no-pad">
-                  <div className="home-editor">
-                    <div id="console-terminal-editor" className="home-console"></div>
-                    <QuestionPrompt />
-                  </div>
-                </div>
-              </div>
+              <div id="console-terminal-editor" className="home-console"></div>
             </div>
-          </div>
+          </div> 
         </div>
-      </div>
     )
   }
 }
