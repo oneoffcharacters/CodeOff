@@ -15,4 +15,4 @@ const challengeSchema = new Schema({
 // db is not yet defined, create and import connection before uncommenting
 const Challenge = mongoose.model('Challenge', challengeSchema);
 
-exports = Challenge;
+module.exports = Challenge;
