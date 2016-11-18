@@ -34,6 +34,7 @@ module.exports = {
     server.on('exit', () => {
       data = data.replace(/(\.)+/g, '');
       data = data.slice(2)
+      console.log('Data after running', data)
       callback(data);
     });
   }
