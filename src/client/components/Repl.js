@@ -276,6 +276,7 @@ class Repl extends React.Component {
             </div>
             <div className="repl-panel col-sm-12 col-md-6 no-pad">
               <div id="console-terminal-editor" className="home-console"></div>
+              <QuestionPrompt />
             </div>
           </div> 
         </div>
