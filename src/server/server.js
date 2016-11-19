@@ -5,17 +5,7 @@ const bodyParser = require('body-parser');
 const handlers = require('./handlers')
 const pairingService = require('./pairingService')
 const challengeCtrl = require('../db/controllers/challengeCtrl');
-const mongoose = require('mongoose');
-
-//Connect to MongoDB
-mongoose.connect('mongodb://localhost/codeoff');
-// TODO, CHALLENGE MODEL ISNT BEING FOUND....is it being imported correctly?
-
-const db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', () => {
-  console.log('Mongoose connection is on ');
-});
+const dbconnection = require('../db/setup');
 
 //Middleware
 app.use(morgan('dev'));
