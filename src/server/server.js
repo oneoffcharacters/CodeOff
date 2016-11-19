@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
-const routes = require('./routes')
+const handlers = require('./handlers')
 const pairingService = require('./pairingService')
 const challengeCtrl = require('../db/controllers/challengeCtrl');
 const mongoose = require('mongoose');
@@ -28,13 +28,9 @@ const server = app.listen(3000, () => console.log('App listening on port 3000'))
 const io = require('socket.io')(server);
 
 //Run the code from the editor and return the result
-app.post('/api/codeOutput', (req, res) => {
-	routes.codeOutput(req, res)
-});
+app.post('/api/codeOutput', handlers.codeOutput);
 
-app.post('/api/testCode', (req, res) => {
-	routes.testCode(req, res)
-});
+app.post('/api/testCode', handlers.testCode);
 
 app.get('/api/challenge', challengeCtrl.allChallenge); // returns all challeneges
 app.get('/api/challenge/:id', challengeCtrl.serveChallenge); // returns individual challenge
