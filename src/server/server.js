@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const handlers = require('./handlers')
 const pairingService = require('./pairingService')
 const challengeCtrl = require('../db/controllers/challengeCtrl');
-const dbconnection = require('../db/setup');
 
 //Middleware
 app.use(morgan('dev'));
