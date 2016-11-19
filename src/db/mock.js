@@ -14,25 +14,12 @@ const mockQuestions = [
 ];
 
 mockQuestions.forEach((seed, i) => {
-	console.log(seed)
   Challenge.find({'title': seed.title} , (err, questions) => {
     if (!err && !questions.length) {
     	const newChallenge = new Challenge(seed)
     	newChallenge.save((err, data) => {
-    		console.log(err, data);
+    		if (err) {console.log('Error in writing mock files', err)};
     	})
-  //     Challenge.create({
-  //       title: seed.title,
-  //       functionName: seed.functionName,
-  //       difficulty: seed.difficulty,
-  //       solutions: seed.solutions,
-  //       prompt: seed.prompt,
-		// templateFunction: seed.templateFunction,
-  //       examples: seed.examples
-  //     }, ((err, data) => {
-  //     	console.log('err', err)
-  //     	console.log('data', data)
-  //     }));
     }
   });
 });

@@ -1,5 +1,6 @@
 const Chance = require('chance')
 const chance = new Chance();
+const axios = require('axios');
 
 let queueIDList = {};
 let queue = [];
@@ -33,18 +34,44 @@ const createNamespace = (ID, io) => {
   });
 }
 
+// ajax request to db
+const getQuestion = () => {
+  return axios.get('http://localhost:3000/api/challenge')
+  .then((resp) => {
+    const qLength = resp.data.length;
+    const randomIndex = Math.floor(Math.random() * qLength)
+    return resp.data[randomIndex]; //object
+  })
+  .catch((err) => {
+    console.log('err in getQuestion', err)
+  })
+}
+
+// const getQuestion = (req, res) => {
+//   axios.get('http://localhost:3000/api/challenge')
+//   .then((resp) => {
+//     console.log(resp);
+//     res.send(resp)
+//   });
+// }
+
 //This will notify both of the pairs of their new opponents
 const notifyPair = (io, pair1, pair2, pairID) => {
-  io.emit(pair1, {
+  getQuestion()
+  .then((randomQuestion) => {
+   io.emit(pair1, {
     type: 'initBattle',
     pairID: pairID,
-    opponentID: pair2
+    opponentID: pair2,
+    question: randomQuestion
   });
-  io.emit(pair2, {
+   io.emit(pair2, {
     type: 'initBattle',
     pairID: pairID,
-    opponentID: pair1
+    opponentID: pair1,
+    question: randomQuestion
   });
+ })
 }
 
 const dequeue = (io, queue) => {

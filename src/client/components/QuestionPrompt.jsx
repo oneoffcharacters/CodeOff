@@ -1,8 +1,8 @@
 import React from 'react';
 
 export default class QuestionPrompt extends React.Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
 			prompt: 'before mount',
 			ex1: '',
@@ -40,7 +40,9 @@ export default class QuestionPrompt extends React.Component {
 	render() {
 		return (
 			<div id="questionModal" className="question expanded">
+			<div>{JSON.stringify(this.props.question)}</div>
 			  <a href="#" id="toggleQuestion" className="closebtn fa fa-chevron-down"></a>
+				}
 			</div>
 		)
 	}
