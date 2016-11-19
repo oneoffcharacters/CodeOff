@@ -25,5 +25,6 @@ const userSchema = new Schema({
 
 // db is not yet defined, create and import connection before uncommenting
 // const User = db.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-exports = User;
+module.exports = User;

@@ -13,13 +13,14 @@ passport.use(new GitHubStrategy({
 
   function(accessToken, refreshToken, profile, done) {
     var searchQuery = {
-      github_displayName: profile.displayName
+      'github_username': profile.username
     };
     var updates = {
       github_username: profile.username
     };
     // update the user if they exist or add a new user
-    User.findOneAndUpdate(searchQuery, updates, function(err, user) {
+    User.find(searchQuery, function(err, user) {
+      console.log(user);
       if(err) {
         return done(err);
       } else {

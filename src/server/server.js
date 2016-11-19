@@ -55,9 +55,9 @@ app.get('/api/challenge/:id', challengeCtrl.serveChallenge); // returns individu
 app.get('/auth/github', passportGithub.authenticate('github', { scope: ['user:email'] }));
 
 app.get('/auth/github/callback', 
-  passportGithub.authenticate('github', {failureRedirect: '/login'}), 
+  passportGithub.authenticate('github', {successRedirect: '/', failureRedirect: '/login'}), 
   function(req, res) {
-    res.json(req.user);
+    res.status(200).send('A OK')
   });
 
 pairingService.setPairingListeners(io)
