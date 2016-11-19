@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const dbconnection = require('../setup.js');
 
 const challengeSchema = new Schema({
   title: String,
