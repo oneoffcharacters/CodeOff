@@ -31,3 +31,4 @@ bower_components/
 src/client/*build.js
 coverage
 .nyc_output
+socialAuth.config.js

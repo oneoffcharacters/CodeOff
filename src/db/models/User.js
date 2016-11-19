@@ -18,9 +18,13 @@ const userSchema = new Schema({
   // password should not be stored as plain text
   password: String,
   completedChallenges: Array,
+  github_id: String,
+  github_displayName: String,
+  github_username: String
 })
 
 // db is not yet defined, create and import connection before uncommenting
 // const User = db.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-exports = User;
+module.exports = User;
