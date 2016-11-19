@@ -1,6 +1,6 @@
 const repl = require('repl');
 const stream = require('stream');
-const replService = require('./replService')
+const replService = require('../replService')
 
 var assert = require('assert');
 
@@ -8,7 +8,7 @@ module.exports = {
   codeOutput: (req, res) => {
     console.log('req.body', req.body)
     
-    //Hande no valid code
+    //Handle no valid code
     if (!req.body.code) {
       return res.status(400).send('No code was submitted');
     }

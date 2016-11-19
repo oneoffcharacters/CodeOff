@@ -1,10 +1,12 @@
-const express = require('express');
-const morgan = require('morgan');
-const app = express();
+// Packages
 const bodyParser = require('body-parser');
-const handlers = require('./handlers')
+const morgan = require('morgan');
+const express = require('express');
+// Modules
 const pairingService = require('./pairingService')
-const challengeCtrl = require('../db/controllers/challengeCtrl');
+const apiRouter = require('./routes/api.js');
+// Env variables
+const app = express();
 const port = 3000;
 
 // ---------- MIDDLEWARE ----------
@@ -19,6 +21,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 // --------------------------------
 
+// ------------ ROUTES ------------
+app.use('/api', apiRouter);
+// --------------------------------
+
 // SERVER
 const server = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
@@ -26,16 +32,6 @@ const server = app.listen(port, () => {
 
 // SOCKET CONNECTION
 const io = require('socket.io')(server);
-
-//Run the code from the editor and return the result
-app.post('/api/codeOutput', handlers.codeOutput);
-
-app.post('/api/testCode', handlers.testCode);
-
-app.get('/api/challenge', challengeCtrl.allChallenge); // returns all challeneges
-app.get('/api/challenge/:id', challengeCtrl.serveChallenge); // returns individual challenge
-// app.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
-
 pairingService.setPairingListeners(io)
 
 module.exports = app;
