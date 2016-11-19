@@ -5,15 +5,26 @@ const bodyParser = require('body-parser');
 const handlers = require('./handlers')
 const pairingService = require('./pairingService')
 const challengeCtrl = require('../db/controllers/challengeCtrl');
+const port = 3000;
 
-//Middleware
+// ---------- MIDDLEWARE ----------
+// REQUEST LOGGING
 app.use(morgan('dev'));
+
+// SERVE STATIC ASSETS
 app.use(express.static('src/client'));
+
+// BODY PARSING
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
+// --------------------------------
 
-//Create the server and the socket connection
-const server = app.listen(3000, () => console.log('App listening on port 3000'))
+// SERVER
+const server = app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+})
+
+// SOCKET CONNECTION
 const io = require('socket.io')(server);
 
 //Run the code from the editor and return the result
