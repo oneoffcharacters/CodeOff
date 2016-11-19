@@ -17,7 +17,8 @@ class Repl extends React.Component {
         currentGameType:'Solo',
         gameTimer: 0,
         gameTimerInterval:'',
-        battleSocket: ''
+        battleSocket: '',
+        question:{}
 	  	};
     }
 
@@ -177,7 +178,8 @@ class Repl extends React.Component {
           this.setState({
             pairID: data.pairID,
             opponentID: data.opponentID,
-            battleSocket: io('/' + data.pairID)
+            battleSocket: io('/' + data.pairID),
+            question: data.question
           })
 
           this.state.battleSocket.on('game won', (data) => {
@@ -276,7 +278,7 @@ class Repl extends React.Component {
             </div>
             <div className="repl-panel col-sm-12 col-md-6 no-pad">
               <div id="console-terminal-editor" className="home-console"></div>
-              <QuestionPrompt />
+              <QuestionPrompt question={this.state.question}/>
             </div>
           </div> 
         </div>
