@@ -18,7 +18,7 @@ class Repl extends React.Component {
         gameTimer: 0,
         gameTimerInterval:'',
         battleSocket: '',
-        question:{}
+        question:''
 	  	};
     }
 
