@@ -93,6 +93,10 @@ html,body {
   background-color: rgba(0, 0, 255, 0.0);
 }
 
+.dropdown-menu li {
+  padding-left: 10px;
+}
+
 /*=======Console========*/
 #console-terminal-editor {
    height: 100%;

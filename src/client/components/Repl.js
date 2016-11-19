@@ -46,13 +46,6 @@ class Repl extends React.Component {
       this.setState({gameTimer: (time + 1)})
     }
 
-
-
-    //TODO: Complete getQuestion function
-    getQuestion() {
-
-    }
-
     //TODO: Complete didWin function
     didWin() {
       this.state.battleSocket.emit('i won', 
@@ -245,6 +238,55 @@ class Repl extends React.Component {
       .then((codeResponse) => {
         context.state.console.Reset()
         context.state.console.Write(codeResponse.text);
+      })
+      .catch((err) => {
+        throw new Error('The response from the REPL server is invalid');
+      })
+    }
+
+    summariseTestResults (results) {
+      //Get the pass/skipped/failed results into an object
+      const testResults = results[Object.keys(results)[0]]
+      const summaryStats = testResults.reduce((acc, curr, ind, arr) => {
+        const result = curr.state
+        acc[result] ? acc[result]++ : acc[result] = 1;
+        return acc
+      }, {})
+
+      //Conver this object into something that is nice to read
+      let summaryArray = [];
+      for (var key in summaryStats) {
+        const qty = summaryStats[key];
+        summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
+      }
+      return summaryArray.join(' | ')
+    }
+
+    
+    //Submit the value of the code in the editor to the server for evaluation
+    // then write response to console
+    submitCode() {
+      const context = this;
+
+      fetch('api/testCode',  {
+        method: 'post', 
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            code: this.state.text,
+            clientID:this.state.clientID,
+            pairID:this.state.pairID,
+            currentGameType:this.state.currentGameType,
+            questionID: this.state.question._id
+          })
+        })
+      .then((output) => {
+        return output.json();
+      })
+      .then((codeResponse) => {
+        //Write the response to 
+        console.log(codeResponse)
       })
       .catch((err) => {
         throw new Error('The response from the REPL server is invalid');
