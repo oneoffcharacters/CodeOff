@@ -146,10 +146,21 @@ html,body {
 }
 
 .expanded {
-    height: 20%;
+    height: 40%;
 }
 
 .fa-chevron-down,
 .fa-chevron-up,{
   color: white;
+}
+
+.question-prompt {
+  font-size: 18px;
+  padding-bottom: 5%;
+}
+
+.question-examples {
+  display: inline-block;
+  padding: 0 10%;
+  background-color: #F5F5F5;
 }

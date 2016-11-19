@@ -18,7 +18,18 @@ class Repl extends React.Component {
         gameTimer: 0,
         gameTimerInterval:'',
         battleSocket: '',
-        question:''
+        question: {}
+        //Mock question
+        // question: {
+        //   _id: '582fc4ae8c065742db50115b',
+        //   difficulty:'Hard',
+        //   prompt: 'Create a function maxNumber that will return the max of two numbers',
+        //   examples: ['Given mock produce mocky x2', 'so mock!'],
+        //   functionName: 'maxPrimeNumber',
+        //   solutions: 'function maxNumber(first, second) { return Math.max(first, second)}',
+        //   templateFunction: 'function(first, second) { \n\n }',
+        //   title: 'Max Prime Number'
+        // }
 	  	};
     }
 
