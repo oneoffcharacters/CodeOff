@@ -17,6 +17,7 @@ export default class QuestionPrompt extends React.Component {
       ex1: 'grab from db',
       ex2: 'grab from db'
 		});
+		this.question = this.props.question;
 	}
 
 	componentDidMount() {
@@ -40,7 +41,13 @@ export default class QuestionPrompt extends React.Component {
 	render() {
 		return (
 			<div id="questionModal" className="question expanded">
-			<div>{JSON.stringify(this.props.question)}</div>
+			<div>{this.question.title}</div>
+			<div>{this.question.prompt}</div>
+			{this.question.examples.map((question) => {
+				<div>{question}</div>
+			})}
+			<div>{this.question.}</div>
+			<div>{this.question.}</div>
 			  <a href="#" id="toggleQuestion" className="closebtn fa fa-chevron-down"></a>
 				}
 			</div>
