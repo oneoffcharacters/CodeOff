@@ -6,9 +6,9 @@ import sinon from 'sinon';
 import Subheader from '../src/client/components/Subheader';
 
 describe('<Subheader />', () => {
-  it('should render five buttons', () => {
+  it('should render four buttons', () => {
     const wrapper = render(<Subheader />);
-    expect(wrapper.find('button')).to.have.length(5);
+    expect(wrapper.find('button')).to.have.length(4);
   })
 
   it('should be able to accept click handlers as props', () => {
@@ -23,17 +23,10 @@ describe('<Subheader />', () => {
     expect(wrapper.props().pairMe).to.be.defined;
   });
 
-  it('should fire sendCode event handler when button.sendCodeBtn is clicked', () => {
+  it('should fire runCode event handler when button.runCodeBtn is clicked', () => {
     const tester = sinon.spy();
-    const wrapper = mount(<Subheader sendCode={tester} />);
-    wrapper.find('button.sendCodeBtn').simulate('click');
-    expect(tester.calledOnce).to.equal(true);
-  })
-
-  it('should fire sendCode event handler when button.pairMeBtn is clicked', () => {
-    const tester = sinon.spy();
-    const wrapper = mount(<Subheader pairMe={tester} />);
-    wrapper.find('button.pairMeBtn').simulate('click');
+    const wrapper = mount(<Subheader runCode={tester} />);
+    wrapper.find('button.runCodeBtn').simulate('click');
     expect(tester.calledOnce).to.equal(true);
   })
 

@@ -19,14 +19,29 @@ export default class QuestionPrompt extends React.Component {
 		});
 	}
 
+	componentDidMount() {
+		document.getElementById('toggleQuestion').addEventListener('click', function (e) {
+		  e.preventDefault();
+		  if (document.getElementById('questionModal').classList.contains('expanded')) {
+		    document.getElementById('questionModal').classList.remove('expanded')
+		    this.classList.remove('fa-chevron-down');
+		    this.classList.add('fa-chevron-up');
+		  } else {
+		    document.getElementById('questionModal').classList.add('expanded')
+		    this.classList.add('fa-chevron-down');
+		    this.classList.remove('fa-chevron-up');
+		  }
+		});
+	}
+
+
+	
+
 	render() {
 		return (
-			<div className='QPContainer'>
-				<h3 className='QPMessage'>{this.state.prompt}</h3>
-				<h5 className='QPSample'>Sample Test Cases</h5>
-				<p className='QPex1'>{this.state.ex1}</p>
-				<p className='QPex2'>{this.state.ex2}</p>
-			</div>	
+			<div id="questionModal" className="question expanded">
+			  <a href="#" id="toggleQuestion" className="closebtn fa fa-chevron-down"></a>
+			</div>
 		)
 	}
 };
