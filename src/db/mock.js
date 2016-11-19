@@ -1,35 +1,40 @@
-// const Challenge = require('./models/Challenge');
+const mongoose = require('mongoose');
+const Challenge = require('./models/Challenge');
+const db = mongoose.connect('mongodb://localhost/codeoff');
+const mockQuestions = [
+  {
+    'title': 'Max Prime Number',
+    'functionName': 'maxPrimeNumber',
+    'difficulty': 'Hard',
+    'solutions': 'function maxNumber(first, second) { return Math.max(first, second)}',
+    'prompt': 'Create a function maxNumber that will return the max of two numbers',
+    'templateFunction': 'function(first, second) { \n\n }',
+    'examples': ['Given mock produce mocky x2', 'so mock!']
+  }
+];
 
-// const mockQuestions = [
-//   {
-//     'name': 'TestingQuestion',
-//     'difficulty': 'Easy',
-//     'solutions': 'Mock',
-//     'prompt': 'This is a mock question to test the databse',
-//     'ex1': 'Given mock produce mocky',
-//     'ex2': 'Truly mockerinoooooo'
-//   },
-//   {
-//     'name': 'TestingQuestion2',
-//     'difficulty': 'Hard',
-//     'solutions': 'No solution available',
-//     'prompt': 'This is also a mock question to test the databse',
-//     'ex1': 'Given mock produce mocky x2',
-//     'ex2': 'so mock!'
-//   }
-// ];
+mockQuestions.forEach((seed, i) => {
+	console.log(seed)
+  Challenge.find({'title': seed.title} , (err, questions) => {
+    if (!err && !questions.length) {
+    	const newChallenge = new Challenge(seed)
+    	newChallenge.save((err, data) => {
+    		console.log(err, data);
+    	})
+  //     Challenge.create({
+  //       title: seed.title,
+  //       functionName: seed.functionName,
+  //       difficulty: seed.difficulty,
+  //       solutions: seed.solutions,
+  //       prompt: seed.prompt,
+		// templateFunction: seed.templateFunction,
+  //       examples: seed.examples
+  //     }, ((err, data) => {
+  //     	console.log('err', err)
+  //     	console.log('data', data)
+  //     }));
+    }
+  });
+});
 
-// mockQuestions.forEach((seed, i) => {
-//   Challenge.find({'name': mockQuestions[i].name} , (err, questions) => {
-//     if (!err && !questions.length) {
-//       Challenge.create({
-//         name: questions[i].name,
-//         difficulty: questions[i].difficulty,
-//         solutions: questions[i].solutions,
-//         prompt: questions[i].prompt,
-//         ex1: questions[i].ex1,
-//         ex2: questions[i].ex2,
-//       });
-//     }
-//   });
-// });
+// db.disconnect();
