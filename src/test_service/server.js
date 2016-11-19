@@ -10,22 +10,40 @@ const fs = require('fs');
 // Env variables
 const app = express();
 const port = 3001;
-// const test = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(true).to.be.true }) })';
-const test = 'var expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
+
+// const testTruth = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(true).to.be.true }) })';
+const testAttempt = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
 
 Promise.promisifyAll(fs);
 
+// ---------- MIDDLEWARE ----------
+// REQUEST LOGGING
+app.use(morgan('dev'));
+
+// BODY PARSING
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+// --------------------------------
+
 // Install mocha and chai in temp directory
 var findTemp = tmp.fileSync({prefix: 'find', keep: true});
-var tempPath = path.parse(findTemp.name).dir
 findTemp.removeCallback();
-exec(`cd ${tempPath} && npm install mocha chai`, (error, stdout, stderr) => {
-  if(error) {
-    console.error(error)
-  } else {
-    console.log(stderr, stdout)
-  }
-})
+var tempPath = path.parse(findTemp.name).dir
+var depPath = path.join(tempPath, 'node_modules');
+var dependenciesExist = fs.existsSync(`${depPath}/mocha`) && fs.existsSync(`${depPath}/chai`)
+if(!dependenciesExist) {
+  console.log('Installing mocha and chai in temp directory...');
+  exec(`cd ${tempPath} && npm install mocha chai`, (error, stdout, stderr) => {
+    if(error) {
+      console.error(error);
+      console.log('Failed to install mocha and chai');
+    } else {
+      console.log(stdout);
+      console.log('Installed mocha and chai successfully');
+      // console.log(stderr);
+    }
+  })
+};
 
 // Run mocha on given testpath
 const runMocha = (testPath, callback) => {
@@ -38,25 +56,16 @@ const runMocha = (testPath, callback) => {
   })
 }
 
-// REQUEST LOGGING
-app.use(morgan('dev'));
-
-// BODY PARSING
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json());
 app.get('/api/test', (req, res) => {
     res.status(200)
 })
 
 app.post('/api/test', (req, res) => {
-  console.log('INSIDE OF POST');
-  console.log(test)
-  console.log('REQ.BODY, REQ.DATA', req.body, req.data)
 
   // Assign code to variables
   var attempt = req.body.attempt;
   var solution = req.body.solution;
-  // test = req.body.test;
+  var test = req.body.test;
 
   // Create temp files
   var attemptFile = tmp.fileSync({prefix: 'attempt-', postfix: '.js', keep: true});
@@ -67,17 +76,14 @@ app.post('/api/test', (req, res) => {
   var solutionFileBase = path.parse(solutionFile.name).base;
   var attemptFileBase = path.parse(attemptFile.name).base;
 
-  // Import with file bases
-  console.log('TESTING', test);
-  var required = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
-  console.log(typeof test, typeof required);
-  required += test;
-	console.log('TEST AFTER CONCAT', required);
+  // Import attempt and solution with file bases
+  var requireChallengeFiles = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
+  test = requireChallengeFiles.concat(test);
 
   // Write temp files
   fs.writeFileSync(attemptFile.name, attempt)
   fs.writeFileSync(solutionFile.name, solution)
-  fs.writeFileSync(testFile.name, required)
+  fs.writeFileSync(testFile.name, test)
 
   runMocha(testFile.name, (err, data) => {
     // Send err and data from mocha
