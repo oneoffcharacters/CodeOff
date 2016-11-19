@@ -11,7 +11,7 @@ const fs = require('fs');
 const app = express();
 const port = 3001;
 // const test = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(true).to.be.true }) })';
-const test = 'require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.be(solution) }) })' 
+const test = 'var expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
 
 Promise.promisifyAll(fs);
 
@@ -38,6 +38,12 @@ const runMocha = (testPath, callback) => {
   })
 }
 
+// REQUEST LOGGING
+app.use(morgan('dev'));
+
+// BODY PARSING
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
 app.get('/api/test', (req, res) => {
     res.status(200)
 })
@@ -45,7 +51,7 @@ app.get('/api/test', (req, res) => {
 app.post('/api/test', (req, res) => {
   console.log('INSIDE OF POST');
   console.log(test)
-  console.log(req)
+  console.log('REQ.BODY, REQ.DATA', req.body, req.data)
 
   // Assign code to variables
   var attempt = req.body.attempt;
@@ -63,14 +69,15 @@ app.post('/api/test', (req, res) => {
 
   // Import with file bases
   console.log('TESTING', test);
-  test = (`var solution = require('./${solutionFileBase}');`).concat(test);
-  test = (`var attempt = require('./${attemptFileBase}');`).concat(test);
-	console.log(test);
+  var required = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
+  console.log(typeof test, typeof required);
+  required += test;
+	console.log('TEST AFTER CONCAT', required);
 
   // Write temp files
   fs.writeFileSync(attemptFile.name, attempt)
   fs.writeFileSync(solutionFile.name, solution)
-  fs.writeFileSync(testFile.name, test)
+  fs.writeFileSync(testFile.name, required)
 
   runMocha(testFile.name, (err, data) => {
     // Send err and data from mocha
@@ -85,13 +92,6 @@ app.post('/api/test', (req, res) => {
     attemptFile.removeCallback();
   });
 })
-
-// REQUEST LOGGING
-app.use(morgan('dev'));
-
-// BODY PARSING
-app.use(bodyParser.urlencoded({ extended: true }))
-// app.use(bodyParser.json());
 
 // SERVER
 app.listen(port, () => {
