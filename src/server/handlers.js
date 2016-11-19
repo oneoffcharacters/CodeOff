@@ -1,7 +1,6 @@
 const repl = require('repl');
 const stream = require('stream');
 const replService = require('./replService')
-const testingService = require('./testingService')
 
 var assert = require('assert');
 
