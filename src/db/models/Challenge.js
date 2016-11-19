@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const challengeSchema = new Schema({
-  name: {type: String, unique: true, required: true},
+  title: String,
+  functionName: {type: String, unique: true, required: true},
   difficulty: String,
   solutions: String,
   prompt: String,
-  ex1: String,
-  ex2: String,
+  templateFunction: String,
+  examples: Array
   // User has many Challenges, Challenge belongs to User
   // creator: ObjectId,
 })
@@ -16,3 +17,5 @@ const challengeSchema = new Schema({
 const Challenge = mongoose.model('Challenge', challengeSchema);
 
 module.exports = Challenge;
+
+

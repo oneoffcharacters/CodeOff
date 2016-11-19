@@ -19,7 +19,7 @@ exports.allChallenge = (req, res) => {
 exports.serveChallenge = (req, res) => {
   console.log('this is the id ', req.params.id);
   console.log(typeof req.params.id);
-  Challenge.findOne({'name': req.params.id}).exec((err, challenge) => {
+  Challenge.findOne({'functionName': req.params.id}).exec((err, challenge) => {
     console.log('this is the challenge? ', challenge);
     if (err) {
       console.log(err);
