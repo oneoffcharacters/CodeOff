@@ -20,7 +20,8 @@ class Repl extends React.Component {
         nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: {}
+        challenge: {},
+        challengeResults:''
         //Mock challenge
         // challenge: {
         //   _id: '582fc4ae8c065742db50115b',
@@ -164,12 +165,14 @@ class Repl extends React.Component {
     processWinOrLoss (outcome) {
       //User has won a game - clear timer, interval, newChallengeAndTime
       //User loses a game - clear timer, interval, newChallengeAndTime
-      this.newGameCountdown()
       if (outcome === 'win') {
+        this.setState({challengeResults: 'Won'})
         console.log('You are victorious')
       } else {
+        this.setState({challengeResults: 'Lost'})
         console.log('You lost')
       }
+      this.newGameCountdown()
     }
 
     closeBattleSocket (newType) {
@@ -402,8 +405,6 @@ class Repl extends React.Component {
       });
     }
 
-    newGame
-
     //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
     return (
@@ -417,9 +418,10 @@ class Repl extends React.Component {
                     terminateGame={this.terminateGame.bind(this)}
                     didWin={this.didWin.bind(this)}
                     submitCode={this.submitCode.bind(this)} />
-          {this.state.nextRoundTimer && <ChallengeResults 
+          {(!!this.state.nextRoundTimer) && <ChallengeResults 
                     nextRoundTimer={this.state.nextRoundTimer} 
-                    terminateGame={this.terminateGame.bind(this)} />}
+                    terminateGame={this.terminateGame.bind(this)} 
+                    challengeResults={this.state.challengeResults} />}
           <div className="row repl-wrapper">
             <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
               <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}></div>
