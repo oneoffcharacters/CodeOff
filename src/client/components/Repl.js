@@ -347,35 +347,41 @@ class Repl extends React.Component {
       const context = this;
       console.log('Submit called')
       //Add these back in after testing to complete the actual post req
-      // fetch('api/codeOutput',  {
-      //   method: 'post', 
-      //   headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //       code: this.state.text,
-      //       clientID:this.state.clientID,
-      //       pairID:this.state.pairID,
-      //       currentGameType:this.state.currentGameType,
-      //       challengeID: this.state.challenge._id
-      //     })
-      //   })
-      // .then((output) => {
-      //   return output.json();
-      // })
-      // .then((codeResponse) => {
-
-
+      fetch('api/mocha',  {
+        method: 'post', 
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            code: this.state.text,
+            // solution: this.state.challenge.solutions,
+            // test: this.state.challenge.test,
+            challengeID: this.state.challenge._id,
+            clientID:this.state.clientID,
+            pairID:this.state.pairID,
+            currentGameType:this.state.currentGameType,
+          })
+        })
+      .then((output) => {
+        return output.json();
+      })
+      .catch((err) => {
+        console.log('The post was not succesful', err)
+      })
+      .then((codeResponse) => {
         //replace this.mockTest with codeResponse when real response is coming back
-        const testStats = context.summariseTestResults(context.mockTest);
-        const testBody = context.prettyTestBody(context.mockTest);
-        context.state.console.Write(testStats)
-        context.state.console.Write(testBody)
+        
+        //=====Mock data to test writing=======
+        // const testStats = context.summariseTestResults(context.mockTest);
+        // const testBody = context.prettyTestBody(context.mockTest);
+        // context.state.console.Write(testStats)
+        // context.state.console.Write(testBody)
+        console.log(codeResponse)
       //Add these back in after testing to complete the actual post req
-      // })
-      // .catch((err) => {
-      //   throw new Error('The response from the Testing server is invalid');
-      // })
+      })
+      .catch((err) => {
+        throw new Error('The response from the Testing server is invalid');
+      })
     }
 
 
