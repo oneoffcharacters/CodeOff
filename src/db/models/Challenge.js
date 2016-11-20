@@ -15,7 +15,6 @@ const challengeSchema = new Schema({
   // creator: ObjectId,
 })
 
-// db is not yet defined, create and import connection before uncommenting
 const Challenge = db.model('Challenge', challengeSchema);
 
 module.exports = Challenge;

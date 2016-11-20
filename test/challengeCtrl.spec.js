@@ -10,8 +10,6 @@ describe('challenge controller', () => {
     beforeEach((done) => {
       Challenge.create({}, (err, item) => {
         id = item._id;
-        console.log('BEFORE ERROR ', err);
-        console.log('BEFORE ID ', id);;
         done();
       })
     })
@@ -20,7 +18,6 @@ describe('challenge controller', () => {
       console.log('IT ID ', id);
       challengeCtrl.findChallenge(id)
         .then(resp => {
-          console.log('THEN ID ',resp.id);
           expect(id).to.eql(resp.id);          
         })
     })

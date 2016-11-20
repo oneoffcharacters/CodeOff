@@ -17,11 +17,8 @@ router.get('/challenge/:id', challengeCtrl.serveChallenge); // returns individua
 
 router.post('/mocha', (req, res) => {
   // use req.body.qId -> query database for the challenge attempted
-  console.log('REQUEST BODY ',typeof req.body);
   challengeCtrl.findChallenge(req.body.challengeID)
     .then(challenge => {
-      console.log('THIS IS THE CHALLENGE TYPE ', typeof challenge);
-      console.log('THIS IS THE CHALLENGE', challenge);
       
       return axios.post(testServiceURL, {
         "attempt": req.body.code,
@@ -29,7 +26,8 @@ router.post('/mocha', (req, res) => {
         "test": challenge.test
       })
         .then(resp => {
-        console.log('AXIOS RESPONSE', resp);
+        console.log('AXIOS RESPONSE', resp.data);
+        res.status(200).json(resp.data);
         })
         .catch(err => {
         console.error(err);
