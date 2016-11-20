@@ -2,7 +2,7 @@ import React from 'react';
 import GametypeOptions from './GametypeOptions'
 
 
-const Subheader = ({ runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin }) => {
+const Subheader = ({ runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin , submitCode}) => {
 	
 	const prettyTime = function(time) {
 		var minutes = Math.floor(time / 60);
@@ -22,7 +22,7 @@ const Subheader = ({ runCode, currentGameType, gameTimer, startFreshGame , termi
 			<span className="gametype">{currentGameType}</span>
 			<span className="gametimer">{"Time: " + prettyTime(gameTimer)}</span>
 			<button onClick={runCode} className="btn btn-default run runCodeBtn" type="submit">Run</button>
-			<button className="btn btn-default submitBtn" type="submit">Submit</button>
+			<button onClick={submitCode} className="btn btn-default submitBtn" type="submit">Submit</button>
 			<button onClick={didWin} className="btn btn-default run" type="submit">I Won</button>
 		</div>
 

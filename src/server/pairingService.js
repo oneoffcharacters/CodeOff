@@ -35,7 +35,7 @@ const createNamespace = (ID, io) => {
 }
 
 // ajax request to db
-const getQuestion = () => {
+const getChallenge = () => {
   return axios.get('http://localhost:3000/api/challenge')
   .then((resp) => {
     const qLength = resp.data.length;
@@ -43,7 +43,7 @@ const getQuestion = () => {
     return resp.data[randomIndex]; //object
   })
   .catch((err) => {
-    console.log('err in getQuestion', err)
+    console.log('err in getChallenge', err)
   })
 }
 
@@ -57,19 +57,19 @@ const getQuestion = () => {
 
 //This will notify both of the pairs of their new opponents
 const notifyPair = (io, pair1, pair2, pairID) => {
-  getQuestion()
-  .then((randomQuestion) => {
+  getChallenge()
+  .then((randomChallenge) => {
    io.emit(pair1, {
     type: 'initBattle',
     pairID: pairID,
     opponentID: pair2,
-    question: randomQuestion
+    challenge: randomChallenge
   });
    io.emit(pair2, {
     type: 'initBattle',
     pairID: pairID,
     opponentID: pair1,
-    question: randomQuestion
+    challenge: randomChallenge
   });
  })
 }

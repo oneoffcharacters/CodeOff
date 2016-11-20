@@ -1,6 +1,6 @@
 import React from 'react';
 import Subheader from './Subheader'
-import QuestionPrompt from './QuestionPrompt'
+import ChallengeCard from './ChallengeCard'
 import ReactDOM from 'react-dom';
 import jqconsole from 'jq-console';
 let publicSocket;
@@ -18,9 +18,9 @@ class Repl extends React.Component {
         gameTimer: 0,
         gameTimerInterval:'',
         battleSocket: '',
-        question: {}
-        //Mock question
-        // question: {
+        challenge: {}
+        //Mock challenge
+        // challenge: {
         //   _id: '582fc4ae8c065742db50115b',
         //   difficulty:'Hard',
         //   prompt: 'Create a function maxNumber that will return the max of two numbers',
@@ -31,12 +31,39 @@ class Repl extends React.Component {
         //   title: 'Max Prime Number'
         // }
 	  	};
+      this.mockTest = {
+        "src/test/unit/photo_model_test.js": [
+            {
+                "title": "should return photos",
+                "suite": "getFlickrPhotos(tags, tagmode, callback)",
+                "file": "src/test/unit/photo_model_test.js",
+                "duration": 1,
+                "state": "passed"
+            },
+            {
+              "title": "should return true for valid single search term",
+              "suite": "isValidCommaDelimitedList(value)",
+              "stack": "TypeError: Cannot read property 'new' of undefined\n    at Context.<anonymous> (/home/user/project/src/test/unit/form_validator_test.js:25:23)\n    at callFn (/home/user/project/node_modules/mocha/lib/runnable.js:251:21)\n    at Test.Runnable.run (/home/user/project/node_modules/mocha/lib/runnable.js:244:7)\n    at Runner.runTest (/home/user/project/node_modules/mocha/lib/runner.js:374:10)\n    at /home/user/project/node_modules/mocha/lib/runner.js:452:12\n    at next (/home/user/project/node_modules/mocha/lib/runner.js:299:14)\n    at /home/user/project/node_modules/mocha/lib/runner.js:309:7\n    at next (/home/user/project/node_modules/mocha/lib/runner.js:248:23)\n    at Immediate._onImmediate (/home/user/project/node_modules/mocha/lib/runner.js:276:5)\n    at processImmediate [as _immediateCallback] (timers.js:367:17)",
+              "message": "Cannot read property 'new' of undefined",
+              "file": "src/test/unit/form_validator_test.js",
+              "duration": 0,
+              "state": "failed"
+            },
+            {
+              "title": "should return false for search term containing numbers",
+              "suite": "isValidCommaDelimitedList(value)",
+              "file": "src/test/unit/form_validator_test.js",
+              "state": "skipped"
+            },
+        ]
+      }
     }
 
     componentDidMount() {
       this.editor = this.editorSetup();
       this.socket = this.setupSocket();
       this.startConsole();
+      console.log(this.mockTest)
 
     }
 
@@ -87,10 +114,10 @@ class Repl extends React.Component {
       console.log('The time has been reset and stopped')
     }
 
-    newQuestionAndTime(type) {
+    newChallengeAndTime(type) {
       //Called when:
-        //A user has lost or won and needs a new question / the time reset
-      //TODO: Get a new question
+        //A user has lost or won and needs a new challenge / the time reset
+      //TODO: Get a new challenge
       //TODO: Start timer again
       this.resetAndStopTime()
       const boundTick = this.tickTime.bind(this)
@@ -104,12 +131,12 @@ class Repl extends React.Component {
       }
 
     }
-    //newQuestionAndTime //A user has lost or won and needs a new question / the time reset
+    //newChallengeAndTime //A user has lost or won and needs a new challenge / the time reset
     //startFreshGame //Not in game at all, or opponent has left
     processWinOrLoss (outcome) {
-      //User has won a game - clear timer, interval, newQuestionAndTime
-      //User loses a game - clear timer, interval, newQuestionAndTime
-      this.newQuestionAndTime(this.state.currentGameType)
+      //User has won a game - clear timer, interval, newChallengeAndTime
+      //User loses a game - clear timer, interval, newChallengeAndTime
+      this.newChallengeAndTime(this.state.currentGameType)
       if (outcome === 'win') {
         console.log('You are victorious')
       } else {
@@ -183,15 +210,15 @@ class Repl extends React.Component {
             pairID: data.pairID,
             opponentID: data.opponentID,
             battleSocket: io('/' + data.pairID),
-            question: data.question
+            challenge: data.challenge
           })
 
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
-              // this.newQuestionAndTime(this.state.currentGameType)
+              // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('win');
             } else {
-              // this.newQuestionAndTime(this.state.currentGameType)
+              // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('loss');
             }
           })
@@ -218,6 +245,14 @@ class Repl extends React.Component {
       });
     }
 
+    // prependConsole (jqconsole, newText) {
+    //   let currText = jqconsole.Dump();
+    //   console.log('currText', currText)
+    //   const result = newText + currText
+    //   jqconsole.Reset()
+    //   jqconsole.Write(result)
+    // }
+
     //Submit the value of the code in the editor to the server for evaluation
     // then write response to console
     runCode() {
@@ -236,8 +271,7 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        context.state.console.Reset()
-        context.state.console.Write(codeResponse.text);
+        context.state.console.Write(codeResponse.text)
       })
       .catch((err) => {
         throw new Error('The response from the REPL server is invalid');
@@ -259,7 +293,24 @@ class Repl extends React.Component {
         const qty = summaryStats[key];
         summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
       }
-      return summaryArray.join(' | ')
+      return (' ' + summaryArray.join(' | ') + '\n\n')
+    }
+
+    prettyTestBody (results) {
+      const testResults = results[Object.keys(results)[0]];
+
+      let resultsBody = testResults.map((value, index) => {
+        if (value.state != 'failed') {
+          return ('(' + value.state + ') - ' + 'it ' + value.title);
+        } else {
+          let tempBody = '';
+          tempBody += ( '(' + value.state + ') - ' + 'it ' + value.title );
+          tempBody += ( '\n  ' + value.message );
+          tempBody += ( '\n  ' + '  ' + value.stack);
+          return tempBody;
+        }
+      })
+      return (resultsBody.join('\n') + '\n\n')
     }
 
     
@@ -267,31 +318,40 @@ class Repl extends React.Component {
     // then write response to console
     submitCode() {
       const context = this;
+      console.log('Submit called')
+      //Add these back in after testing to complete the actual post req
+      // fetch('api/codeOutput',  {
+      //   method: 'post', 
+      //   headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //       code: this.state.text,
+      //       clientID:this.state.clientID,
+      //       pairID:this.state.pairID,
+      //       currentGameType:this.state.currentGameType,
+      //       challengeID: this.state.challenge._id
+      //     })
+      //   })
+      // .then((output) => {
+      //   return output.json();
+      // })
+      // .then((codeResponse) => {
 
-      fetch('api/testCode',  {
-        method: 'post', 
-        headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            code: this.state.text,
-            clientID:this.state.clientID,
-            pairID:this.state.pairID,
-            currentGameType:this.state.currentGameType,
-            questionID: this.state.question._id
-          })
-        })
-      .then((output) => {
-        return output.json();
-      })
-      .then((codeResponse) => {
-        //Write the response to 
-        console.log(codeResponse)
-      })
-      .catch((err) => {
-        throw new Error('The response from the REPL server is invalid');
-      })
+
+        //replace this.mockTest with codeResponse when real response is coming back
+        const testStats = context.summariseTestResults(context.mockTest);
+        const testBody = context.prettyTestBody(context.mockTest);
+        context.state.console.Write(testStats)
+        context.state.console.Write(testBody)
+      //Add these back in after testing to complete the actual post req
+      // })
+      // .catch((err) => {
+      //   throw new Error('The response from the Testing server is invalid');
+      // })
     }
+
+
 
     //Create the console element to be displayed on the div #console-terminal-editor
     startConsole () {
@@ -324,14 +384,15 @@ class Repl extends React.Component {
                     pairMe={this.pairMe.bind(this)} 
                     runCode={this.runCode.bind(this)} 
                     terminateGame={this.terminateGame.bind(this)}
-                    didWin={this.didWin.bind(this)} />
+                    didWin={this.didWin.bind(this)}
+                    submitCode={this.submitCode.bind(this)} />
           <div className="row repl-wrapper">
             <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
               <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}></div>
             </div>
             <div className="repl-panel col-sm-12 col-md-6 no-pad">
               <div id="console-terminal-editor" className="home-console"></div>
-              <QuestionPrompt question={this.state.question}/>
+              <ChallengeCard challenge={this.state.challenge}/>
             </div>
           </div> 
         </div>
