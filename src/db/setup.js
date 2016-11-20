@@ -9,7 +9,7 @@ mongoose.connect(uri, options);
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', () => {
-  console.log('Mongoose connection is on ');
+  console.log('Mongoose connection is on', uri);
 });
 
 module.exports = db;

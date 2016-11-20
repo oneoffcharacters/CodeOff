@@ -1,6 +1,6 @@
 const repl = require('repl');
 const stream = require('stream');
-const replService = require('../replService')
+const replHelper = require('../helpers/repl')
 
 var assert = require('assert');
 
@@ -13,7 +13,7 @@ module.exports = {
       return res.status(400).send('No code was submitted');
     }
 
-    replService.runCode(req.body.code, req.path, (data) => {
+    replHelper.runCode(req.body.code, req.path, (data) => {
       const replResponse = {}
 
       //Get the output of the code and put it in an object
@@ -24,7 +24,7 @@ module.exports = {
       return res.status(200).json(replResponse);
     });
   },
-  testCode: (req, res) => {
-    console.log('Test result route')
-  }
+  // testCode: (req, res) => {
+  //   console.log('Test result route')
+  // }
 };
