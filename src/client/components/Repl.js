@@ -88,16 +88,10 @@ class Repl extends React.Component {
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
-      //
-
-      if (this.state.opponentID) {
-        this.closeBattleSocket(type)
-      } else {
         this.setState({currentGameType: type})
         if (type === 'Battle') {
           this.pairMe();
         }
-      }
     }
 
     resetAndStopTime () {
@@ -189,6 +183,7 @@ class Repl extends React.Component {
       //User clicks end game - clear timer, interval, notify opponent
       //User has won by default - clear timer, interval, startFreshGame
       this.resetAndStopTime();
+      //This is the case that the opponent has resigned
       if (keepPlaying) {
         this.startFreshGame(this.state.currentGameType)
       } else {
@@ -230,7 +225,6 @@ class Repl extends React.Component {
       publicSocket.on(clientID, (data) => {
         //On init, update the pairID and opponentID
         if (data.type === 'initBattle') {
-          console.log('About to start boundtick in publicSocket listen')
           const boundTick = this.tickTime.bind(this)
           //TODO: Fix this possibly causing full re render every time
           this.setState({
@@ -256,13 +250,13 @@ class Repl extends React.Component {
             }
           })
           this.state.battleSocket.on('opponent resigned', (data) => {
-            console.log('The data on the resignation is ', data)
+            //Always want to close the connection
+            this.closeBattleSocket(this.state.currentGameType)
             if (data.client === this.state.clientID) {
-              this.closeBattleSocket(this.state.currentGameType)
               console.log('You resigned')
             } else {
-              this.terminateGame(true)
               console.log('You win by default, the other guy resigned', data)
+              this.terminateGame(true)
             }
           })
         }
