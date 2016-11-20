@@ -66,8 +66,10 @@ exports.serveChallenge = (req, res) => {
 // };
 
 exports.findChallenge = (id) => {
-  return Challenge.findOne({ '_.id': id })
+  console.log('FINDCHALLENGE ID', id)
+  return Challenge.findOne({ '_id': id })
     .then(challenge => {
+        console.log('WITHINPROMISE ID', challenge.id);
         return challenge;
       })
     .catch(err => {

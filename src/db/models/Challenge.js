@@ -9,7 +9,8 @@ const challengeSchema = new Schema({
   solutions: String,
   prompt: String,
   templateFunction: String,
-  examples: Array
+  examples: Array,
+  test: String
   // User has many Challenges, Challenge belongs to User
   // creator: ObjectId,
 })
