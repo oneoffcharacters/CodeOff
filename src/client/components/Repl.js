@@ -353,13 +353,13 @@ class Repl extends React.Component {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            code: this.state.text,
             // solution: this.state.challenge.solutions,
             // test: this.state.challenge.test,
-            challengeID: this.state.challenge._id,
-            clientID:this.state.clientID,
-            pairID:this.state.pairID,
-            currentGameType:this.state.currentGameType,
+            // clientID:this.state.clientID,
+            // pairID:this.state.pairID,
+            // currentGameType:this.state.currentGameType,
+            code: this.state.text,
+            challengeID: this.state.challenge._id
           })
         })
       .catch((err) => {
