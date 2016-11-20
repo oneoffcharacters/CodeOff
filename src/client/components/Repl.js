@@ -17,7 +17,7 @@ class Repl extends React.Component {
         opponentID:'',
         currentGameType:'Solo',
         gameTimer: 0,
-        nextRoundTimer:1, //While this is > 0, show the ChallengeResults component
+        nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
         challenge: {}
@@ -99,14 +99,6 @@ class Repl extends React.Component {
       }
     }
 
-    //Request the server to add this user to the queue
-    pairMe() {
-      //Called only when startFreshGame is called
-      publicSocket.emit('message', {
-        clientID: this.state.clientID
-      });
-    }
-
     resetAndStopTime () {
       clearInterval(this.state.gameTimerInterval)
       this.setState({
@@ -115,6 +107,40 @@ class Repl extends React.Component {
       })
       console.log('The time has been reset and stopped')
     }
+
+    newGameCountdown () {
+      //Start the delay
+      this.resetAndStopTime()
+      this.setState({nextRoundTimer: 10})
+      
+      let delay = 0;
+      const context = this;
+
+      while (delay < this.state.nextRoundTimer) {
+        delay++;
+        const changeTime = (newTime) => {
+          this.setState({nextRoundTimer: newTime})
+        }
+        const boundTime = changeTime.bind(context, context.state.nextRoundTimer - delay)
+        setTimeout(boundTime, 1000 * delay);
+        console.log('After timeout created', this.state.nextRoundTimer)
+      }
+      console.log('this.state.currentGameType', this.state.currentGameType)
+      const boundReset = context.newChallengeAndTime.bind(context, context.state.currentGameType)
+      console.log('boundReset', boundReset)
+      console.log('context.state.nextRoundTimer', context.state.nextRoundTimer)
+      setTimeout(boundReset, context.state.nextRoundTimer * 1000)
+    }
+
+    //Request the server to add this user to the queue
+    pairMe() {
+      //Called only when startFreshGame is called
+      publicSocket.emit('message', {
+        clientID: this.state.clientID
+      });
+    }
+
+
 
     newChallengeAndTime(type) {
       //Called when:
@@ -138,7 +164,7 @@ class Repl extends React.Component {
     processWinOrLoss (outcome) {
       //User has won a game - clear timer, interval, newChallengeAndTime
       //User loses a game - clear timer, interval, newChallengeAndTime
-      this.newChallengeAndTime(this.state.currentGameType)
+      this.newGameCountdown()
       if (outcome === 'win') {
         console.log('You are victorious')
       } else {
@@ -356,7 +382,6 @@ class Repl extends React.Component {
     }
 
 
-
     //Create the console element to be displayed on the div #console-terminal-editor
     startConsole () {
       var jqconsole = $('#console-terminal-editor').jqconsole('>>>');
@@ -381,7 +406,6 @@ class Repl extends React.Component {
 
     //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
-    console.log(this.state.nextRoundTimer)
     return (
         <div className="repl">
           <Subheader
