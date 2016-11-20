@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const dbconnection = require('../setup.js');
+const db = require('../setup.js');
 
 const challengeSchema = new Schema({
   title: String,
-  functionName: {type: String, unique: true, required: true},
+  functionName: String,
   difficulty: String,
   solutions: String,
   prompt: String,
@@ -15,7 +15,7 @@ const challengeSchema = new Schema({
 })
 
 // db is not yet defined, create and import connection before uncommenting
-const Challenge = mongoose.model('Challenge', challengeSchema);
+const Challenge = db.model('Challenge', challengeSchema);
 
 module.exports = Challenge;
 

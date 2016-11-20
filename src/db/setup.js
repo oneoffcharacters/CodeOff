@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
+const uri = 'mongodb://localhost/codeoff';
+const options = {
+  promiseLibrary: require('bluebird')
+};
 
-mongoose.connect('mongodb://localhost/codeoff');
+mongoose.connect(uri, options);
 
 const db = mongoose.connection;
 db.on('error', console.error);
