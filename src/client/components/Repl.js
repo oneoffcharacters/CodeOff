@@ -362,11 +362,11 @@ class Repl extends React.Component {
             currentGameType:this.state.currentGameType,
           })
         })
-      .then((output) => {
-        return output.json();
-      })
       .catch((err) => {
         console.log('The post was not succesful', err)
+      })
+      .then((output) => {
+        return output.json();
       })
       .then((codeResponse) => {
         //replace this.mockTest with codeResponse when real response is coming back
@@ -380,7 +380,7 @@ class Repl extends React.Component {
       //Add these back in after testing to complete the actual post req
       })
       .catch((err) => {
-        throw new Error('The response from the Testing server is invalid');
+        throw new Error('The response from the Testing server is invalid', err);
       })
     }
 
