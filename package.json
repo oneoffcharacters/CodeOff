@@ -4,11 +4,11 @@
   "description": "Mario kart meets coding challenges",
   "main": "src/server/server.js",
   "scripts": {
-    "start": "nodemon src/server/server.js",
+    "start": "concurrently \"nodemon src/server/server.js\" \"nodemon src/test_service/server.js\"",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors",
     "build-w": "webpack -p --config webpack.config.js --progress --profile --colors --watch",
-    "dev": "npm run build ; npm run start",
+    "dev": "concurrently \"npm run start\" \"npm run build-w\" ",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test"
   },
   "repository": {
@@ -47,6 +47,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
+    "concurrently": "^3.1.0",
     "enzyme": "^2.6.0",
     "imports-loader": "^0.6.5",
     "jest": "^17.0.0",
