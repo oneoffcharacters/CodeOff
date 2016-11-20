@@ -60,6 +60,40 @@ html,body {
 .ace_gutter-active-line {
   margin-top: 10px;
 }
+
+/*=Game Result Card=*/
+
+.result-card {
+  background-color: black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30em;
+  height: 18em;
+  margin-top: -9em;
+  margin-left: -15em;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+  z-index: 10;
+  text-align: center;
+}
+.result-title {
+  font-size:36px;
+  margin: 30px 0;
+}
+
+.result-timeleft {
+  font-size: 18px;
+}
+
+.result-card .btn {
+  margin-top: 10px;
+}
+
+.result-ordivider {
+  margin: 15px 0;
+}
+
 /*=====Subheader======*/
 .subheader {
   background: #555E6B;

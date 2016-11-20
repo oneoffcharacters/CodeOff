@@ -1,6 +1,7 @@
 import React from 'react';
 import Subheader from './Subheader'
 import ChallengeCard from './ChallengeCard'
+import ChallengeResults from './ChallengeResults'
 import ReactDOM from 'react-dom';
 import jqconsole from 'jq-console';
 let publicSocket;
@@ -16,6 +17,7 @@ class Repl extends React.Component {
         opponentID:'',
         currentGameType:'Solo',
         gameTimer: 0,
+        nextRoundTimer:1, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
         challenge: {}
@@ -375,8 +377,11 @@ class Repl extends React.Component {
       });
     }
 
+    newGame
+
     //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
+    console.log(this.state.nextRoundTimer)
     return (
         <div className="repl">
           <Subheader
@@ -388,6 +393,9 @@ class Repl extends React.Component {
                     terminateGame={this.terminateGame.bind(this)}
                     didWin={this.didWin.bind(this)}
                     submitCode={this.submitCode.bind(this)} />
+          {this.state.nextRoundTimer && <ChallengeResults 
+                    nextRoundTimer={this.state.nextRoundTimer} 
+                    terminateGame={this.terminateGame.bind(this)} />}
           <div className="row repl-wrapper">
             <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
               <div id="editor" onKeyUp={this.handleKeyPress.bind(this)}></div>
