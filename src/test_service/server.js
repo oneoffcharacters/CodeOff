@@ -81,8 +81,8 @@ app.post('/api/test', (req, res) => {
   test = requireChallengeFiles.concat(test);
 
   console.log('ATTEMPT', attempt);
-  console.log('solution', solution);
-  console.log('test', test);
+  console.log('SOLUTION', solution);
+  console.log('TEST', test);
 
   // Write temp files
   fs.writeFileSync(attemptFile.name, attempt)
