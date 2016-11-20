@@ -213,6 +213,8 @@ class Repl extends React.Component {
             challenge: data.challenge
           })
 
+          this.editor.setValue(data.challenge.templateFunction, -1)
+
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
               // this.newChallengeAndTime(this.state.currentGameType)
