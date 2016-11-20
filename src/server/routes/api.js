@@ -17,6 +17,7 @@ router.get('/challenge/:id', challengeCtrl.serveChallenge); // returns individua
 
 router.post('/mocha', (req, res) => {
   // use req.body.qId -> query database for the challenge attempted
+  console.log('req.body', req.body)
   challengeCtrl.findChallenge(req.body.challengeID)
     .then((challenge) => {
       console.log('challenge', req.body)

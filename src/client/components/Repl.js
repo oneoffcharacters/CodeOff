@@ -15,7 +15,7 @@ class Repl extends React.Component {
         clientID:'',
         pairID:'',
         opponentID:'',
-        currentGameType:'Solo',
+        currentGameType:'No Game',
         gameTimer: 0,
         nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
@@ -183,6 +183,7 @@ class Repl extends React.Component {
       //User clicks end game - clear timer, interval, notify opponent
       //User has won by default - clear timer, interval, startFreshGame
       this.resetAndStopTime();
+      this.setState({currentGameType: 'No Game'})
       //This is the case that the opponent has resigned
       if (keepPlaying) {
         this.startFreshGame(this.state.currentGameType)
@@ -306,36 +307,36 @@ class Repl extends React.Component {
     }
 
     summariseTestResults (results) {
-      //Get the pass/skipped/failed results into an object
-      const testResults = results[Object.keys(results)[0]]
-      const summaryStats = testResults.reduce((acc, curr, ind, arr) => {
-        const result = curr.state
-        acc[result] ? acc[result]++ : acc[result] = 1;
-        return acc
-      }, {})
+          const summaryStats = {
+            run: results.stats.tests,
+            passed: results.stats.passes,
+            pending: results.stats.pending,
+            failed: results.stats.failures
+          }
 
-      //Conver this object into something that is nice to read
-      let summaryArray = [];
-      for (var key in summaryStats) {
-        const qty = summaryStats[key];
-        summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
-      }
-      return (' ' + summaryArray.join(' | ') + '\n\n')
+          //Conver this object into something that is nice to read
+          let summaryArray = [];
+          for (var key in summaryStats) {
+            const qty = summaryStats[key];
+            summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
+          }
+          return (' ' + summaryArray.join(' | ') + '\n\n')
     }
 
     prettyTestBody (results) {
-      const testResults = results[Object.keys(results)[0]];
-
-      let resultsBody = testResults.map((value, index) => {
-        if (value.state != 'failed') {
-          return ('(' + value.state + ') - ' + 'it ' + value.title);
-        } else {
+      let resultsBody = [];
+      results.passes.forEach((test) => {
+        resultsBody.push('(passed) - ' + 'it ' + test.title)
+      })
+      results.pending.forEach((test) => {
+        resultsBody.push('(pending) - ' + 'it ' + test.title)
+      })
+      results.failures.forEach((test) => {
           let tempBody = '';
-          tempBody += ( '(' + value.state + ') - ' + 'it ' + value.title );
-          tempBody += ( '\n  ' + value.message );
-          tempBody += ( '\n  ' + '  ' + value.stack);
-          return tempBody;
-        }
+          tempBody += ( '(failed) - ' + 'it ' + test.title );
+          tempBody += ( '\n  ' + test.message );
+          tempBody += ( '\n  ' + '  ' + test.stack);
+          resultsBody.push(tempBody)
       })
       return (resultsBody.join('\n') + '\n\n')
     }
@@ -369,13 +370,16 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        //replace this.mockTest with codeResponse when real response is coming back
-        
+        const data = JSON.parse(codeResponse.data)
+
+        const testStats = this.summariseTestResults(data)
+        const testBody = this.prettyTestBody(data);
+        console.log('data', data)
         //=====Mock data to test writing=======
         // const testStats = context.summariseTestResults(context.mockTest);
         // const testBody = context.prettyTestBody(context.mockTest);
-        // context.state.console.Write(testStats)
-        // context.state.console.Write(testBody)
+        context.state.console.Write(testStats)
+        context.state.console.Write(testBody)
         console.log(codeResponse)
       //Add these back in after testing to complete the actual post req
       })
