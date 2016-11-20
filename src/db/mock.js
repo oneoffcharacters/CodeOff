@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Challenge = require('./models/Challenge');
-const db = mongoose.connect('mongodb://localhost/codeoff');
+// const db = mongoose.connect('mongodb://localhost/codeoff');
 const mockQuestions = [
   {
     'title': 'Max Prime Number',
@@ -9,7 +9,8 @@ const mockQuestions = [
     'solutions': 'function maxNumber(first, second) { return Math.max(first, second)}',
     'prompt': 'Create a function maxNumber that will return the max of two numbers',
     'templateFunction': 'function(first, second) { \n\n }',
-    'examples': ['Given mock produce mocky x2', 'so mock!']
+    'examples': ['Given mock produce mocky x2', 'so mock!'],
+    'test': 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })'
   }
 ];
 
@@ -25,3 +26,4 @@ mockQuestions.forEach((seed, i) => {
 });
 
 // db.disconnect();
+
