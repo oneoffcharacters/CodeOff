@@ -1,3 +1,5 @@
+'use strict'
+
 const Chance = require('chance')
 const chance = new Chance();
 const axios = require('axios');

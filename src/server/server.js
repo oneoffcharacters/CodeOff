@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const express = require('express');
 // Modules
-const pairingService = require('./pairingService')
+const pairing = require('./helpers/pairing')
 const apiRouter = require('./routes/api.js');
 // Env variables
 const app = express();
@@ -32,6 +32,6 @@ const server = app.listen(port, () => {
 
 // SOCKET CONNECTION
 const io = require('socket.io')(server);
-pairingService.setPairingListeners(io)
+pairing.setPairingListeners(io)
 
 module.exports = app;

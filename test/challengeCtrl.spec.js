@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Challenge from '../src/db/models/Challenge';
 import promise from 'bluebird';
 
-import challengeCtrl from '../src/db/controllers/challengeCtrl';
+import challengeCtrl from '../src/db/controllers/challenge';
 
 describe('challenge controller', () => {
   var id;
