@@ -61,7 +61,7 @@ app.get('/api/test', (req, res) => {
 })
 
 app.post('/api/test', (req, res) => {
-
+  console.log('REQUEST BODY', req.body);
   // Assign code to variables
   var attempt = req.body.attempt;
   var solution = req.body.solution;
@@ -79,6 +79,10 @@ app.post('/api/test', (req, res) => {
   // Import attempt and solution with file bases
   var requireChallengeFiles = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
   test = requireChallengeFiles.concat(test);
+
+  console.log('ATTEMPT', attempt);
+  console.log('solution', solution);
+  console.log('test', test);
 
   // Write temp files
   fs.writeFileSync(attemptFile.name, attempt)
