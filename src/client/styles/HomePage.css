@@ -33,8 +33,8 @@
 }
 
 .HeaderAltBrand {
-/*  color: #1e90ff;*/
-  background: -webkit-linear-gradient(#eee, #333);
+  background: -webkit-linear-gradient(#51a8ff, #389cff, #386991);
+  background: -o-linear-gradient(#51a8ff, #389cff, #386991);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
