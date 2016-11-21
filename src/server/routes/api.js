@@ -31,9 +31,11 @@ router.post('/mocha', (req, res) => {
         "test": challenge.test
       })
         .then(resp => {
-        console.log('AXIOS RESPONSE', resp.data);
+        console.log('AXIOS RESPONSE', resp.data.data);
+        const data = JSON.parse(resp.data.data)
         //TODO: Add check to see if they passed all test cases
-        if (req.body.currentGameType === 'Battle') {
+        console.log('comparison', data.stats.passes,data.stats.tests)
+        if (req.body.currentGameType === 'Battle' && data.stats.passes === data.stats.tests) {
           namespaces[req.body.pairID].emit('game won', {client: req.body.clientID})
         }
         res.status(200).json(resp.data);
@@ -42,7 +44,6 @@ router.post('/mocha', (req, res) => {
         console.error(err);
         })
     })
-
 });
 
 module.exports = router;
