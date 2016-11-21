@@ -12,29 +12,13 @@ const mockQuestions = [
     'templateFunction': 'function maxNumber (first, second) { \n return Math.max(first, second)\n } \n\
     module.exports = maxNumber;',
     'examples': ['maxNumber(3,4) = 4', 'maxNumber(-1,-3) = -1'],
-    'test': 'const expect = require("chai").expect;\
-        describe("test", () => { \
-         it("should return the max number for positives", () => { expect(attempt(3,4)).to.equal(solution(3,4)) });\
-         it("should return the max number for negatives", () => { expect(attempt(-3,-1)).to.equal(solution(-3,-1)) });\
-         it("should return the max number for positives & negatives", () => { expect(attempt(-3,1)).to.equal(solution(-3,1)) });\
-    })'
-
-  },
-  {
-    'title': 'min Number',
-    'functionName': 'minNumber',
-    'difficulty': 'Easy',
-    'solutions': 'function minNumber (first, second) {return Math.min(first, second)}; module.exports = minNumber',
-    'prompt': 'Create a function minNumber that will return the min of two numbers',
-    'templateFunction': 'function minNumber (first, second) { \n return Math.min(first, second)\n } \n\nmodule.exports = minNumber;',
-    'examples': ['minNumber(3,4) = 3', 'minNumber(-1,-3) = -1'],
-    'test': 'const expect = require("chai").expect;\
-        describe("test", () => { \
-         it("should return the min number for positives", () => { expect(attempt(3,4)).to.equal(solution(3,4)) });\
-         it("should return the min number for negatives", () => { expect(attempt(-3,-1)).to.equal(solution(-3,-1)) });\
-         it("should return the min number for positives & negatives", () => { expect(attempt(-3,1)).to.equal(solution(-3,1)) });\
-        }',
-    }
+    'test': 'const expect = require("chai").expect; \
+      describe("test", () => { \
+        it("should return the max number for positives", () => { expect(attempt(2, 3)).to.equal(solution(2,3)) }); \
+        it("should return the max number for negatives", () => { expect(attempt(-3, -1)).to.equal(solution(-3,-1)) }); \
+        it("should return the max number for positives & negatives", () => { expect(attempt(-1, 1)).to.equal(solution(-1,1)) }); \
+      })'
+  }
 ];
 
 mockQuestions.forEach((seed, i) => {
