@@ -5,7 +5,7 @@ const mockQuestions = [
     'title': 'Max Number',
     'functionName': 'maxNumber',
     'difficulty': 'Hard',
-    'solutions': 'function maxNumber (first, second) {return Math.max(first, second)}',
+    'solutions': 'function maxNumber (first, second) {return Math.max(first, second)} module.exports = maxNumber',
     'prompt': 'Create a function maxNumber that will return the max of two numbers',
     // 'templateFunction': 'module.exports = false;',
     'templateFunction': 'function maxNumber (first, second) { \n return Math.max(first, second)\n } \n\
