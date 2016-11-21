@@ -6,12 +6,14 @@ const axios = require('axios');
 
 let queueIDList = {};
 let queue = [];
+let namespaces = {};
 
 //Create a namespace for a socket connection for a specific ID
 const createNamespace = (ID, io) => {
   console.log('created namespace for ', ID);
   var nsp = io.of('/' + ID);
-  
+  //Add the namespace to the object that will be exported
+  namespace[ID] = nsp;
   nsp.on('connection', (socket) => {
     console.log('a user has connected to the namespace', ID);
     socket.on('i won', (data) => {
@@ -111,7 +113,8 @@ const setPairingListeners = (io) => {
 
 
 module.exports = {
-  setPairingListeners: setPairingListeners
+  setPairingListeners: setPairingListeners,
+  namespaces: namespaces
 }
 
 
