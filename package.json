@@ -23,6 +23,7 @@
   "homepage": "https://github.com/oneoffcharacters/thesis#readme",
   "dependencies": {
     "axios": "^0.15.2",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "chance": "^1.0.4",
