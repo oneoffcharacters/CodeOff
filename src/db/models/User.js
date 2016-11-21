@@ -20,13 +20,13 @@ const userSchema = new Schema({
     type: String,
     unique: true,
     required: true
-  }
+  },
   email: {
     type: String,
     lowercase: true,
     unique: true,
     required: true
-  }
+  },
   password: {
     type: String,
     required: true
@@ -64,6 +64,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 }
 
-const Challenge = db.model('User', userSchema);
+const User = db.model('User', userSchema);
 
 module.exports = User;

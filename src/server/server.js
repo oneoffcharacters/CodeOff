@@ -42,6 +42,7 @@ app.use('/api', apiRouter);
   //=========================
   // Auth Routes
   //=========================
+  authRoutes = express.Router();
 
   // Set auth routes as subgroup/middleware to apiRoutes
   apiRouter.use('/auth', authRoutes);
