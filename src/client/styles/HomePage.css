@@ -1,3 +1,17 @@
+button:focus {
+  outline: 0;
+}
+
+.routerHide {
+  background-color: #d8d8d8;
+}
+
+/*Landing*/
+.LandingHide {
+  background-color: #d8d8d8;
+}
+
+
 .HomePage {
   background: #F5F5F5;
   /*border: 5px solid black;*/
@@ -17,33 +31,40 @@
 .HeaderName {
   display: inline-block;
   font-family: .SFNSDisplay-Regular;
-  font-size: 29px;
+  font-size: 3em;
   color: #FFFFFF;
   letter-spacing: 0;
+  margin-left: 2.5%
 }
 
 .HeaderNav {
   font-family: Raleway-Regular;
-  font-size: 29px;
+  font-size: 1.3em;
   color: #FFFFFF;
   letter-spacing: 0;
+  padding-top: 1em;
   padding-left: 10px;
   padding-right: 10px;
-
-
 }
 
-
+.HeaderAltBrand {
+  background: -webkit-linear-gradient(#51a8ff, #389cff, #386991);
+  background: -o-linear-gradient(#51a8ff, #389cff, #386991);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 
 /*Hero*/
 .Hero {
-  background: #F5F5F5;
+  background-color: #d8d8d8;
   /*border: 5px solid yellow;*/
+  height: 31em;
 }
 
 .HeroText {
-  font-family: Raleway-Bold;
+  padding-top: 3em;
+  font-family: .SFNSDisplay-Regular;
   font-size: 36px;
   color: #555E6B;
   letter-spacing: 0;
@@ -52,27 +73,37 @@
 }
 
 .HeroButtons {
+  margin-top: 3em;
   text-align: center;
 }
 
 /*Play Now button*/
 .PlayNow {
   background: #E67F38;
+  border: 1px transparent;
   border-radius: 100px;
-  font-family: Raleway-ExtraBold;
+  font-family: .SFNSDisplay-Regular;
   font-size: 18px;
+  font-weight: bold;
   color: #FFFFFF;
   letter-spacing: 3.6px;
+  height: 2em;
+  width: 9em;
+  margin-right: 1%;
 }
 
 /*Learn More Button*/
 .LearnMore {
   background: #FFFFFF;
+  border: 1px transparent;
   border-radius: 100px;
-  font-family: Raleway-Regular;
+  font-family: .SFNSDisplay-Regular;
   font-size: 18px;
+  font-weight: bold;
   color: #555E6B;
   letter-spacing: 3.6px;
+  height: 2em;
+  width: 9em;
 }
 
 
@@ -81,40 +112,50 @@
 /*Features*/
 .Features {
   background: #FFFFFF;
+  height: 25em;
+  margin-top: 3%;
 }
 
 .features-heading {
   font-family: .SFNSDisplay-Regular;
-  font-size: 45px;
+  font-size: 3em;
   color: #212121;
   letter-spacing: 0;
   line-height: 60px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  padding-top: 1em;
 }
 
 .features {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   text-align: center;
   /*border: 5px solid blue;*/
 }
 
 .feature-title {
-  font-family: .AppleSystemUIFont;
+  font-family: .SFNSDisplay-Regular;
   font-size: 15px;
   color: #212121;
   letter-spacing: 3px;
 }
 
 .feature-text {
-  font-family: .AppleSystemUIFont;
+  font-family: .SFNSDisplay-Regular;
   font-size: 17.5px;
   color: #9FA3A7;
   letter-spacing: 0;
   line-height: 27.5px;
+  margin: auto;
 }
 
-
-
+/*.feature-hack {
+  margin-top: 14%;
+}
+*/
 
 /*Footer*/
 .Footer {
@@ -123,26 +164,48 @@
   /*border: 5px solid orange;*/
 }
 
+.Footer-Brand {
+  margin-top: 1%;
+  margin-left: 5%;
+}
+
 .footer-name {
   font-family: .SFNSDisplay-Regular;
-  font-size: 42px;
+  font-size: 72px;
   color: #FFFFFF;
   letter-spacing: 0;
 }
 
+.foot-nameAlt {
+  background: -webkit-linear-gradient(#51a8ff, #389cff, #386991);
+  background: -o-linear-gradient(#51a8ff, #389cff, #386991);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.Footer-About {
+  margin: auto;
+}
+
 .AboutUs {
   font-family: .SFNSText-Regular;
-  font-size: 12px;
+  font-size: 1em;
   color: #FFFFFF;
   letter-spacing: 2.4px;
 }
 
 .AboutUsText {
   font-family: .SFNSText-Regular;
-  font-size: 14px;
+  font-size: 1em;
   color: #C8C8C8;
   letter-spacing: 0;
   line-height: 26px;
+}
+
+.Footer-Question {
+  margin-top: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
 }
 
 .QuestionButton {
@@ -152,4 +215,7 @@
   font-size: 12px;
   color: #FFFFFF;
   letter-spacing: 2.4px;
+  width: 12em;
+  height: 3em;
+  background-color: transparent;
 }

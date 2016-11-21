@@ -6,7 +6,7 @@ import Footer from './Footer';
 export default class Landing extends React.Component {
   render() {
     return (
-      <div>
+      <div className="LandingHide">
         <Hero />
         <Features />
         <Footer />

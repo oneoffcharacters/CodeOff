@@ -10,6 +10,7 @@ import Landing from	'./Landing'
 export default class Anchor extends React.Component {
 	render() {
 		return(
+			<div className='routerHide'>
 			<Router history={hashHistory}>
 				<Route path="/" component={App}>
 					<IndexRedirect to="/landing" />
@@ -18,6 +19,7 @@ export default class Anchor extends React.Component {
 					<Route path="/dashboard" component={Dashboard}/>
 				</Route>
 			</Router>
+			</div>
 		)
 	}
 }
