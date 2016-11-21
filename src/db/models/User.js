@@ -16,9 +16,21 @@ const db = require('../setup.js');
   // reputation: Sequelize.INTEGER
 
 const userSchema = new Schema({
-  name: String,
-  // password should not be stored as plain text
-  password: String,
+  name: {
+    type: String,
+    unique: true,
+    required: true
+  }
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true,
+    required: true
+  }
+  password: {
+    type: String,
+    required: true
+  }
   completedChallenges: Array,
 })
 
