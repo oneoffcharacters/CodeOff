@@ -6,6 +6,10 @@ html,body {
   background-color: #fff;
 }
 
+button:focus {
+  outline: 0;
+}
+
 /*=======================
 =====Editor & Console====
 =======================*/

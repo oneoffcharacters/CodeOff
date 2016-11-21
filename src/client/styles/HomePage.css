@@ -1,3 +1,7 @@
+button:focus {
+  outline: 0;
+}
+
 .routerHide {
   background-color: #d8d8d8;
 }
@@ -121,13 +125,13 @@
   display: flex;
   justify-content: center;
   margin-bottom: 5%;
+  padding-top: 1em;
 }
 
 .features {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-content: center;
+  justify-content: space-between;
   text-align: center;
   /*border: 5px solid blue;*/
 }
