@@ -85,40 +85,49 @@
 /*Features*/
 .Features {
   background: #FFFFFF;
+  height: 25em;
 }
 
 .features-heading {
   font-family: .SFNSDisplay-Regular;
-  font-size: 45px;
+  font-size: 3em;
   color: #212121;
   letter-spacing: 0;
   line-height: 60px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
 }
 
 .features {
   display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
   text-align: center;
   /*border: 5px solid blue;*/
 }
 
 .feature-title {
-  font-family: .AppleSystemUIFont;
+  font-family: .SFNSDisplay-Regular;
   font-size: 15px;
   color: #212121;
   letter-spacing: 3px;
 }
 
 .feature-text {
-  font-family: .AppleSystemUIFont;
+  font-family: .SFNSDisplay-Regular;
   font-size: 17.5px;
   color: #9FA3A7;
   letter-spacing: 0;
   line-height: 27.5px;
+  margin: auto;
 }
 
-
-
+/*.feature-hack {
+  margin-top: 14%;
+}
+*/
 
 /*Footer*/
 .Footer {
