@@ -30,7 +30,12 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  role: {
+    type: String,
+    enum: ['Member', 'Guest', 'Admin'],
+    default: 'Member'
+  },
   completedChallenges: Array,
 })
 
