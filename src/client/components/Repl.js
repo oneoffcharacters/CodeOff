@@ -300,10 +300,12 @@ class Repl extends React.Component {
         resultsBody.push('(pending) - ' + 'it ' + test.title)
       })
       results.failures.forEach((test) => {
+        console.log('Each failure', test)
           let tempBody = '';
-          tempBody += ( '(failed) - ' + 'it ' + test.title );
-          tempBody += ( '\n  ' + test.message );
-          tempBody += ( '\n  ' + '  ' + test.stack);
+          tempBody += ( '(failed) - ' + test.err.message );
+          tempBody += ( '\n  ' + 'it ' + test.title );
+          tempBody += ( '\n  ' + test.err.stack);
+          console.log(tempBody)
           resultsBody.push(tempBody)
       })
       return (resultsBody.join('\n') + '\n\n')
