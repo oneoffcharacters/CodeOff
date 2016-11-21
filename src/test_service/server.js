@@ -12,7 +12,7 @@ const app = express();
 const port = 3001;
 
 // const testTruth = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(true).to.be.true }) })';
-const testAttempt = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
+// const testAttempt = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
 
 Promise.promisifyAll(fs);
 
@@ -48,11 +48,11 @@ if(!dependenciesExist) {
 // Run mocha on given testpath
 const runMocha = (testPath, callback) => {
   exec(`mocha --reporter json ${testPath}`, (error, stdout, stderr) => {
-    if(error) {
-      console.error(error)
-    } else {
+    // if(error) {
+    //   console.error(error)
+    // } else {
       callback(stderr, stdout)
-    }
+    // }
   })
 }
 
@@ -97,9 +97,9 @@ app.post('/api/test', (req, res) => {
     });
 
     // Remove temp files
-    testFile.removeCallback();
-    solutionFile.removeCallback();
-    attemptFile.removeCallback();
+    // testFile.removeCallback();
+    // solutionFile.removeCallback();
+    // attemptFile.removeCallback();
   });
 })
 
