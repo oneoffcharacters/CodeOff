@@ -33,6 +33,10 @@ const createNamespace = (ID, io) => {
       })
     });
     socket.on('disconnect', (data) => {
+      nsp.emit('opponent resigned', {
+        client: data.client
+      })
+      console.log('The data in the disconnect is', data)
       console.log('a user has disconnected from the namespace', ID);
     });
   });

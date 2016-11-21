@@ -124,11 +124,13 @@ class Repl extends React.Component {
       //User has won a game - clear timer, interval, newChallengeAndTime
       //User loses a game - clear timer, interval, newChallengeAndTime
       if (outcome === 'win') {
-        this.setState({challengeResults: 'Won'})
+        this.setState({challengeResults: 'You Won'})
         console.log('You are victorious')
-      } else {
-        this.setState({challengeResults: 'Lost'})
+      } else if (outcome === 'lost'){
+        this.setState({challengeResults: 'You Lost'})
         console.log('You lost')
+      } else if (outcome === 'opponent resigned') {
+        this.setState({challengeResults: 'Opponent Resigned'})
       }
       this.newGameCountdown()
     }
@@ -225,8 +227,10 @@ class Repl extends React.Component {
             if (data.client === this.state.clientID) {
               console.log('You resigned')
             } else {
+              this.processWinOrLoss('opponent resigned');
               console.log('You win by default, the other guy resigned', data)
-              this.terminateGame(true)
+              //Refactor this to have similar logic to 'game won'
+              // this.terminateGame(true)
             }
           })
         }
