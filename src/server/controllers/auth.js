@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken'),
 
 function generateToken(user) {  
   return jwt.sign(user, config.secret, {
-    expiresIn: 10080 // in seconds
+    expiresIn: "7d" // token set to expire in 1 week
   });
 }
 
 function setUserInfo(request) {  
   return {
     _id: request._id,
-    firstName: request.profile.firstName,
-    lastName: request.profile.lastName,
+    name: request.name,
     email: request.email,
     role: request.role,
   };
+}
 
 //========================================
 // Login Route
@@ -90,7 +90,7 @@ exports.register = function(req, res, next) {
 //========================================
 
 // Role authorization check
-exports.roleAuthorization = function(role) {  
+exports.roleAuthorization = function(role) { 
   return function(req, res, next) {
     const user = req.user;
 
@@ -110,7 +110,3 @@ exports.roleAuthorization = function(role) {
     })
   }
 }
-
-
-
-
