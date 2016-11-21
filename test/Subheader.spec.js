@@ -8,7 +8,7 @@ import Subheader from '../src/client/components/Subheader';
 describe('<Subheader />', () => {
   it('should render four buttons', () => {
     const wrapper = render(<Subheader />);
-    expect(wrapper.find('button')).to.have.length(4);
+    expect(wrapper.find('button')).to.have.length(3);
   })
 
   it('should be able to accept click handlers as props', () => {
