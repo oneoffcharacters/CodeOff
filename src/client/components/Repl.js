@@ -204,7 +204,8 @@ class Repl extends React.Component {
             pairID: data.pairID,
             opponentID: data.opponentID,
             battleSocket: io('/' + data.pairID),
-            challenge: data.challenge
+            challenge: data.challenge,
+            text: data.challenge.templateFunction
           })
 
           this.editor.setValue(data.challenge.templateFunction, -1)

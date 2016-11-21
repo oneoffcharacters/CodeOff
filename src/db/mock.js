@@ -8,10 +8,10 @@ const mockQuestions = [
     'solutions': 'function maxNumber (first, second) {return Math.max(first, second)} module.exports = maxNumber',
     'prompt': 'Create a function maxNumber that will return the max of two numbers',
     // 'templateFunction': 'module.exports = false;',
-    'templateFunction': 'function maxNumber (first, second) { \n return Math.max(first, second)\n } \n\
+    'templateFunction': 'function maxNumber (first, second) { \n \n } \n\
     module.exports = maxNumber;',
     'examples': ['maxNumber(3,4) \n>4', 'maxNumber(-1,0) \n>0'],
-    'test': 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt(3,4)).to.equal(solution(3,4)) }) })'
+    'test': 'const expect = require("chai").expect; describe("test", () => { it("should return the max number for two positives", () => { expect(attempt(3,4)).to.equal(solution(3,4)) }) })'
   }
 ];
 
