@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const handlers = require('./handlers');
 const axios = require('axios');
+let namespaces = require('../helpers/pairing').namespaces
 // Modules
 const challengeCtrl = require('../../db/controllers/challenge');
 // Env variables
