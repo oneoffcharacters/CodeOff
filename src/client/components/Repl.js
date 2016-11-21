@@ -85,8 +85,6 @@ class Repl extends React.Component {
       }
       console.log('this.state.currentGameType', this.state.currentGameType)
       const boundReset = context.newChallengeAndTime.bind(context, context.state.currentGameType)
-      console.log('boundReset', boundReset)
-      console.log('context.state.nextRoundTimer', context.state.nextRoundTimer)
       setTimeout(boundReset, context.state.nextRoundTimer * 1000)
     }
 
@@ -121,12 +119,13 @@ class Repl extends React.Component {
     //newChallengeAndTime //A user has lost or won and needs a new challenge / the time reset
     //startFreshGame //Not in game at all, or opponent has left
     processWinOrLoss (outcome) {
+      console.log('outcome', outcome)
       //User has won a game - clear timer, interval, newChallengeAndTime
       //User loses a game - clear timer, interval, newChallengeAndTime
       if (outcome === 'win') {
         this.setState({challengeResults: 'You Won'})
         console.log('You are victorious')
-      } else if (outcome === 'lost'){
+      } else if (outcome === 'loss'){
         this.setState({challengeResults: 'You Lost'})
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
@@ -213,6 +212,7 @@ class Repl extends React.Component {
           this.editor.setValue(data.challenge.templateFunction, -1)
 
           this.state.battleSocket.on('game won', (data) => {
+            console.log('Game won by ', data.client, 'ia am' + this.state.clientID)
             if (data.client === this.state.clientID) {
               // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('win');
@@ -323,6 +323,8 @@ class Repl extends React.Component {
       const context = this;
       console.log('Submit called')
       //Add these back in after testing to complete the actual post req
+      const codeSubmission = (this.state.text + 'module.exports = ' + this.state.challenge.functionName + ';')
+      console.log('codeSubmission', codeSubmission)
       fetch('api/mocha',  {
         method: 'post', 
         headers: {
@@ -332,7 +334,7 @@ class Repl extends React.Component {
             clientID:this.state.clientID,
             pairID:this.state.pairID,
             currentGameType:this.state.currentGameType,
-            code: this.state.text,
+            code: codeSubmission,
             challengeID: this.state.challenge._id
           })
         })
