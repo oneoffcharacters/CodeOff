@@ -374,8 +374,9 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
+        console.log('codeResponse', codeResponse.data)
         const data = JSON.parse(codeResponse.data)
-
+        console.log('data', data)
         const testStats = this.summariseTestResults(data)
         const testBody = this.prettyTestBody(data);
         console.log('data', data)
