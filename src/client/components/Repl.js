@@ -191,6 +191,7 @@ class Repl extends React.Component {
 
       //Listen for events on destined for this client
       publicSocket.on(clientID, (data) => {
+        console.log('The data recieved on pairing',  data)
         //On init, update the pairID and opponentID
         if (data.type === 'initBattle') {
           const boundTick = this.tickTime.bind(this)
