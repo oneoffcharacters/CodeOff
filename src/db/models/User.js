@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt-nodejs');
+const db = require('../setup.js');
 
 // code drop userSchema
   // login: Sequelize.STRING,
@@ -20,7 +22,31 @@ const userSchema = new Schema({
   completedChallenges: Array,
 })
 
-// db is not yet defined, create and import connection before uncommenting
-// const User = db.model('User', userSchema);
+userSchema.pre('save', function(next) {  
+  const user = this,
+        SALT_FACTOR = 5;
 
-exports = User;
+  if (!user.isModified('password')) return next();
+
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {  
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) { return cb(err); }
+
+    cb(null, isMatch);
+  });
+}
+
+const Challenge = db.model('User', userSchema);
+
+module.exports = User;
