@@ -127,26 +127,48 @@
   /*border: 5px solid orange;*/
 }
 
+.Footer-Brand {
+  margin-top: 1%;
+  margin-left: 5%;
+}
+
 .footer-name {
   font-family: .SFNSDisplay-Regular;
-  font-size: 42px;
+  font-size: 72px;
   color: #FFFFFF;
   letter-spacing: 0;
 }
 
+.foot-nameAlt {
+  background: -webkit-linear-gradient(#51a8ff, #389cff, #386991);
+  background: -o-linear-gradient(#51a8ff, #389cff, #386991);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.Footer-About {
+  margin: auto;
+}
+
 .AboutUs {
   font-family: .SFNSText-Regular;
-  font-size: 12px;
+  font-size: 1em;
   color: #FFFFFF;
   letter-spacing: 2.4px;
 }
 
 .AboutUsText {
   font-family: .SFNSText-Regular;
-  font-size: 14px;
+  font-size: 1em;
   color: #C8C8C8;
   letter-spacing: 0;
   line-height: 26px;
+}
+
+.Footer-Question {
+  margin-top: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
 }
 
 .QuestionButton {
@@ -156,4 +178,7 @@
   font-size: 12px;
   color: #FFFFFF;
   letter-spacing: 2.4px;
+  width: 12em;
+  height: 3em;
+  background-color: transparent;
 }
