@@ -129,6 +129,7 @@ class Repl extends React.Component {
 
     //Request the server to add this user to the queue
     pairMe() {
+      console.log('The pairing request has been run')
       //Called only when startFreshGame is called
       publicSocket.emit('message', {
         clientID: this.state.clientID
@@ -183,7 +184,10 @@ class Repl extends React.Component {
       //User clicks end game - clear timer, interval, notify opponent
       //User has won by default - clear timer, interval, startFreshGame
       this.resetAndStopTime();
-      this.setState({currentGameType: 'No Game'})
+      this.setState({
+        currentGameType: 'No Game',
+        challenge: {}
+      })
       //This is the case that the opponent has resigned
       if (keepPlaying) {
         this.startFreshGame(this.state.currentGameType)
