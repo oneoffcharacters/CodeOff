@@ -32,6 +32,10 @@ router.post('/mocha', (req, res) => {
       })
         .then(resp => {
         console.log('AXIOS RESPONSE', resp.data);
+        //TODO: Add check to see if they passed all test cases
+        if (req.body.currentGameType === 'Battle') {
+          namespaces[req.body.pairID].emit('game won', {client: req.body.clientID})
+        }
         res.status(200).json(resp.data);
         })
         .catch(err => {

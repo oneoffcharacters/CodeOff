@@ -13,7 +13,7 @@ const createNamespace = (ID, io) => {
   console.log('created namespace for ', ID);
   var nsp = io.of('/' + ID);
   //Add the namespace to the object that will be exported
-  namespace[ID] = nsp;
+  namespaces[ID] = nsp;
   nsp.on('connection', (socket) => {
     console.log('a user has connected to the namespace', ID);
     socket.on('i won', (data) => {
@@ -42,6 +42,7 @@ const createNamespace = (ID, io) => {
 const getChallenge = () => {
   return axios.get('http://localhost:3000/api/challenge')
   .then((resp) => {
+    console.log('The response in getChallenge is', resp)
     const qLength = resp.data.length;
     const randomIndex = Math.floor(Math.random() * qLength)
     return resp.data[randomIndex]; //object
@@ -50,14 +51,6 @@ const getChallenge = () => {
     console.log('err in getChallenge', err)
   })
 }
-
-// const getQuestion = (req, res) => {
-//   axios.get('http://localhost:3000/api/challenge')
-//   .then((resp) => {
-//     console.log(resp);
-//     res.send(resp)
-//   });
-// }
 
 //This will notify both of the pairs of their new opponents
 const notifyPair = (io, pair1, pair2, pairID) => {
