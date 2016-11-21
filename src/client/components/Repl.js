@@ -40,11 +40,11 @@ class Repl extends React.Component {
     }
 
     //TODO: Complete didWin function
-    didWin() {
-      this.state.battleSocket.emit('i won', 
-        {client: this.state.clientID}
-      )
-    }
+    // didWin() {
+    //   this.state.battleSocket.emit('i won', 
+    //     {client: this.state.clientID}
+    //   )
+    // }
 
     //Todo: Update these two functions to be called from the Subheader and actually do the desired actions
     startFreshGame(type) {
@@ -387,7 +387,7 @@ class Repl extends React.Component {
                     pairMe={this.pairMe.bind(this)} 
                     runCode={this.runCode.bind(this)} 
                     terminateGame={this.terminateGame.bind(this)}
-                    didWin={this.didWin.bind(this)}
+                    // didWin={this.didWin.bind(this)}
                     submitCode={this.submitCode.bind(this)} />
           {(!!this.state.nextRoundTimer) && <ChallengeResults 
                     nextRoundTimer={this.state.nextRoundTimer} 
