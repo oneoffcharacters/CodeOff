@@ -1,6 +1,10 @@
+.routerHide {
+  background-color: #d8d8d8;
+}
+
 /*Landing*/
 .LandingHide {
-  background-color: transparent;
+  background-color: #d8d8d8;
 }
 
 
@@ -51,7 +55,7 @@
 .Hero {
   background-color: #d8d8d8;
   /*border: 5px solid yellow;*/
-  height: 30em;
+  height: 31em;
 }
 
 .HeroText {
