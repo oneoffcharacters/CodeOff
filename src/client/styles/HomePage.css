@@ -42,12 +42,14 @@
 
 /*Hero*/
 .Hero {
-  background: #F5F5F5;
+  background-color: #d8d8d8;
   /*border: 5px solid yellow;*/
+  height: 30em;
 }
 
 .HeroText {
-  font-family: Raleway-Bold;
+  padding-top: 3em;
+  font-family: .SFNSDisplay-Regular;
   font-size: 36px;
   color: #555E6B;
   letter-spacing: 0;
@@ -56,27 +58,37 @@
 }
 
 .HeroButtons {
+  margin-top: 3em;
   text-align: center;
 }
 
 /*Play Now button*/
 .PlayNow {
   background: #E67F38;
+  border: 1px transparent;
   border-radius: 100px;
-  font-family: Raleway-ExtraBold;
+  font-family: .SFNSDisplay-Regular;
   font-size: 18px;
+  font-weight: bold;
   color: #FFFFFF;
   letter-spacing: 3.6px;
+  height: 2em;
+  width: 9em;
+  margin-right: 1%;
 }
 
 /*Learn More Button*/
 .LearnMore {
   background: #FFFFFF;
+  border: 1px transparent;
   border-radius: 100px;
-  font-family: Raleway-Regular;
+  font-family: .SFNSDisplay-Regular;
   font-size: 18px;
+  font-weight: bold;
   color: #555E6B;
   letter-spacing: 3.6px;
+  height: 2em;
+  width: 9em;
 }
 
 
