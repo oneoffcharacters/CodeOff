@@ -1,3 +1,9 @@
+/*Landing*/
+.LandingHide {
+  background-color: transparent;
+}
+
+
 .HomePage {
   background: #F5F5F5;
   /*border: 5px solid black;*/
@@ -17,17 +23,18 @@
 .HeaderName {
   display: inline-block;
   font-family: .SFNSDisplay-Regular;
-  font-size: 29px;
+  font-size: 3em;
   color: #FFFFFF;
   letter-spacing: 0;
   margin-left: 2.5%
 }
 
 .HeaderNav {
-  font-family: .SFNSDisplay-Regular;
-  font-size: 29px;
+  font-family: Raleway-Regular;
+  font-size: 1.3em;
   color: #FFFFFF;
   letter-spacing: 0;
+  padding-top: 1em;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -98,6 +105,7 @@
 .Features {
   background: #FFFFFF;
   height: 25em;
+  margin-top: 3%;
 }
 
 .features-heading {
