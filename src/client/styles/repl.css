@@ -50,6 +50,7 @@ button:focus {
 
 .repl-panel {
   height: 100%;
+  padding-right:0;
 }
 
 .ace_gutter,
