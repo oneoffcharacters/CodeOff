@@ -51,7 +51,8 @@ export default class Signin extends React.Component {
 			});
 		})
 		.then(j => {
-			console.log(j);
+			console.log(j); // payload
+			// sessionStorage.setItem('jwtToken', j.token); // maybe use something besides session storage?
 		})
 		.catch(err => {
 			console.error(err);
