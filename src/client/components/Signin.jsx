@@ -1,7 +1,6 @@
 import React from 'React';
 import Header from './Header';
 import Footer from './Footer';
-// import UserCtrl from '../../db/controllers/user';
 
 const authUrl = 'http://localhost:3000/api/auth/login';
 
@@ -57,8 +56,8 @@ export default class Signin extends React.Component {
 					<h3>{this.state.user}</h3>
 					<h3>{this.state.pw}</h3>
 					<form action="submit" onSubmit={this.onFormSubmit}>
-						<input type="text" name="userinp" onChange={this.onUserChangeHandle} placeholder="user" />
-						<input type="text" name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
+						<input type="text" value={this.state.user} name="userinp" onChange={this.onUserChangeHandle} placeholder="user" />
+						<input type="text" value={this.state.pw} name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
 						<button onClick={this.onButtonPress}>Sign In!</button>
 					</form>
 
