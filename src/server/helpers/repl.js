@@ -33,8 +33,8 @@ module.exports = {
     var server = repl.start({input: input, output:output, terminal: false, ignoreUndefined: true});
     server.on('exit', () => {
       data = data.replace(/(\.)+/g, '');
-      data = data.slice(2)
-      console.log('Data after running', data)
+      data = data.replace(/(>? + > > )+/g,'')
+      console.log('Data after running regex', data)
       callback(data);
     });
   }
