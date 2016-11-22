@@ -11,9 +11,6 @@ const fs = require('fs');
 const app = express();
 const port = 3001;
 
-// const testTruth = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(true).to.be.true }) })';
-// const testAttempt = 'const expect = require("chai").expect; describe("test", () => { it("should be true", () => { expect(attempt).to.equal(solution) }) })' 
-
 Promise.promisifyAll(fs);
 
 // ---------- MIDDLEWARE ----------
@@ -48,6 +45,7 @@ if(!dependenciesExist) {
 // Run mocha on given testpath
 const runMocha = (testPath, callback) => {
   exec(`mocha --reporter json ${testPath}`, (error, stdout, stderr) => {
+    // errors occur for failed tests, commenting out error handling prevents this
     // if(error) {
     //   console.error(error)
     // } else {
@@ -61,7 +59,6 @@ app.get('/api/test', (req, res) => {
 })
 
 app.post('/api/test', (req, res) => {
-  console.log('REQUEST BODY', req.body);
   // Assign code to variables
   var attempt = req.body.attempt;
   var solution = req.body.solution;
@@ -80,10 +77,6 @@ app.post('/api/test', (req, res) => {
   var requireChallengeFiles = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
   test = requireChallengeFiles.concat(test);
 
-  console.log('ATTEMPT', attempt);
-  console.log('SOLUTION', solution);
-  console.log('TEST', test);
-
   // Write temp files
   fs.writeFileSync(attemptFile.name, attempt)
   fs.writeFileSync(solutionFile.name, solution)
@@ -97,9 +90,9 @@ app.post('/api/test', (req, res) => {
     });
 
     // Remove temp files
-    // testFile.removeCallback();
-    // solutionFile.removeCallback();
-    // attemptFile.removeCallback();
+    testFile.removeCallback();
+    solutionFile.removeCallback();
+    attemptFile.removeCallback();
   });
 })
 

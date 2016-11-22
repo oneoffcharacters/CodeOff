@@ -1,3 +1,5 @@
+'use strict'
+
 // Packages
 const router = require('express').Router();
 const handlers = require('./handlers');
