@@ -29,17 +29,22 @@ export default class Signin extends React.Component {
 	onFormSubmit(e) {
 		e.preventDefault();
 		console.log(`this is the user ${this.state.user}, and this is the password ${this.state.pw}`);
-		// UserCtrl.findUser(this.state.user)
-		// 	.then((resp) => {
-		// 		console.log(resp);
-		// 	})
 
-
-		// fetch('')
-
-		this.setState({
-			user: '',
-			pw: ''
+		fetch('http://localhost:3000/api/auth/login', {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: {
+				"name": this.state.user,
+				"password": this.state.password
+			}
+		})
+		.then(resp => {
+			console.log(resp);
+		})
+		.catch(err => {
+			console.error(err);
 		})
 	}
 
