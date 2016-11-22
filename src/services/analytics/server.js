@@ -22,10 +22,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 // --------------------------------
 
-// benchmarking
-// time to completion
-// linting /readability
-// brevity (lines of code)
+// o benchmarking
+// o time to completion
+// o linting /readability
+// x brevity (lines of code)
 // modularity (problem depends on using solution later in code, deduct points if
 // user reworks previous soluton
 // no universal code scoring / no leaderboard
