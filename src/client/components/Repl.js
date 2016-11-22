@@ -53,6 +53,7 @@ class Repl extends React.Component {
         // a user is not even in an existing game
         // a user has had their opponent leave
         this.setState({currentGameType: type}, () => {
+          console.log('this.state.currentGameType in callback', this.state.currentGameType)
           if (type === 'Battle') {
             this.pairMe();
           } else if (type === 'Solo') {
