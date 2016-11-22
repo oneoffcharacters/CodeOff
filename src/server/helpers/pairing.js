@@ -33,6 +33,7 @@ const createNamespace = (ID, io) => {
       })
     });
     socket.on('disconnect', (data) => {
+      delete queueIDList[data.client]
       nsp.emit('opponent resigned', {
         client: data.client
       })
@@ -46,7 +47,6 @@ const createNamespace = (ID, io) => {
 const getChallenge = () => {
   return axios.get('http://localhost:3000/api/challenge')
   .then((resp) => {
-    console.log('The response in getChallenge is', resp)
     const qLength = resp.data.length;
     const randomIndex = Math.floor(Math.random() * qLength)
     return resp.data[randomIndex]; //object
@@ -108,8 +108,8 @@ const setPairingListeners = (io) => {
       if (!obj.clientID) {return;}
       console.log('Entire object in message sent request', obj)
       
-      //
-      if ( obj.currentGameType === 'Batle') {
+      
+      if ( obj.currentGameType === 'Battle') {
         //If the user has not been queued, then queue them
         if (!queueIDList[obj.clientID]){
           queue.push(obj.clientID);
