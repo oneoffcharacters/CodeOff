@@ -35,7 +35,7 @@ router.post('/mocha', (req, res) => {
         const data = JSON.parse(resp.data.data)
         //TODO: Add check to see if they passed all test cases
         console.log('comparison', data.stats.passes,data.stats.tests)
-        if (req.body.currentGameType === 'Battle' && data.stats.passes === data.stats.tests) {
+        if (data.stats.passes === data.stats.tests) {
           namespaces[req.body.pairID].emit('game won', {client: req.body.clientID})
         }
         res.status(200).json(resp.data);

@@ -54,6 +54,8 @@ class Repl extends React.Component {
         this.setState({currentGameType: type})
         if (type === 'Battle') {
           this.pairMe();
+        } else if (type === 'Solo') {
+          console.log('Solo game started')
         }
     }
 
@@ -93,7 +95,8 @@ class Repl extends React.Component {
       console.log('The pairing request has been run')
       //Called only when startFreshGame is called
       publicSocket.emit('message', {
-        clientID: this.state.clientID
+        clientID: this.state.clientID,
+        currentGameType: this.state.currentGameType
       });
     }
 
