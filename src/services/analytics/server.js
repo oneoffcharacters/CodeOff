@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 // --------------------------------
 
+// best of n style game
+  // passing test cases displayed to user
 // o benchmarking
 // o time to completion
 // o linting /readability
