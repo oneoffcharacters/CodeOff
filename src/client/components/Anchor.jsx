@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Test from './test';
 import App from './App';
-import { Route, Router, hashHistory, IndexRedirect } from 'react-router'
-import Repl from './Repl'
-import Dashboard from './Dashboard'
-import Landing from	'./Landing'
+import { Route, Router, hashHistory, IndexRedirect } from 'react-router';
+import Repl from './Repl';
+import Dashboard from './Dashboard';
+import Landing from	'./Landing';
+import Signin from './Signin';
 
 export default class Anchor extends React.Component {
 	render() {
@@ -17,6 +18,7 @@ export default class Anchor extends React.Component {
 					<Route path="/landing" component={Landing}/>
 					<Route path="/repl" component={Repl}/>
 					<Route path="/dashboard" component={Dashboard}/>
+					<Route path="/signin" component={Signin}/>
 				</Route>
 			</Router>
 			</div>
