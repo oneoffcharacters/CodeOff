@@ -77,10 +77,15 @@ exports.findChallenge = (id) => {
     })
 }
 
+// return sequence of challenges of length n with searchTerms
+// searchTerms: Object
 
-
-
-
-
-
-
+exports.getSequence = (n, searchTerms) => {
+  return Challenge.find(searchTerms)
+    .then(challenges => {
+      return challenges;
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
