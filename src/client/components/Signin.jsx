@@ -25,6 +25,10 @@ export default class Signin extends React.Component {
 	onButtonPress(e) {
 		e.preventDefault();
 		console.log(`this is the user ${this.state.user}, and this is the password ${this.state.pw}`);
+		this.setState({
+			user: '',
+			pw: ''
+		})
 	}	
 
 	render () {
