@@ -9,6 +9,7 @@ const localOptions = { usernameField: 'name' };
 
 const localLogin = new LocalStrategy(localOptions, function(name, password, done) {  
   User.findOne({ name: name }, function(err, user) {
+    console.log(user);
     if(err) { return done(err); }
     if(!user) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
 
