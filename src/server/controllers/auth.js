@@ -1,3 +1,5 @@
+'use strict'
+
 const jwt = require('jsonwebtoken'),  
       crypto = require('crypto'),
       User = require('../../db/models/User'),
