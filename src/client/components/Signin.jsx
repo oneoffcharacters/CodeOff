@@ -1,6 +1,8 @@
 import React from 'React';
 import Header from './Header';
 import Footer from './Footer';
+// import UserCtrl from '../../db/controllers/user';
+
 const authUrl = 'http://localhost:3000/api/auth/login';
 
 
@@ -13,7 +15,7 @@ export default class Signin extends React.Component {
 		};
 		this.onUserChangeHandle = this.onUserChangeHandle.bind(this);
 		this.onPwChangeHandle = this.onPwChangeHandle.bind(this);		
-		this.onFormSubmit = this.onFormSubmit.bind(this)''
+		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onButtonPress = this.onButtonPress.bind(this);
 	}
 
@@ -28,8 +30,13 @@ export default class Signin extends React.Component {
 	onFormSubmit(e) {
 		e.preventDefault();
 		console.log(`this is the user ${this.state.user}, and this is the password ${this.state.pw}`);
-		
-		fetch('')
+		// UserCtrl.findUser(this.state.user)
+		// 	.then((resp) => {
+		// 		console.log(resp);
+		// 	})
+
+
+		// fetch('')
 
 		this.setState({
 			user: '',
