@@ -75,6 +75,20 @@ const notifyPair = (io, pair1, pair2, pairID) => {
  })
 }
 
+const setupSolo = (io, client) => {
+  var pairID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
+  createNamespace(pairID, io);
+
+   getChallenge()
+   .then((randomChallenge) => {
+    io.emit(client, {
+     type: 'initBattle',
+     pairID: pairID,
+     challenge: randomChallenge
+   });
+  })
+}
+
 const dequeue = (io, queue) => {
   //Declare the pairing ID for them and create the namespace for them to communicate on
   var pairID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
@@ -92,17 +106,24 @@ const setPairingListeners = (io) => {
     socket.on('message', function(obj){
       //Return out of function if the client ID is empty
       if (!obj.clientID) {return;}
+      console.log('Entire object in message sent request', obj)
+      
+      //
+      if ( obj.currentGameType === 'Batle') {
+        //If the user has not been queued, then queue them
+        if (!queueIDList[obj.clientID]){
+          queue.push(obj.clientID);
+          queueIDList[obj.clientID] = true;
+        }
 
-      //If the user has not been queued, then queue them
-      if (!queueIDList[obj.clientID]){
-        queue.push(obj.clientID);
-        queueIDList[obj.clientID] = true;
-      }
-
-      console.log('queue:', queue)
-      //If there is now someone to match with, create a unique pairing ID and share it with both clients
-      if (queue.length > 1){
-        dequeue(io, queue);
+        console.log('queue:', queue)
+        //If there is now someone to match with, create a unique pairing ID and share it with both clients
+        if (queue.length > 1){
+          dequeue(io, queue);
+        }
+      } else if ( obj.currentGameType === 'Solo') {
+        //Get question and return to client
+        setupSolo(io, obj.clientID)
       }
     });
   });

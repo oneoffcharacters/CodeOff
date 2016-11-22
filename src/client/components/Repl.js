@@ -48,15 +48,19 @@ class Repl extends React.Component {
 
     //Todo: Update these two functions to be called from the Subheader and actually do the desired actions
     startFreshGame(type) {
+      console.log('Type that is input',  type)
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
-        this.setState({currentGameType: type})
-        if (type === 'Battle') {
-          this.pairMe();
-        } else if (type === 'Solo') {
-          console.log('Solo game started')
-        }
+        this.setState({currentGameType: type}, () => {
+          if (type === 'Battle') {
+            this.pairMe();
+          } else if (type === 'Solo') {
+            this.pairMe();
+            console.log('Solo game started')
+          }
+        })
+        console.log(this.state.currentGameType)
     }
 
     resetAndStopTime () {
@@ -204,13 +208,22 @@ class Repl extends React.Component {
             gameTimerInterval: setInterval(boundTick, 1000)
           })
 
-          this.setState({
-            pairID: data.pairID,
-            opponentID: data.opponentID,
-            battleSocket: io('/' + data.pairID),
-            challenge: data.challenge,
-            text: data.challenge.templateFunction
-          })
+          if (this.state.currentGameType === 'Battle') {
+            this.setState({
+              pairID: data.pairID,
+              opponentID: data.opponentID,
+              battleSocket: io('/' + data.pairID),
+              challenge: data.challenge,
+              text: data.challenge.templateFunction
+            })
+          } else if ( this.state.currentGameType === 'Solo') {
+            this.setState({
+              pairID: data.pairID,
+              battleSocket: io('/' + data.pairID),
+              challenge: data.challenge,
+              text: data.challenge.templateFunction
+            })
+          }
 
           this.editor.setValue(data.challenge.templateFunction, -1)
 
