@@ -15,7 +15,6 @@ function setUserInfo(request) {
   return {
     _id: request._id,
     name: request.name,
-    email: request.email,
     role: request.role,
   };
 }
@@ -38,14 +37,8 @@ exports.login = function(req, res, next) {
 //========================================
 exports.register = function(req, res, next) {  
   // Check for registration errors
-  const email = req.body.email;
   const name = req.body.name;
   const password = req.body.password;
-
-  // Return error if no email provided
-  if (!email) {
-    return res.status(422).send({ error: 'You must enter an email address.'});
-  }
 
   // Return error if full name not provided
   if (!name) {
@@ -57,17 +50,16 @@ exports.register = function(req, res, next) {
     return res.status(422).send({ error: 'You must enter a password.' });
   }
 
-  User.findOne({ email: email }, function(err, existingUser) {
+  User.findOne({ name: name }, function(err, existingUser) {
       if (err) { return next(err); }
 
       // If user is not unique, return error
       if (existingUser) {
-        return res.status(422).send({ error: 'That email address is already in use.' });
+        return res.status(422).send({ error: 'That username is already in use.' });
       }
 
-      // If email is unique and password was provided, create account
+      // If name is unique and password was provided, create account
       let user = new User({
-        email: email,
         password: password,
         name: name
       });
