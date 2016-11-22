@@ -5,10 +5,10 @@ const passport = require('passport'),
       ExtractJwt = require('passport-jwt').ExtractJwt,
       LocalStrategy = require('passport-local');
 
-const localOptions = { usernameField: 'email' };
+const localOptions = { usernameField: 'name' };
 
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {  
-  User.findOne({ email: email }, function(err, user) {
+const localLogin = new LocalStrategy(localOptions, function(name, password, done) {  
+  User.findOne({ name: name }, function(err, user) {
     if(err) { return done(err); }
     if(!user) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
 
