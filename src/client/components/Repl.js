@@ -288,6 +288,7 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
+        console.log('The code response is', codeResponse)
         context.state.console.Write(codeResponse.text)
       })
       .catch((err) => {

@@ -4,13 +4,17 @@ const mockQuestions = [
   {
     'title': 'Max Number',
     'functionName': 'maxNumber',
-    'difficulty': 'Hard',
-    'solutions': 'function maxNumber (first, second) {return Math.max(first, second)} module.exports = maxNumber',
+    'difficulty': 'Easy',
+    'solutions': 'function maxNumber (first, second) {return Math.max(first, second)}; module.exports = maxNumber',
     'prompt': 'Create a function maxNumber that will return the max of two numbers',
-    // 'templateFunction': 'module.exports = false;',
-    'templateFunction': 'function maxNumber (first, second) { \n \n }',
-    'examples': ['maxNumber(3,4) \n>4', 'maxNumber(-1,0) \n>0'],
-    'test': 'const expect = require("chai").expect; describe("test", () => { it("should return the max number for two positives", () => { expect(attempt(3,4)).to.equal(solution(3,4)) }) })'
+    'templateFunction': 'function maxNumber (first, second) { \n return Math.max(first, second)\n } ',
+    'examples': ['maxNumber(3,4) = 4', 'maxNumber(-1,-3) = -1'],
+    'test': 'const expect = require("chai").expect; \
+      describe("test", () => { \
+        it("should return the max number for positives", () => { expect(attempt(2, 3)).to.equal(solution(2,3)) }); \
+        it("should return the max number for negatives", () => { expect(attempt(-3, -1)).to.equal(solution(-3,-1)) }); \
+        it("should return the max number for positives & negatives", () => { expect(attempt(-1, 1)).to.equal(solution(-1,1)) }); \
+      })'
   }
 ];
 
