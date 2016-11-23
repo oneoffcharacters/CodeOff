@@ -4,6 +4,7 @@ import Test from './test';
 import App from './App';
 import { Route, Router, hashHistory, IndexRedirect } from 'react-router';
 import Repl from './Repl';
+import Viewer from './Viewer';
 import Dashboard from './Dashboard';
 import Landing from	'./Landing';
 import Signin from './Signin';
@@ -18,6 +19,7 @@ export default class Anchor extends React.Component {
 					<IndexRedirect to="/landing" />
 					<Route path="/landing" component={Landing}/>
 					<Route path="/repl" component={Repl}/>
+					<Route path="/viewer" component={Viewer}/>
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
