@@ -67,7 +67,6 @@ class Viewer extends React.Component {
 
     setupSocket(e) {
       e.preventDefault()
-      console.log('e in setup socket', e)
       publicSocket = io();
 
       //Creates a unique client ID that this client will listen for socket events on
@@ -106,11 +105,23 @@ class Viewer extends React.Component {
 
         this.state.battleSocket.on('pairInfo', (data) => {
           console.log('data coming back from pairID', data)
+          const opponents = Object.keys(data);
+          this.setState({
+            opponentID:{
+              player1: opponents[0],
+              player2: opponents[1]
+            }
+          })
           //Set a mapping of 
         })
 
         this.state.battleSocket.on('updateText', (data) => {
           console.log('This is the data received by update text',  data)
+          if (data.client === this.state.opponentID.player1) {
+            this.editor1.setValue(data.text, -1);
+          } else {
+            this.editor2.setValue(data.text, -1);
+          }
         })
       })
     }
