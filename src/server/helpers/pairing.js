@@ -12,19 +12,37 @@ let namespaces = {};
 const createNamespace = (ID, io, ...users) => {
   console.log('created namespace for ', ID);
   var nsp = io.of('/' + ID);
+  let userList = io.of('/' + ID).clients();
   //Add the namespace to the object that will be exported
   
   namespaces[ID] = {
     socket: nsp
   }
 
-  console.log('users before foreach', users)
   users.forEach((userID) => {
-    console.log('for each user', userID)
     namespaces[ID][userID] = true;
   })
 
   nsp.on('connection', (socket) => {
+    console.log('socket.idsocket.id', socket.id)
+    console.log('Object.keys(io.sockets.sockets)', Object.keys(io.sockets.sockets))
+    // Store only the two people who are participating in the game in this players prop
+    console.log('namespaces[ID].players on connection', namespaces[ID].players)
+    if (!namespaces[ID].players) {
+      const playerSocketIDs = Object.keys(io.sockets.sockets)
+      namespaces[ID].players = playerSocketIDs
+    } else {
+      const idStart = socket.id.indexOf("#") + 1
+      const socketid = socket.id.slice(idStart)
+      if (namespaces[ID].viewers) {
+        //TODO: Push the views into this property
+        namespaces[ID].viewers.push(socketid)
+      } else {
+        namespaces[ID].viewers = [socketid]
+        //TODO: Create the array with this viewer in there
+      }
+    }
+
     //Santizse the namespace object to not send the socket because it crashes it
     let safeUsers = {};
     for (var key in namespaces[ID]) {
@@ -32,36 +50,58 @@ const createNamespace = (ID, io, ...users) => {
         safeUsers[key] = true;
       }
     }
-    console.log('safe users',  safeUsers)
     nsp.emit('pairInfo', safeUsers)
     console.log('a user has connected to the namespace', ID);
     
     socket.on('textChange', (data) => {
       nsp.emit('updateText', data)
-      console.log('The text change data is', data)
     })
 
     socket.on('i won', (data) => {
-      console.log('The following client won',  data.client)
       nsp.emit('game won', {
         client: data.client
       })
     });
     socket.on('i resigned', (data) => {
-      console.log('The following resigned',  data.client)
-      console.log('The before after is ', queueIDList)
       delete queueIDList[data.opponent];
       delete queueIDList[data.client]
-      console.log('The queue after is ', queueIDList)
+
       nsp.emit('opponent resigned', {
         client: data.client
       })
     });
     socket.on('disconnect', (data) => {
-      delete queueIDList[data.client]
-      nsp.emit('opponent resigned', {
-        client: data.client
-      })
+
+      delete queueIDList[data.client] //TODO: I think data.client is undefined
+      const nspUsers = Object.keys(io.sockets.sockets)
+      //Get the current list of people on NSP after disconnection
+      console.log('NSP users',  nspUsers)
+      console.log('namespaces[ID].players', namespaces[ID].players)
+      
+      for (var i = 0; i < namespaces[ID].players.length; i++) {
+        const player = namespaces[ID].players[i]
+        if (nspUsers.indexOf(player) === -1) {
+          console.log('It was a player that left')
+          nsp.emit('opponent resigned', {
+            client: player
+          })
+          break;
+        } 
+      }
+      console.log('namespaces[ID].viewers', namespaces[ID].viewers)
+      if (namespaces[ID].viewers) {
+        for (var i = 0; i < namespaces[ID].viewers.length; i++) {
+          const viewer = namespaces[ID].viewers[i]
+          if (nspUsers.indexOf(viewer) === -1) {
+            console.log('It was a viewer that left')
+            nsp.emit('viewer left', {
+              client: viewer
+            })
+            break;
+          } 
+        }
+      }
+
       console.log('The data in the disconnect is', data)
       console.log('a user has disconnected from the namespace', ID);
     });
@@ -124,7 +164,7 @@ const dequeue = (io, queue) => {
 
 
   notifyPair(io, pair1, pair2, pairID)
-  console.log('queue:', queue)
+  console.log('queue after:', queue)
 }
 
 const setPairingListeners = (io) => {
@@ -142,7 +182,7 @@ const setPairingListeners = (io) => {
           queueIDList[obj.clientID] = true;
         }
 
-        console.log('queue:', queue)
+        console.log('queue before:', queue)
         //If there is now someone to match with, create a unique pairing ID and share it with both clients
         if (queue.length > 1){
           dequeue(io, queue);
