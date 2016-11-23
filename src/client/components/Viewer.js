@@ -6,9 +6,9 @@ let publicSocket;
 class Viewer extends React.Component {
     constructor(props) {
       //TODO: I will need to be passed a prop of the namespace that I am going to listen on
-	    super(props);
-	    this.state = {
-	    	text:{
+      super(props);
+      this.state = {
+        text:{
           player1:"console.log('Player 1 text');",
           player2:"console.log('Player 2 text');"
         },
@@ -24,7 +24,7 @@ class Viewer extends React.Component {
         battleSocket: '',
         challenge: {},
         challengeResults:''
-	  	};
+      };
     }
 
     componentDidMount() {
@@ -62,6 +62,7 @@ class Viewer extends React.Component {
     }
 
     setupSocket(e) {
+      e.preventDefault()
       console.log('e in setup socket', e)
       publicSocket = io();
 
@@ -98,6 +99,10 @@ class Viewer extends React.Component {
           } else if (data.user === this.state.opponentID.player2)
             this.editor2.setValue(data.challenge.templateFunction, -1)
         })
+
+        this.state.battleSocket.on('pairInfo', (data) => {
+          console.log('data coming back from pairID', data)
+        })
       })
     }
 
@@ -119,20 +124,19 @@ class Viewer extends React.Component {
   render() {
     return (
         <div className="viewer">
-        <form onSubmit={this.setupSocket.bind(this)}>
-          <input type="text" name="name" onKeyUp={this.handleKeyPress.bind(this)}/>
-          <input type="submit" value="Submit" />
-        </form>
-        <div className="row repl-wrapper">
-          <div className="repl-panel col-sm-12 col-md-6" id="editor-container-1">
-            <div id="editor1"></div>
-          </div>
-          <div className="no-pad repl-panel col-sm-12 col-md-6" id="editor-container-2">
-            <div id="editor2"></div>
-            <ChallengeCard challenge={this.state.challenge} />
-          </div>
-        </div> 
-          
+          <form onSubmit={this.setupSocket.bind(this)}>
+            <input type="text" name="name" onKeyUp={this.handleKeyPress.bind(this)}/>
+            <input type="submit" value="Submit" />
+          </form>
+          <div className="row repl-wrapper">
+            <div className="repl-panel col-sm-12 col-md-6" id="editor-container-1">
+              <div id="editor1"></div>
+            </div>
+            <div className="no-pad repl-panel col-sm-12 col-md-6" id="editor-container-2">
+              <div id="editor2"></div>
+              <ChallengeCard challenge={this.state.challenge} />
+            </div>
+          </div> 
         </div>
     )
   }

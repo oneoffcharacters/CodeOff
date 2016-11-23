@@ -9,13 +9,36 @@ let queue = [];
 let namespaces = {};
 
 //Create a namespace for a socket connection for a specific ID
-const createNamespace = (ID, io) => {
+const createNamespace = (ID, io, ...users) => {
   console.log('created namespace for ', ID);
   var nsp = io.of('/' + ID);
   //Add the namespace to the object that will be exported
-  namespaces[ID] = nsp;
+  
+  namespaces[ID] = {
+    socket: nsp
+  }
+
+  console.log('users before foreach', users)
+  users.forEach((userID) => {
+    console.log('for each user', userID)
+    namespaces[ID][userID] = true;
+  })
+
   nsp.on('connection', (socket) => {
+    //Santizse the namespace object to not send the socket because it crashes it
+    let safeUsers = {};
+    for (var key in namespaces[ID]) {
+      if (key != 'socket') {
+        safeUsers[key] = namespaces[key];
+      }
+    }
+    nsp.emit('pairInfo', safeUsers)
     console.log('a user has connected to the namespace', ID);
+    
+    socket.on('textChange', (data) => {
+      console.log('The text change data is', data)
+    })
+
     socket.on('i won', (data) => {
       console.log('The following client won',  data.client)
       nsp.emit('game won', {
@@ -92,10 +115,11 @@ const setupSolo = (io, client) => {
 const dequeue = (io, queue) => {
   //Declare the pairing ID for them and create the namespace for them to communicate on
   var pairID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
-  createNamespace(pairID, io);
-
   const pair1 = queue.shift()
   const pair2 = queue.shift()
+  
+  createNamespace(pairID, io, pair1, pair2);
+
 
   notifyPair(io, pair1, pair2, pairID)
   console.log('queue:', queue)

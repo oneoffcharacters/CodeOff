@@ -258,9 +258,12 @@ class Repl extends React.Component {
     //Update the value of the text editor into the state on every keypress
     handleKeyPress (e) {
       var text = this.editor.getValue();
-      this.setState({
-        text: text
-      });
+      this.setState({text: text}, () => {
+        this.state.battleSocket.emit('textChange', {
+          client: this.state.clientID,
+          text: text
+        })
+      })
     }
 
     // prependConsole (jqconsole, newText) {
