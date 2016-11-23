@@ -29,9 +29,10 @@ const createNamespace = (ID, io, ...users) => {
     let safeUsers = {};
     for (var key in namespaces[ID]) {
       if (key != 'socket') {
-        safeUsers[key] = namespaces[key];
+        safeUsers[key] = true;
       }
     }
+    console.log('safe users',  safeUsers)
     nsp.emit('pairInfo', safeUsers)
     console.log('a user has connected to the namespace', ID);
     
