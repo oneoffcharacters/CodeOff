@@ -1,6 +1,8 @@
 import React from 'react';
 import Footer from './Footer';
 
+import { Router } from 'react-router';
+
 export default class Lobby extends React.Component {
 	constructor() {
 		super()
@@ -13,7 +15,7 @@ export default class Lobby extends React.Component {
 	}
 
 	GoBackHandler() {
-		console.log('goback wired!');
+		console.log('need to enable browserHistory for this?');
 	}
 
 	ViewGameHandler() {
