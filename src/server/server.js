@@ -12,6 +12,7 @@ const port = 3000;
 const AuthenticationController = require('./controllers/auth'),  
       passportService = require('../../config/passport'),
       passport = require('passport');
+const protectedRoutes = require('./routes/protectedRoutes');
 
 // ---------- MIDDLEWARE ----------
 // REQUEST LOGGING
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 
 // ------------ ROUTES ------------
 app.use('/api', apiRouter);
+app.use('/protected', protectedRoutes);
 // --------------------------------
 
   //=========================
@@ -52,6 +54,7 @@ app.use('/api', apiRouter);
 
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
+
 
 // SERVER
 const server = app.listen(port, () => {

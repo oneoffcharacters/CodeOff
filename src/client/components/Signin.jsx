@@ -10,7 +10,8 @@ export default class Signin extends React.Component {
 		super()
 		this.state = {
 			user: '',
-			pw: ''
+			pw: '',
+			token: ''
 		};
 		this.onUserChangeHandle = this.onUserChangeHandle.bind(this);
 		this.onPwChangeHandle = this.onPwChangeHandle.bind(this);		
@@ -53,6 +54,24 @@ export default class Signin extends React.Component {
 		.then(j => {
 			console.log(j); // payload
 			// sessionStorage.setItem('jwtToken', j.token); // maybe use something besides session storage?
+			this.setState({
+				token: j.token.slice(4)
+			})
+		})
+		.then(() => {
+			fetch('http://localhost:3000/protected', {
+				method: 'get',
+				headers: {
+					'Content-Type': 'application/json',
+					'x-access-token': this.state.token
+				}
+			});
+			this.setState({
+				user: '',
+				pw: '',
+				token: ''
+			})
+			console.log('state after request to /protected =', this.state);
 		})
 		.catch(err => {
 			console.error(err);
@@ -77,7 +96,7 @@ export default class Signin extends React.Component {
 					<h3>{this.state.pw}</h3>
 					<form action="submit" onSubmit={this.onFormSubmit}>
 						<input type="text" value={this.state.user} name="userinp" onChange={this.onUserChangeHandle} placeholder="user" />
-						<input type="text" value={this.state.pw} name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
+						<input type="password" value={this.state.pw} name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
 						<button onClick={this.onButtonPress}>Sign In!</button>
 					</form>
 

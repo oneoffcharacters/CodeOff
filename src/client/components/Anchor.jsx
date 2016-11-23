@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import Landing from	'./Landing';
 import Signin from './Signin';
 import Lobby from './Lobby';
+import Register from './Register';
 
 export default class Anchor extends React.Component {
 	render() {
@@ -23,6 +24,7 @@ export default class Anchor extends React.Component {
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
+					<Route path="/register" component={Register}/>
 				</Route>
 			</Router>
 			</div>
