@@ -239,16 +239,18 @@ class Repl extends React.Component {
             }
           })
           this.state.battleSocket.on('opponent resigned', (data) => {
-            //Always want to close the connection
-            this.closeBattleSocket(this.state.currentGameType)
-            if (data.client === this.state.clientID) {
-              console.log('You resigned')
-            } else {
-              this.processWinOrLoss('opponent resigned');
-              console.log('You win by default, the other guy resigned', data)
-              //Refactor this to have similar logic to 'game won'
-              // this.terminateGame(true)
-            }
+            //If the resignation came from a participant (and not just a viewer disconnection message)
+            // if (this.state.opponentID != data.client && this.state.clientID != data.client) {
+              this.closeBattleSocket(this.state.currentGameType)
+              if (data.client === this.state.clientID) {
+                console.log('You resigned')
+              } else {
+                this.processWinOrLoss('opponent resigned');
+                console.log('You win by default, the other guy resigned', data)
+                //Refactor this to have similar logic to 'game won'
+                // this.terminateGame(true)
+              }
+            // }
           })
         }
         console.log('The client was notified of a succesful pair!', data)
