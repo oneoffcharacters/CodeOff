@@ -30,7 +30,11 @@ class Viewer extends React.Component {
     componentDidMount() {
       this.editor1 = this.editorSetup('1');
       this.editor2 = this.editorSetup('2');
-      // this.socket = this.setupSocket();
+      // {
+      // //xsy: this.editor1,
+      // //abs: this.editor.2
+      // // this.socket = this.setupSocket();
+      // }
     }
 
     closeBattleSocket (newType) {
@@ -102,6 +106,11 @@ class Viewer extends React.Component {
 
         this.state.battleSocket.on('pairInfo', (data) => {
           console.log('data coming back from pairID', data)
+          //Set a mapping of 
+        })
+
+        this.state.battleSocket.on('updateText', (data) => {
+          console.log('This is the data received by update text',  data)
         })
       })
     }

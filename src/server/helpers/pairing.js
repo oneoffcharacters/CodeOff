@@ -36,6 +36,7 @@ const createNamespace = (ID, io, ...users) => {
     console.log('a user has connected to the namespace', ID);
     
     socket.on('textChange', (data) => {
+      nsp.emit('updateText', data)
       console.log('The text change data is', data)
     })
 
