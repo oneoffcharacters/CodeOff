@@ -7,6 +7,7 @@ import Repl from './Repl';
 import Dashboard from './Dashboard';
 import Landing from	'./Landing';
 import Signin from './Signin';
+import Lobby from './Lobby';
 
 export default class Anchor extends React.Component {
 	render() {
@@ -19,6 +20,7 @@ export default class Anchor extends React.Component {
 					<Route path="/repl" component={Repl}/>
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/signin" component={Signin}/>
+					<Route path="/lobby" component={Lobby}/>
 				</Route>
 			</Router>
 			</div>

@@ -161,6 +161,8 @@ button:focus {
 .Footer {
   background: #2C3840;
   display: flex;
+  bottom: 0px;
+  width: 100%;
   /*border: 5px solid orange;*/
 }
 
