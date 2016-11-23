@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Test from './test';
 import App from './App';
-import { Route, Router, hashHistory, IndexRedirect } from 'react-router';
+import { Route, Router, hashHistory, IndexRedirect, browserHistory } from 'react-router';
 import Repl from './Repl';
 import Viewer from './Viewer';
 import Dashboard from './Dashboard';
@@ -15,7 +15,7 @@ export default class Anchor extends React.Component {
 	render() {
 		return(
 			<div className='routerHide'>
-			<Router history={hashHistory}>
+			<Router history={browserHistory}>
 				<Route path="/" component={App}>
 					<IndexRedirect to="/landing" />
 					<Route path="/landing" component={Landing}/>
