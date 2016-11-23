@@ -48,4 +48,9 @@ router.post('/mocha', (req, res) => {
     })
 });
 
+// eventually we will want Object.keys(namespaces)
+router.get('/lobbies', (req, res) => {
+  res.json(['dm1', 'dz3', 'du2', 'sb2', 'rb6', 'jwt', 'g1z']);
+});
+
 module.exports = router;

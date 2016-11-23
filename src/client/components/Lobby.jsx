@@ -7,13 +7,9 @@ export default class Lobby extends React.Component {
 		this.state = {
 			activeGamesList: []
 		}
-		this.RefreshHandler = this.RefreshHandler.bind(this);
 		this.GoBackHandler = this.GoBackHandler.bind(this);
 		this.ViewGameHandler = this.ViewGameHandler.bind(this);
-	}
-
-	RefreshHandler() {
-		console.log('wired!');
+		this.RefreshLobbies = this.RefreshLobbies.bind(this);
 	}
 
 	GoBackHandler() {
@@ -24,11 +20,23 @@ export default class Lobby extends React.Component {
 		console.log('Viewing game now!');
 	}
 
+	RefreshLobbies() {
+		fetch('http://localhost:3000/api/lobbies')
+			.then(resp => {
+				return resp.json()
+			})
+			.then(lobbies => {
+				this.setState({
+					activeGamesList: lobbies
+				})
+			})
+			.catch(err => {
+				console.error(err);
+			})
+	}
+
 	componentWillMount() {
-		console.log('mounted!');
-		this.setState({
-			activeGamesList: ['dm1', 'dz3', 'du2', 'sb2', 'rb6', 'jwt', 'g1z']
-		});
+		this.RefreshLobbies();
 	}
 
 	render() {
@@ -37,7 +45,7 @@ export default class Lobby extends React.Component {
 				<div className='LobbyHeader'>
 					<h3 className='LobbyTitle'>Games in Progress</h3>
 					<button className='LobbyGoBackBtn' onClick={this.GoBackHandler}>Go Back</button>
-					<button className='LobbyRefreshBtn' onClick={this.RefreshHandler}>Refresh</button>
+					<button className='LobbyRefreshBtn' onClick={this.RefreshLobbies}>Refresh</button>
 				</div>
 				<hr />
 				<ul className='LobbyUlCtn'>
