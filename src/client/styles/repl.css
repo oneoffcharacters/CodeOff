@@ -198,7 +198,7 @@ button:focus {
     height: 0%;
     width: 50%;
     position: fixed;
-    z-index: 1;
+    z-index: 4;
     bottom: 0;
     right: 0;
     background-color: #D8D8D8;

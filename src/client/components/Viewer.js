@@ -13,8 +13,8 @@ class Viewer extends React.Component {
           player2:"console.log('Player 2 text');"
         },
         clientID:'',
-        // pairID:this.props.location.query.pairid, //Get the pair id from the url parameter
-        opponentID:{
+        pairID: '', //this.props.location.query.pairid, //Get the pair id from the url parameter
+        opponentID: {
           player1:'',
           player2:''
         },
@@ -61,7 +61,8 @@ class Viewer extends React.Component {
       return editor;
     }
 
-    setupSocket() {
+    setupSocket(e) {
+      console.log('e in setup socket', e)
       publicSocket = io();
 
       //Creates a unique client ID that this client will listen for socket events on
@@ -80,41 +81,57 @@ class Viewer extends React.Component {
 
 
       // TODO: Uncomment this, it is just to get the page rendered
-      // this.setState({
-      //   battleSocket: io('/' + this.state.pairID),
-        
-      //   text: data.challenge.templateFunction
-      // }, () => {
-      //   this.state.battleSocket.on('connect', (data) => {
-      //     //TODO: Get the challenge from the server
-      //     //TODO: Get the player ID's from the server
-      //     console.log('Connected to the battleSocket and the data is',  data)
-      //   })
+      this.setState({
+        battleSocket: io('/' + this.state.pairID)
+      }, () => {
+        this.state.battleSocket.on('connect', (data) => {
+          //TODO: Get the challenge from the server
+          //TODO: Get the player ID's from the server
+          console.log('Connected to the battleSocket and the data is',  data)
+        })
 
-      //   this.state.battleSocket.on('userinput', (data) => {
-      //     console.log('User input for the battleSocket is',  data)
-      //     //On recieving userinput data, set the value of the editor to the data
-      //     if (data.user === this.state.opponentID.player1) {
-      //       this.editor1.setValue(data.challenge.templateFunction, -1)
-      //     } else if (data.user === this.state.opponentID.player2)
-      //       this.editor2.setValue(data.challenge.templateFunction, -1)
-      //   })
-      // })
+        this.state.battleSocket.on('userinput', (data) => {
+          console.log('User input for the battleSocket is',  data)
+          //On recieving userinput data, set the value of the editor to the data
+          if (data.user === this.state.opponentID.player1) {
+            this.editor1.setValue(data.challenge.templateFunction, -1)
+          } else if (data.user === this.state.opponentID.player2)
+            this.editor2.setValue(data.challenge.templateFunction, -1)
+        })
+      })
     }
+
+    handleKeyPress (e) {
+      const context = this;
+
+      context.setState({
+        pairID: e.target.value
+      });
+    }
+
+    // handleSubmit (e) {
+    //   this.setState({
+    //     battleSocket: 
+    //   })
+    //   console.log('e in submit', e)
+    // }
 
   render() {
     return (
         <div className="viewer">
-          <div>Test Div</div>
-          <div className="row repl-wrapper">
-            <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
-              <div id="editor1"></div>
-            </div>
-            <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
-              <div id="editor2"></div>
-              <ChallengeCard challenge={this.state.challenge}/>
-            </div>
-          </div> 
+        <form onSubmit={this.setupSocket.bind(this)}>
+          <input type="text" name="name" onKeyUp={this.handleKeyPress.bind(this)}/>
+          <input type="submit" value="Submit" />
+        </form>
+        <div className="row repl-wrapper">
+          <div className="repl-panel col-sm-12 col-md-6" id="editor-container-1">
+            <div id="editor1"></div>
+          </div>
+          <div className="no-pad repl-panel col-sm-12 col-md-6" id="editor-container-2">
+            <div id="editor2"></div>
+            <ChallengeCard challenge={this.state.challenge} />
+          </div>
+        </div> 
           
         </div>
     )
