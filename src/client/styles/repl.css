@@ -250,3 +250,74 @@ button:focus {
   padding: 0 10%;
   background-color: #F5F5F5;
 }
+
+/*=======================
+=====Games Lobby=========
+=======================*/
+.LobbyCtn {
+  background: #ffffff;
+  height: 100%;
+}
+
+.LobbyHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.LobbyTitle {
+  margin-left: 45%;
+}
+
+.LobbyGoBackBtn {
+  margin-left: 25%;
+  margin-top: 1.5%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  width: 5em;
+  height: 2em;
+}
+
+.LobbyRefreshBtn {
+  margin-left: 0.5%;
+  margin-top: 1.5%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  width: 5em;
+  height: 2em;
+}
+
+.LobbyUlCtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  overflow: scroll;
+  height: 20em;
+}
+
+.LobbyListItem {
+  margin: 1em;
+}
+
+.LobbyViewBtn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  margin-left: 15px;
+  width: 100px;
+}
+
+.LobbyTitle {
+  color: blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
