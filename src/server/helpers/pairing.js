@@ -12,12 +12,14 @@ let namespaces = {};
 const createNamespace = (ID, io, ...users) => {
   console.log('created namespace for ', ID);
   var nsp = io.of('/' + ID);
-  let userList = io.of('/' + ID).clients();
+  let allConnections = io.of('/' + ID).clients()
+  let userList = Object.keys(allConnections.server.sockets.sockets)
   //Add the namespace to the object that will be exported
-  
   namespaces[ID] = {
     socket: nsp
   }
+
+  console.log('HERE ARE ALL THE CONNECTIONS, ', allConnections);
 
   users.forEach((userID) => {
     namespaces[ID][userID] = true;
@@ -27,7 +29,7 @@ const createNamespace = (ID, io, ...users) => {
     console.log('socket.idsocket.id', socket.id)
     console.log('Object.keys(io.sockets.sockets)', Object.keys(io.sockets.sockets))
     // Store only the two people who are participating in the game in this players prop
-    console.log('namespaces[ID].players on connection', namespaces[ID].players)
+    // console.log('namespaces[ID].players on connection', namespaces[ID].players)
     if (!namespaces[ID].players) {
       const playerSocketIDs = Object.keys(io.sockets.sockets)
       namespaces[ID].players = playerSocketIDs
@@ -74,36 +76,53 @@ const createNamespace = (ID, io, ...users) => {
 
       
       const nspUsers = Object.keys(io.sockets.sockets)
+      console.log('The connected users',  nspUsers)
       //Get the current list of people on NSP after disconnection
       console.log('NSP users',  nspUsers)
-      console.log('namespaces[ID].players', namespaces[ID].players)
+      // console.log('namespaces[ID].players', namespaces[ID].players)
       
-      for (var i = 0; i < namespaces[ID].players.length; i++) {
-        const player = namespaces[ID].players[i]
-        if (nspUsers.indexOf(player) === -1) {
-          console.log('namespaces before', namespaces[ID])
-          delete namespaces[ID]
-          console.log('namespaces after', namespaces[ID])
-          console.log('It was a player that left')
-          nsp.emit('opponent resigned', {
-            client: player
-          })
-          return;
-        } 
-      }
-      console.log('namespaces[ID].viewers', namespaces[ID].viewers)
-      if (namespaces[ID].viewers) {
-        for (var i = 0; i < namespaces[ID].viewers.length; i++) {
-          const viewer = namespaces[ID].viewers[i]
-          if (nspUsers.indexOf(viewer) === -1) {
-            console.log('It was a viewer that left')
-            nsp.emit('viewer left', {
-              client: viewer
+      if (namespaces[ID]) {
+        for (var i = 0; i < namespaces[ID].players.length; i++) {
+          const player = namespaces[ID].players[i]
+
+          for (var shortID in queueIDList) {
+            if (queueIDList[shortID] === player) {
+              console.log('queueIDList before', queueIDList)
+              delete queueIDList[shortID];
+              console.log('queueIDList after', queueIDList)
+            }
+          }
+          
+          if (nspUsers.indexOf(player) === -1) {
+            console.log('namespaces before', namespaces)
+            delete namespaces[ID]
+
+            console.log('namespaces after', namespaces)
+            console.log('It was a player that left')
+            nsp.emit('opponent resigned', {
+              client: player
             })
-            break;
+
+
+            return;
           } 
         }
+        
+        console.log('namespaces[ID].viewers', namespaces[ID].viewers)
+        if (namespaces[ID].viewers) {
+          for (var i = 0; i < namespaces[ID].viewers.length; i++) {
+            const viewer = namespaces[ID].viewers[i]
+            if (nspUsers.indexOf(viewer) === -1) {
+              console.log('It was a viewer that left')
+              nsp.emit('viewer left', {
+                client: viewer
+              })
+              break;
+            } 
+          }
+        }
       }
+      
 
       console.log('The data in the disconnect is', data)
       console.log('a user has disconnected from the namespace', ID);
@@ -175,14 +194,14 @@ const setPairingListeners = (io) => {
     socket.on('message', function(obj){
       //Return out of function if the client ID is empty
       if (!obj.clientID) {return;}
-      console.log('Entire object in message sent request', obj)
+      console.log('The socket ID on connection of pairing listeners', socket.id)
       
       
       if ( obj.currentGameType === 'Battle') {
         //If the user has not been queued, then queue them
         if (!queueIDList[obj.clientID]){
           queue.push(obj.clientID);
-          queueIDList[obj.clientID] = true;
+          queueIDList[obj.clientID] = socket.id;
         }
 
         console.log('queue before:', queue)
