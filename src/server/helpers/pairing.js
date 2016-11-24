@@ -72,7 +72,7 @@ const createNamespace = (ID, io, ...users) => {
     });
     socket.on('disconnect', (data) => {
 
-      delete queueIDList[data.client] //TODO: I think data.client is undefined
+      
       const nspUsers = Object.keys(io.sockets.sockets)
       //Get the current list of people on NSP after disconnection
       console.log('NSP users',  nspUsers)
@@ -81,11 +81,14 @@ const createNamespace = (ID, io, ...users) => {
       for (var i = 0; i < namespaces[ID].players.length; i++) {
         const player = namespaces[ID].players[i]
         if (nspUsers.indexOf(player) === -1) {
+          console.log('namespaces before', namespaces[ID])
+          delete namespaces[ID]
+          console.log('namespaces after', namespaces[ID])
           console.log('It was a player that left')
           nsp.emit('opponent resigned', {
             client: player
           })
-          break;
+          return;
         } 
       }
       console.log('namespaces[ID].viewers', namespaces[ID].viewers)
