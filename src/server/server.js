@@ -2,6 +2,7 @@
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const express = require('express');
+const path = require('path');
 // Modules
 const pairing = require('./helpers/pairing')
 const apiRouter = require('./routes/api.js');
@@ -54,6 +55,12 @@ app.use('/protected', protectedRoutes);
 
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
+
+
+app.get('/*', function (request, response){
+  console.log('catch all');
+  response.sendFile(path.resolve('src/client', 'index.html'));
+});
 
 
 // SERVER
