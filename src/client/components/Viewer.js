@@ -13,7 +13,7 @@ class Viewer extends React.Component {
           player2:"console.log('Player 2 text');"
         },
         clientID:'',
-        pairID: '', //this.props.location.query.pairid, //Get the pair id from the url parameter
+        pairID: this.props.params.namespace,
         opponentID: {
           player1:'',
           player2:''
@@ -33,7 +33,7 @@ class Viewer extends React.Component {
       // {
       // //xsy: this.editor1,
       // //abs: this.editor.2
-      // // this.socket = this.setupSocket();
+      this.socket = this.setupSocket();
       // }
     }
 
@@ -65,8 +65,8 @@ class Viewer extends React.Component {
       return editor;
     }
 
-    setupSocket(e) {
-      e.preventDefault()
+    setupSocket() {
+      // e.preventDefault()
       publicSocket = io();
 
       //Creates a unique client ID that this client will listen for socket events on
@@ -142,6 +142,7 @@ class Viewer extends React.Component {
     // }
 
   render() {
+    console.log('this.props.params.namespace', this.props.params.namespace)
     return (
         <div className="viewer">
           <form onSubmit={this.setupSocket.bind(this)}>
