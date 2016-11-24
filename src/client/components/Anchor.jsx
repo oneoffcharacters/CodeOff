@@ -19,7 +19,7 @@ export default class Anchor extends React.Component {
 					<IndexRedirect to="/landing" />
 					<Route path="/landing" component={Landing}/>
 					<Route path="/repl" component={Repl}/>
-					<Route path="/viewer" component={Viewer}/>
+					<Route path="/viewer/:namespace" component={Viewer} />
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
