@@ -1,17 +1,13 @@
 // Packages
 const bodyParser = require('body-parser')
-const exec = require('child_process').exec
-const Promise = require('bluebird');
 const express = require('express');
 const morgan = require('morgan');
-const path = require('path');
-const tmp = require('tmp');
-const fs = require('fs');
+// Modules
+const utils = require('./utils');
 // Env variables
 const app = express();
 const port = 3001;
 
-Promise.promisifyAll(fs);
 
 // ---------- MIDDLEWARE ----------
 // REQUEST LOGGING
@@ -23,77 +19,29 @@ app.use(bodyParser.json());
 // --------------------------------
 
 // Install mocha and chai in temp directory
-var findTemp = tmp.fileSync({prefix: 'find', keep: true});
-findTemp.removeCallback();
-var tempPath = path.parse(findTemp.name).dir
-var depPath = path.join(tempPath, 'node_modules');
-var dependenciesExist = fs.existsSync(`${depPath}/mocha`) && fs.existsSync(`${depPath}/chai`)
-if(!dependenciesExist) {
-  console.log('Installing mocha and chai in temp directory...');
-  exec(`cd ${tempPath} && npm install mocha chai`, (error, stdout, stderr) => {
-    if(error) {
-      console.error(error);
-      console.log('Failed to install mocha and chai');
-    } else {
-      console.log(stdout);
-      console.log('Installed mocha and chai successfully');
-      // console.log(stderr);
-    }
-  })
-};
-
-// Run mocha on given testpath
-const runMocha = (testPath, callback) => {
-  exec(`mocha --reporter json ${testPath}`, (error, stdout, stderr) => {
-    // errors occur for failed tests, commenting out error handling prevents this
-    // if(error) {
-    //   console.error(error)
-    // } else {
-      callback(stderr, stdout)
-    // }
-  })
-}
+utils.installTmpDependencies();
 
 app.get('/api/test', (req, res) => {
     res.status(200)
 })
 
 app.post('/api/test', (req, res) => {
-  // Assign code to variables
-  var attempt = req.body.attempt;
-  var solution = req.body.solution;
-  var test = req.body.test;
+  // Assign req code to text object to run with mocha
+  var text = {
+    attempt: req.body.attempt,
+    solution: req.body.solution,
+    test: req.body.test
+  };
 
-  // Create temp files
-  var attemptFile = tmp.fileSync({prefix: 'attempt-', postfix: '.js', keep: true});
-  var solutionFile = tmp.fileSync({prefix: 'solution-', postfix: '.js', keep: true});
-  var testFile = tmp.fileSync({prefix: 'test-', postfix: '.spec.js', keep: true});
-
-  // Derive file bases from parsed temp files
-  var solutionFileBase = path.parse(solutionFile.name).base;
-  var attemptFileBase = path.parse(attemptFile.name).base;
-
-  // Import attempt and solution with file bases
-  var requireChallengeFiles = `var solution = require("./${solutionFileBase}"); var attempt = require("./${attemptFileBase}");`
-  test = requireChallengeFiles.concat(test);
-
-  // Write temp files
-  fs.writeFileSync(attemptFile.name, attempt)
-  fs.writeFileSync(solutionFile.name, solution)
-  fs.writeFileSync(testFile.name, test)
-
-  runMocha(testFile.name, (err, data) => {
+  console.log('REQUEST RECEIVED');
+  utils.mochaOnText(text, (err, data) => {
     // Send err and data from mocha
     res.status(200).json({
       err: err,
       data: data,
+      eslint: utils.eslintOnText(text.attempt, 'attempt.js'),
     });
-
-    // Remove temp files
-    testFile.removeCallback();
-    solutionFile.removeCallback();
-    attemptFile.removeCallback();
-  });
+  })
 })
 
 // SERVER
