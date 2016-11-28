@@ -25,7 +25,7 @@ exports.installTmpDependencies = () => {
   var dependenciesExist = fs.existsSync(`${dependenciesPath}/mocha`) && fs.existsSync(`${dependenciesPath}/chai`)
   if(!dependenciesExist) {
     console.log('Installing mocha and chai in temp directory...');
-    exec(`cd ${tmpDirPath} && npm install mocha chai`, (error, stdout, stderr) => {
+    exec(`cd ${tmpDirPath} && export NODE_PATH=../node_modules && npm install mocha chai`, (error, stdout, stderr) => {
       if(error) {
         console.error(error);
         console.log('Failed to install mocha and chai');
