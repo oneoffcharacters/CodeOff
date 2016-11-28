@@ -18,7 +18,7 @@ exports.allChallenge = (req, res) => {
 
 exports.serveChallenge = (req, res) => {
   // console.log('this is the id ', req.params.id);
-  // console.log(typeof req.params.id);
+  // console.log(typeof req.params.id)
   Challenge.findOne({'functionName': req.params.id})
     .then(challenge => {
       if (!challenge) {
@@ -31,6 +31,30 @@ exports.serveChallenge = (req, res) => {
       console.error(err);
     })
 };
+
+exports.addChallenge = (req, res) => {
+  console.log('req.body in addChallenege', req.body)
+  const challenge = req.body
+  const query = {'functionName':challenge.functionName};
+  console.log('The challenge is',  challenge)
+  console.log('The query is',  query)
+
+  Challenge.update(
+    {functionName: challenge.functionName}, 
+    {$setOnInsert: challenge}, 
+    {upsert: true}, 
+    (err, numAffected) => {
+      if (err) {
+        res.status(400).send('Error in updating the database')
+      } else if (!numAffected.upserted){
+        res.status(409).send('The function already exists')
+      } else {
+        res.status(200).send('The function was added to the db')
+      }
+      console.log('err', err,  'numAffected', numAffected)
+    }
+  )
+}
 
 // for when posting challenges is available
 // exports.postChallenge = (req, res) => {
