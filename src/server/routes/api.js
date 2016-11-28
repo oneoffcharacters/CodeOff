@@ -16,6 +16,7 @@ router.post('/codeOutput', handlers.codeOutput);
 
 // Returns a random challenge, used to provide client with random challenge
 router.get('/challenge', challengeCtrl.allChallenge); // returns all challeneges
+router.post('/challenge',  challengeCtrl.addChallenge);
 
 // router.get('/challenge/:id', challengeCtrl.serveChallenge); // returns individual challenge
 // router.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
