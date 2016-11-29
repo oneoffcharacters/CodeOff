@@ -10,7 +10,7 @@ const Gamestatus = (props) => {
 	// currentGameStats={props.currentGameStats} 
 	// playerNames={props.playerNames} />
 
-	// console.log('Props in gamestatus', props)
+	console.log('Props in gamestatus', props)
 
 	//Decide if it is the current game
 		//If it is, assign this variable to the split config
