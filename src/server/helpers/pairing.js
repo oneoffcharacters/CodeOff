@@ -85,7 +85,6 @@ const createNamespace = (ID, io, ...users) => {
     });
     socket.on('disconnect', (data) => {
 
-      
       const nspUsers = Object.keys(io.sockets.sockets)
       console.log('The connected users',  nspUsers)
       //Get the current list of people on NSP after disconnection
