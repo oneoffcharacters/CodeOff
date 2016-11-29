@@ -118,7 +118,6 @@ export default class AddChallenge extends React.Component {
       <div>
         <div>
           <h3>Create a new challenge!</h3>
-          <h3>{this.state.title}</h3>
           <form action="submit" onSubmit={this.onFormSubmit}>
             <input type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} placeholder="title" />
             <input type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} placeholder="function name" />
