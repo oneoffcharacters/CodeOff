@@ -45,7 +45,11 @@ class Repl extends React.Component {
           total: 7
         },
         powerups: {
-          codeFreeze: () => {}, //Opponenet cannot type for x seconds
+          codeFreeze: () => {
+            this.editor.setReadOnly(true);
+            const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
+            setTimeout(boundRevert, 5000)
+          }, //Opponenet cannot type for x seconds
           deleteLine: {}, //Opponent will have a random line deleted
           changeBackground: {}, //Background color will be changed to something random for x seconds
           typeDelete: {}, //Every keystroke will delete a character, not type one
@@ -67,12 +71,6 @@ class Repl extends React.Component {
       } else {
         //This will be run every second because the time component re rendeders the page every second
       }
-    }
-
-    revertPowerup(beforeFunction, revertFunction, time = 5000) {
-      beforeFunction()
-      const boundRevert = revertFunction.bind(this)
-      setTimeout(boundRevert, time)
     }
 
     usePowerup(powerup, type) { //TODO: Add type so that it can be processed to benifit you or harm you
