@@ -58,6 +58,8 @@ class Repl extends React.Component {
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
+        this.editor.setValue('', -1); //TODO:Changed this
+        this.state.console.Reset();  //TODO:Changed this
         this.setState({
           currentGameType: type,
           challengeProgress: 0}, () => {
@@ -77,11 +79,17 @@ class Repl extends React.Component {
       //Update the editor and the text state to have the value of the template function
       const challengeProgress = this.state.challengeProgress + 1
       const challenges = this.state.challenge
+      this.state.console.Reset() //TODO:Changed this
+
+      if (challengeProgress > 2) {
+        this.terminateGame(true)
+      } else {
           this.setState({
             challengeProgress: challengeProgress,
             text: challenges[challengeProgress].templateFunction,
           },() => {
           this.editor.setValue(challenges[challengeProgress].templateFunction, -1)})
+      }
     }
 
     resetAndStopTime () {
