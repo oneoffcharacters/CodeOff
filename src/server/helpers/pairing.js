@@ -8,6 +8,17 @@ let queueIDList = {};
 let queue = [];
 let namespaces = {};
 
+const uniqueXInArray = (x, array) => {
+  let arrayCopy = array.slice();
+  let results = [];
+  for (var i = 0; (i < x && arrayCopy.length > 0); i++) {
+    const randIndex = Math.floor(Math.random() * arrayCopy.length)
+    results.push(arrayCopy[randIndex])
+    arrayCopy.splice(randIndex, 1);
+  }
+  return results
+}
+
 //Create a namespace for a socket connection for a specific ID
 const createNamespace = (ID, io, ...users) => {
   console.log('created namespace for ', ID);
@@ -130,11 +141,12 @@ const createNamespace = (ID, io, ...users) => {
   });
 }
 
-// ajax request to db
+// Currently not used in favour of returning three question objects
 const getChallenge = () => {
   return axios.get('http://localhost:3000/api/challenge')
   .then((resp) => {
     const qLength = resp.data.length;
+
     const randomIndex = Math.floor(Math.random() * qLength)
     return resp.data[randomIndex]; //object
   })
@@ -143,9 +155,21 @@ const getChallenge = () => {
   })
 }
 
+// Return three random questions from the database
+const getThreeChallenges = () => {
+  return axios.get('http://localhost:3000/api/challenge')
+  .then((resp) => {
+    const questions = uniqueXInArray(3, resp.data);
+    return questions //array of question objects
+  })
+  .catch((err) => {
+    console.log('err in getChallenge', err)
+  })
+}
+
 //This will notify both of the pairs of their new opponents
 const notifyPair = (io, pair1, pair2, pairID) => {
-  getChallenge()
+  getThreeChallenges()
   .then((randomChallenge) => {
    io.emit(pair1, {
     type: 'initBattle',
@@ -166,7 +190,7 @@ const setupSolo = (io, client) => {
   var pairID = chance.string({length:3, pool:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'});
   createNamespace(pairID, io);
 
-   getChallenge()
+   getThreeChallenges()
    .then((randomChallenge) => {
     io.emit(client, {
      type: 'initBattle',
@@ -222,5 +246,3 @@ module.exports = {
   setPairingListeners: setPairingListeners,
   namespaces: namespaces
 }
-
-

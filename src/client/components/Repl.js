@@ -8,10 +8,10 @@ let publicSocket;
 
 class Repl extends React.Component {
     constructor(props) {
-	    super(props);
-	    this.state = {
-	    	text:"console.log('hello world');",
-	    	console:'',
+      super(props);
+      this.state = {
+        text:"console.log('hello world');",
+        console:'',
         clientID:'',
         pairID:'',
         opponentID:'',
@@ -20,17 +20,24 @@ class Repl extends React.Component {
         nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: {},
+        challenge: [{}],
+        challengeProgress: 0,
         challengeResults:''
-	  	};
+      };
     }
 
     componentDidMount() {
       this.editor = this.editorSetup();
       this.socket = this.setupSocket();
       this.startConsole();
-      console.log(this.mockTest)
+    }
 
+    componentDidUpdate() {
+      if (this.state.challengeProgress > 2) {
+        console.log('The game is over now')
+      } else {
+        console.log('This counted as a component updating',  this.state.challengeProgress)
+      }
     }
 
     //Increment the time to be displayed
@@ -52,7 +59,9 @@ class Repl extends React.Component {
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
-        this.setState({currentGameType: type}, () => {
+        this.setState({
+          currentGameType: type,
+          challengeProgress: 0}, () => {
           console.log('this.state.currentGameType in callback', this.state.currentGameType)
           if (type === 'Battle') {
             this.pairMe();
@@ -62,6 +71,16 @@ class Repl extends React.Component {
           }
         })
         console.log(this.state.currentGameType)
+    }
+
+    startNextGame() {
+      const challengeProgress = this.state.challengeProgress
+      const challenges = this.state.challenge
+          this.setState({
+            challengeProgress: challengeProgress + 1,
+            text: challenges[challengeProgress + 1].templateFunction,
+          },() => {
+          this.editor.setValue(challenges[challengeProgress].templateFunction, -1)})
     }
 
     resetAndStopTime () {
@@ -80,7 +99,7 @@ class Repl extends React.Component {
       
       let delay = 0;
       const context = this;
-
+      //Count down until the next round
       while (delay < this.state.nextRoundTimer) {
         delay++;
         const changeTime = (newTime) => {
@@ -91,6 +110,7 @@ class Repl extends React.Component {
         console.log('After timeout created', this.state.nextRoundTimer)
       }
       console.log('this.state.currentGameType', this.state.currentGameType)
+      //After the countdown has completed, start the new timer
       const boundReset = context.newChallengeAndTime.bind(context, context.state.currentGameType)
       setTimeout(boundReset, context.state.nextRoundTimer * 1000)
     }
@@ -113,9 +133,10 @@ class Repl extends React.Component {
       //TODO: Get a new challenge
       //TODO: Start timer again
       this.resetAndStopTime()
+      this.startNextGame()
       const boundTick = this.tickTime.bind(this)
       this.setState({
-        gameTimerInterval: setInterval(boundTick, 1000)
+        gameTimerInterval: setInterval(boundTick, 1000),
       })
       if (type === 'Battle') {
         console.log('Battle will be continued')
@@ -158,7 +179,7 @@ class Repl extends React.Component {
       this.resetAndStopTime();
       this.setState({
         currentGameType: 'No Game',
-        challenge: {}
+        challenge: [{}]
       })
       //This is the case that the opponent has resigned
       if (keepPlaying) {
@@ -216,7 +237,7 @@ class Repl extends React.Component {
               battleSocket: io('/' + data.pairID),
               challenge: data.challenge,
               text: data.challenge.templateFunction
-            })
+            }, console.log('The new state challenge is', this.state.challenge))
           } else if ( this.state.currentGameType === 'Solo') {
             this.setState({
               pairID: data.pairID,
@@ -226,10 +247,15 @@ class Repl extends React.Component {
             })
           }
 
-          this.editor.setValue(data.challenge.templateFunction, -1)
+          this.editor.setValue(data.challenge[0].templateFunction, -1)
 
           this.state.battleSocket.on('game won', (data) => {
-            console.log('Game won by ', data.client, 'ia am' + this.state.clientID)
+            // const challengeProgress = this.state.challengeProgress
+            // if (challengeProgress < 2) {
+            //   this.setState({challengeProgress: challengeProgress + 1})
+            // } else {
+            //   //TODO: Handle what happens in the case that the game limit is reached
+            // }
             if (data.client === this.state.clientID) {
               // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('win');
@@ -344,9 +370,10 @@ class Repl extends React.Component {
     // then write response to console
     submitCode() {
       const context = this;
+      const challengeProgress = this.state.challengeProgress
       console.log('Submit called')
       //Add these back in after testing to complete the actual post req
-      const codeSubmission = (this.state.text + 'module.exports = ' + this.state.challenge.functionName + ';')
+      const codeSubmission = (this.state.text + 'module.exports = ' + this.state.challenge[challengeProgress].functionName + ';')
       console.log('codeSubmission', codeSubmission)
       fetch('api/mocha',  {
         method: 'post', 
@@ -358,7 +385,7 @@ class Repl extends React.Component {
             pairID:this.state.pairID,
             currentGameType:this.state.currentGameType,
             code: codeSubmission,
-            challengeID: this.state.challenge._id
+            challengeID: this.state.challenge[challengeProgress]._id
           })
         })
       .catch((err) => {
@@ -431,7 +458,7 @@ class Repl extends React.Component {
             </div>
             <div className="repl-panel col-sm-12 col-md-6 no-pad">
               <div id="console-terminal-editor" className="home-console"></div>
-              <ChallengeCard challenge={this.state.challenge}/>
+              <ChallengeCard challenge={this.state.challenge} progress={this.state.challengeProgress} />
             </div>
           </div> 
         </div>
