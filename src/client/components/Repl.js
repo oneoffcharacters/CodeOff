@@ -74,11 +74,13 @@ class Repl extends React.Component {
     }
 
     startNextGame() {
-      const challengeProgress = this.state.challengeProgress
+      //Update the state to increment the current game
+      //Update the editor and the text state to have the value of the template function
+      const challengeProgress = this.state.challengeProgress + 1
       const challenges = this.state.challenge
           this.setState({
-            challengeProgress: challengeProgress + 1,
-            text: challenges[challengeProgress + 1].templateFunction,
+            challengeProgress: challengeProgress,
+            text: challenges[challengeProgress].templateFunction,
           },() => {
           this.editor.setValue(challenges[challengeProgress].templateFunction, -1)})
     }
@@ -236,7 +238,7 @@ class Repl extends React.Component {
               opponentID: data.opponentID,
               battleSocket: io('/' + data.pairID),
               challenge: data.challenge,
-              text: data.challenge.templateFunction
+              text: data.challenge[0].templateFunction
             }, console.log('The new state challenge is', this.state.challenge))
           } else if ( this.state.currentGameType === 'Solo') {
             this.setState({
