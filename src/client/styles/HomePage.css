@@ -221,3 +221,15 @@ button:focus {
   height: 3em;
   background-color: transparent;
 }
+
+/*Error NotFound*/
+.error_message_ctn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 1em;
+  height: 35em;
+  width: 100%;
+}
