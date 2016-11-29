@@ -2,6 +2,7 @@ import React from 'react';
 import Subheader from './Subheader'
 import ChallengeCard from './ChallengeCard'
 import ChallengeResults from './ChallengeResults'
+import Gameheader from './Gameheader'
 import jqconsole from 'jq-console';
 let publicSocket;
 
@@ -21,7 +22,21 @@ class Repl extends React.Component {
         battleSocket: '',
         challenge: [{}],
         challengeProgress: 0,
-        challengeResults:''
+        challengeResults:'',
+        //Dummy data for building the gameheader component
+        gameStats: {
+          previous: [{
+          winner: 'me',
+          score: 170,
+            }],
+        current: {
+          passing: {me: 2, opponent: 3},
+          total: 5
+        }},
+        playerDetails: {
+          me: 'Guy',
+          opponent: 'Sherman'
+        }
       };
     }
 
@@ -448,6 +463,9 @@ class Repl extends React.Component {
   render() {
     return (
         <div className="repl">
+          <Gameheader 
+                    gameStats={this.state.gameStats} 
+                    playerDetails={this.state.playerDetails} />
           <Subheader
                     startFreshGame={this.startFreshGame.bind(this)} 
                     gameTimer={this.state.gameTimer} 
