@@ -2,7 +2,6 @@ import React from 'react';
 import Subheader from './Subheader'
 import ChallengeCard from './ChallengeCard'
 import ChallengeResults from './ChallengeResults'
-import ReactDOM from 'react-dom';
 import jqconsole from 'jq-console';
 let publicSocket;
 
