@@ -170,6 +170,7 @@ const getThreeChallenges = () => {
 const notifyPair = (io, pair1, pair2, pairID) => {
   getThreeChallenges()
   .then((randomChallenge) => {
+    console.log(randomChallenge)
    io.emit(pair1, {
     type: 'initBattle',
     pairID: pairID,

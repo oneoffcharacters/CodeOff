@@ -4,6 +4,8 @@ import ChallengeCard from './ChallengeCard'
 import ChallengeResults from './ChallengeResults'
 import Gameheader from './Gameheader'
 import jqconsole from 'jq-console';
+
+const mockChallenge = require('./mockquestion')
 let publicSocket;
 
 class Repl extends React.Component {
@@ -20,23 +22,41 @@ class Repl extends React.Component {
         nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: [{}],
+        challenge: mockChallenge,
         challengeProgress: 0,
         challengeResults:'',
         //Dummy data for building the gameheader component
-        gameStats: {
-          previous: [{
-          winner: 'me',
-          score: 170,
-            }],
-        current: {
-          passing: {me: 2, opponent: 3},
-          total: 5
-        }},
-        playerDetails: {
+        playerNames: {
           me: 'Guy',
           opponent: 'Sherman'
+        },
+        gameProgress: [
+          {
+            winner: 'me',
+            score: 170
+          },
+          {
+            winner: 'opponent',
+            score: 190
+          }],
+        currentGameStats: {
+          me: 3,
+          opponent: 4,
+          total: 7
         }
+
+        //   previous: [{
+        //   winner: 'me',
+        //   score: 170,
+        //     }],
+        // current: {
+        //   passing: {me: 2, opponent: 3},
+        //   total: 5
+        // }},
+        // playerDetails: {
+        //   me: 'Guy',
+        //   opponent: 'Sherman'
+        // }
       };
     }
 
@@ -463,9 +483,12 @@ class Repl extends React.Component {
   render() {
     return (
         <div className="repl">
-          <Gameheader 
-                    gameStats={this.state.gameStats} 
-                    playerDetails={this.state.playerDetails} />
+          <Gameheader
+                    challengeProgress={this.state.challengeProgress}
+                    challenge={this.state.challenge} 
+                    gameProgress={this.state.gameProgress} 
+                    currentGameStats={this.state.currentGameStats} 
+                    playerNames={this.state.playerNames} />
           <Subheader
                     startFreshGame={this.startFreshGame.bind(this)} 
                     gameTimer={this.state.gameTimer} 
