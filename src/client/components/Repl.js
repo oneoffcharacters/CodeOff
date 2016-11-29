@@ -23,7 +23,7 @@ class Repl extends React.Component {
         gameTimerInterval:'',
         battleSocket: '',
         challenge: mockChallenge,
-        challengeProgress: 0,
+        challengeProgress: 1, //
         challengeResults:'',
         //Dummy data for building the gameheader component
         playerNames: {
@@ -246,6 +246,7 @@ class Repl extends React.Component {
     }
 
     editorSetup () {
+      ace.require("ace/ext/language_tools");
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/dreamweaver");
       editor.getSession().setMode("ace/mode/javascript");
@@ -258,8 +259,7 @@ class Repl extends React.Component {
       editor.setAutoScrollEditorIntoView(true);
       editor.setValue('console.log(\'hello world\');', 1)
       editor.session.setOption({
-        useWorker: false,
-        enableBasicAutocompletion: true})
+        enableLiveAutocompletion: true})
 
       return editor;
     }

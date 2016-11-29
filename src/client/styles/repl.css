@@ -358,6 +358,9 @@ button:focus {
   font-size: 20px;
 }
 
+.lost {
+  background-color: red;
+}
 
 
 
