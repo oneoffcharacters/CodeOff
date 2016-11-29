@@ -3,7 +3,7 @@ import React from 'react';
 
 const Gamestatus = (props) => {
 
-	console.log('Props in gamestatus', props)
+	// console.log('Props in gamestatus', props)
 
 	//Decide if it is the current game
 		//If it is, assign this variable to the split config
