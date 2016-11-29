@@ -307,11 +307,56 @@ button:focus {
 }
 
 .LobbyTitle {
-  color: blue;
+  color: orange;
 }
 
+/*====Gameheader====*/
 
+.center-dashboard {
+  height: 7.5em;
+  background-color: #2E383F;
+}
 
+.game-dashboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.game-logo {
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 2em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.game-logo-alt {
+  background: -webkit-linear-gradient(#51a8ff, #389cff, #386991);
+  background: -o-linear-gradient(#51a8ff, #389cff, #386991);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/*====Gamestatus====*/
+
+.gamestatus {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #309AE9;
+  height: 3em;
+  width: 10em;
+  text-align: center;
+  padding-top: 0.5em;
+  margin-right: 1em;
+}
+
+.gamestatus_score {
+  color: white;
+  font-size: 20px;
+}
 
 
 
