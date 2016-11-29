@@ -50,7 +50,18 @@ class Repl extends React.Component {
             const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
             setTimeout(boundRevert, 5000)
           }, //Opponenet cannot type for x seconds
-          deleteLine: {}, //Opponent will have a random line deleted
+          deleteLine: () => {
+            console.log('Delete line has run')
+            //Get length of all the lines editor.session.getLength();
+            const lineLength = this.editor.session.getLength();
+            //Find a random line to delete
+            const randomLine = Math.ceil(Math.random() * lineLength)
+            console.log('randomLine', randomLine)
+            //Select that line
+            this.editor.gotoLine(randomLine);
+            //Editor.removeLines()
+            this.editor.removeLines()
+          }, //Opponent will have a random line deleted
           changeBackground: {}, //Background color will be changed to something random for x seconds
           typeDelete: {}, //Every keystroke will delete a character, not type one
           freeForm: {}, //Disable syntax highlighting for x seconds
