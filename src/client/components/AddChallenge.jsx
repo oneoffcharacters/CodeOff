@@ -59,7 +59,7 @@ export default class AddChallenge extends React.Component {
   }
 
   onFormSubmit(e) {
-    // e.preventDefault();
+    e.preventDefault();
     console.log('form submitted');
 
     let challengeInputs = JSON.stringify({
