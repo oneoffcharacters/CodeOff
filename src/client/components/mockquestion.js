@@ -25,4 +25,4 @@ prompt: 'Create a function sameNumber that will return true of two numbers match
 templateFunction: 'function sameNumber (first, second) { \n return first === second\n } ',
 test: 'const expect = require("chai").expect;       describe("test", () => {         it("should return false for two different numbers", () => { expect(attempt(2, 3)).to.equal(solution(2,3)) });         it("should return true for two of the same number", () => { expect(attempt(-3, -1)).to.equal(solution(-3,-1)) });  })',
 examples: [ 'sameNumber(3,4) = false', 'sameNumber(-1,-1) = true' ] 
-}] 
+}]  
