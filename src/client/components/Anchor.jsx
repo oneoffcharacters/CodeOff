@@ -28,12 +28,7 @@ export default class Anchor extends React.Component {
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
 					<Route path="/register" component={Register}/>
-<<<<<<< 4d3ca7bf0a9d76c36bbe95d7d7f91095903b15cf
 					<Route path="/test" component={testRepl}/>
-||||||| merged common ancestors
-					<Route path="/*" component={NotFound}/>
-=======
->>>>>>> Moves /* route below /addchallenge, removes h3 for testing this.state for form input
 					<Route path="/addchallenge" component={AddChallenge}/>
 					<Route path="/*" component={NotFound}/>
 				</Route>
