@@ -14,7 +14,8 @@ const Gameheader = (props) => {
 				<div className="game-dashboard">
 					{props.challenge.map((game, i) => (
 						<Gamestatus
-							key = {i} 
+							key = {i}
+							gameNumber = {i} 
 							challengeProgress={props.challengeProgress}
 							challenge={props.challenge} 
 							gameProgress={props.gameProgress} 
