@@ -43,20 +43,15 @@ class Repl extends React.Component {
           me: 3,
           opponent: 4,
           total: 7
+        },
+        powerups: {
+          codeFreeze: () => {}, //Opponenet cannot type for x seconds
+          deleteLine: {}, //Opponent will have a random line deleted
+          changeBackground: {}, //Background color will be changed to something random for x seconds
+          typeDelete: {}, //Every keystroke will delete a character, not type one
+          freeForm: {}, //Disable syntax highlighting for x seconds
+          easyMode: {}, //Delete a random test case from the current question
         }
-
-        //   previous: [{
-        //   winner: 'me',
-        //   score: 170,
-        //     }],
-        // current: {
-        //   passing: {me: 2, opponent: 3},
-        //   total: 5
-        // }},
-        // playerDetails: {
-        //   me: 'Guy',
-        //   opponent: 'Sherman'
-        // }
       };
     }
 
@@ -70,8 +65,22 @@ class Repl extends React.Component {
       if (this.state.challengeProgress > 2) {
         console.log('The game is over now')
       } else {
-        console.log('This counted as a component updating',  this.state.challengeProgress)
+        //This will be run every second because the time component re rendeders the page every second
       }
+    }
+
+    revertPowerup(beforeFunction, revertFunction, time = 5000) {
+      beforeFunction()
+      const boundRevert = revertFunction.bind(this)
+      setTimeout(boundRevert, time)
+    }
+
+    usePowerup(powerup, type) { //TODO: Add type so that it can be processed to benifit you or harm you
+      this.state.battleSocket.emit('powerup', {
+        powerup: powerup,
+        clientID: this.state.clientID//,
+        // type: type
+      })
     }
 
     //Increment the time to be displayed
@@ -322,6 +331,16 @@ class Repl extends React.Component {
               }
             // }
           })
+
+          this.state.battleSocket.on('powerupUsed', (data) => {
+            console.log('The data on reciept of powerup', data)
+            if (data.clientID === this.state.clientID) {
+              console.log('You used the powerup: ' + data.powerup)
+            } else {
+              console.log('Your opponent used the powerup: ' + data.powerup)
+              this.state.powerups[data.powerup]();
+            }
+          })
         }
         console.log('The client was notified of a succesful pair!', data)
       })
@@ -497,7 +516,9 @@ class Repl extends React.Component {
                     runCode={this.runCode.bind(this)} 
                     terminateGame={this.terminateGame.bind(this)}
                     // didWin={this.didWin.bind(this)}
-                    submitCode={this.submitCode.bind(this)} />
+                    submitCode={this.submitCode.bind(this)}
+                    usePowerup={this.usePowerup.bind(this)} 
+                    powerups={this.state.powerups} />
           {(!!this.state.nextRoundTimer) && <ChallengeResults 
                     nextRoundTimer={this.state.nextRoundTimer} 
                     terminateGame={this.terminateGame.bind(this)} 
