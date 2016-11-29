@@ -58,7 +58,7 @@ app.use('/protected', protectedRoutes);
 
 
   app.get('/*', function (request, response){
-    console.log('catch all');
+    console.log('the path sent ', path.resolve('src/client', 'index.html'));
     response.sendFile(path.resolve('src/client', 'index.html'));
   });
 
