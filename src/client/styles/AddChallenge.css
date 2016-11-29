@@ -1,0 +1,18 @@
+.AddChallengeHeader {
+  padding-left: 5px;
+}
+
+.AddChallengeForm {
+  display: flex
+}
+
+.AddChallengeInput {
+  width: 50em;
+  /*height: 5em;*/
+  padding-left: 5px;
+  margin: 5px;
+}
+
+.AddChallengeButton {
+  padding-left: 5px;
+}

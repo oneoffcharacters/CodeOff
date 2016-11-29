@@ -117,18 +117,39 @@ export default class AddChallenge extends React.Component {
     return (
       <div>
         <div>
-          <h3>Create a new challenge!</h3>
-          <form action="submit" onSubmit={this.onFormSubmit}>
-            <input type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} placeholder="title" />
-            <input type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} placeholder="function name" />
-            <input type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle} placeholder="difficulty" />
-            <input type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle} placeholder="solutions" />
-            <input type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle} placeholder="prompt" />
-            <input type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle} placeholder="template function" />
-            <input type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle} placeholder="examples" />
-            <input type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle} placeholder="test" />
-            <button onClick={this.onButtonPress}>Add Challenge</button>
-          </form>
+          <h3 className="AddChallengeHeader">Create a new challenge!</h3>
+          <div className="AddChallengeForm">
+            <form action="submit" onSubmit={this.onFormSubmit}>
+              <div>
+                <input className="AddChallengeInput" type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} placeholder="title" />
+              </div>
+              <div>
+                <input className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} placeholder="function name" />
+              </div>
+              <div>  
+                <input className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle} placeholder="difficulty" />
+              </div>
+              <div>  
+                <input className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle} placeholder="solutions" />
+              </div>
+              <div>  
+                <input className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle} placeholder="prompt" />
+              </div>
+              <div>  
+                <input className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle} placeholder="template function" />
+              </div>
+              <div>
+                <p>Examples must be within in an array separated by commas.</p>  
+                <input className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle} placeholder="examples" />
+              </div>
+              <div>  
+                <input className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle} placeholder="test" />
+              </div>
+              <div>
+                <button className="AddChallengeButton" onClick={this.onButtonPress}>Add Challenge</button>
+              </div>
+            </form>
+          </div>
         </div>
         <Footer />
       </div>
