@@ -3,16 +3,6 @@ import Gamestatus from './Gamestatus'
 
 
 const Gameheader = (props) => {
-	console.log(props);
-
-	// challengeProgress={this.state.challengeProgress}
-	// challenge={this.state.challenge} 
-	// gameProgress={this.state.gameProgress} 
-	// currentGameStats={this.state.currentGameStats} 
-	// playerNames={this.state.playerNames} />
-
-
-
 	return (
 		<div className="gameheader">
 			<div className="player">

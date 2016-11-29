@@ -70,6 +70,10 @@ const createNamespace = (ID, io, ...users) => {
       nsp.emit('updateText', data)
     })
 
+    socket.on('powerup', (data) => {
+      nsp.emit('powerupUsed', data)
+    })
+
     socket.on('i won', (data) => {
       nsp.emit('game won', {
         client: data.client
