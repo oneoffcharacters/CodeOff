@@ -307,18 +307,44 @@ button:focus {
 }
 
 .LobbyTitle {
-  color: blue;
+  color: orange;
 }
 
 /*====Gameheader====*/
 
+.center-dashboard {
+  height: 7em;
+  background-color: #2E383F;
+}
+
 .game-dashboard {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  margin-left: 25%;
+  padding-top: 3%;
 }
 
+.game_logo {
+  color: red;
+}
 
+/*====Gamestatus====*/
+
+.gamestatus {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #309AE9;
+  height: 3em;
+  width: 10em;
+  text-align: center;
+  padding-top: 0.5em;
+}
+
+.gamestatus_score {
+  color: white;
+  font-size: 20px;
+}
 
 
 
