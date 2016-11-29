@@ -55,6 +55,8 @@ class Repl extends React.Component {
           typeDelete: {}, //Every keystroke will delete a character, not type one
           freeForm: {}, //Disable syntax highlighting for x seconds
           easyMode: {}, //Delete a random test case from the current question
+          addRandomText: {}, //Add random text to the client,
+          viewAnswer: {} //View the answer for a limited period of time
         }
       };
     }
@@ -255,6 +257,9 @@ class Repl extends React.Component {
       editor.resize();
       editor.setAutoScrollEditorIntoView(true);
       editor.setValue('console.log(\'hello world\');', 1)
+      editor.session.setOption({
+        useWorker: false,
+        enableBasicAutocompletion: true})
 
       return editor;
     }
