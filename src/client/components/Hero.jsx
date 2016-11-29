@@ -8,7 +8,7 @@ export default class Hero extends React.Component {
         <h1 className="HeroText">Compete in code<br />competitions in real<br />time across the globe.</h1>
 
         <div className="HeroButtons">
-          <Link to="/repl"><button className="PlayNow" type="submit">Play Now</button></Link>
+          <Link to="/gameroom"><button className="PlayNow" type="submit">Play Now</button></Link>
           <button className="LearnMore" type="submit">Learn More</button>
         </div>
       </div>
