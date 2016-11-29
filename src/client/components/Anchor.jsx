@@ -11,6 +11,7 @@ import Signin from './Signin';
 import Lobby from './Lobby';
 import Register from './Register';
 import NotFound from './NotFound';
+import testRepl from './testRepl';
 
 export default class Anchor extends React.Component {
 	render() {
@@ -26,6 +27,7 @@ export default class Anchor extends React.Component {
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
 					<Route path="/register" component={Register}/>
+					<Route path="/test" component={testRepl}/>
 					<Route path="/*" component={NotFound}/>
 				</Route>
 			</Router>
