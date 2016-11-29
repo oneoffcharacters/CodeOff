@@ -310,6 +310,13 @@ button:focus {
   color: blue;
 }
 
+/*====Gameheader====*/
+
+.game-dashboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
 
 
