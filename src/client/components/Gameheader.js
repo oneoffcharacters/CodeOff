@@ -10,7 +10,7 @@ const Gameheader = (props) => {
 				<div className="username"></div>
 			</div>
 			<div className="center-dashboard">
-				<div className="game_logo">CODEEEEEOFFFFFFF</div>
+				<div className="game-logo">Code<span className="game-logo-alt">Off</span></div>
 				<div className="game-dashboard">
 					{props.challenge.map((game, i) => (
 						<Gamestatus
