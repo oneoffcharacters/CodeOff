@@ -6,11 +6,16 @@
   display: flex
 }
 
+.AddChallengeInputDiv {
+  /*margin: 15px;*/
+  /*display: inline-block;*/
+}
+
 .AddChallengeInput {
   width: 50em;
-  /*height: 5em;*/
+  height: 3em;
   padding-left: 5px;
-  margin: 15px;
+  /*margin: 15px;*/
 }
 
 .AddChallengeButton {
