@@ -121,36 +121,36 @@ export default class AddChallenge extends React.Component {
           <div className="AddChallengeForm">
             <form action="submit" onSubmit={this.onFormSubmit}>
               <div className="AddChallengeInputDiv">
-                <p>Title<br /> ex: Max Number</p>
-                <input className="AddChallengeInput" type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} />
+                <p><b>Title</b><br /> ex: Max Number</p>
+                <textarea className="AddChallengeInput" type="text" rows="5" value={this.state.title} name="" onChange={this.onTitleChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
-                <p>Function Name<br /> Example: maxNumber</p>
-                <input className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} />
+                <p><b>Function Name</b><br /> Example: maxNumber</p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p>Difficulty: hard, medium or easy</p>
-                <input className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle} />
+                <p><b>Difficulty: Easy, Medium, or Hard</b></p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p>Solutions</p>
-                <input className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle} />
+                <p><b>Solutions</b></p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p>Prompt <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
-                <input className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle} />
+                <p><b>Prompt</b> <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p>Template Function</p>
-                <input className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle} />
+                <p><b>Template Function</b></p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
-                <p>Examples: must be within in an array separated by commas.<br />[maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
-                <input className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle} />
+                <p><b>Examples: must be within in an array separated by commas.</b><br />[maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
+                <textarea className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv"> 
-                <p>Test</p> 
-                <input className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle} />
+                <p><b>Test</b></p> 
+                <textarea className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
                 <button className="AddChallengeButton" onClick={this.onButtonPress}>Add Challenge</button>
