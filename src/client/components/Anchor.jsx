@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Test from './test';
 import App from './App';
 import { Route, Router, IndexRedirect, browserHistory } from 'react-router';
 import Repl from './Repl';
@@ -11,7 +10,6 @@ import Signin from './Signin';
 import Lobby from './Lobby';
 import Register from './Register';
 import NotFound from './NotFound';
-import testRepl from './testRepl';
 import AddChallenge from './AddChallenge';
 
 export default class Anchor extends React.Component {
@@ -28,7 +26,6 @@ export default class Anchor extends React.Component {
 					<Route path="/signin" component={Signin}/>
 					<Route path="/lobby" component={Lobby}/>
 					<Route path="/register" component={Register}/>
-					<Route path="/test" component={testRepl}/>
 					<Route path="/addchallenge" component={AddChallenge}/>
 					<Route path="/*" component={NotFound}/>
 				</Route>
