@@ -348,8 +348,8 @@ button:focus {
   height: 3em;
   width: 10em;
   text-align: center;
-  padding-top: 0.5em;
   margin-right: 1em;
+  color: white;
 }
 
 .current-game {
@@ -362,18 +362,20 @@ button:focus {
 
 .won {
   background-color: #309AE9;
+  padding-top: 0.5em;
 }
 
 .inactive {
   background-color: grey;
+  padding-top: 0.5em;
 }
 
 .lost {
   background-color: #FF4A0C;
+  padding-top: 0.5em;
 }
 
 .gamestatus-score {
-  color: white;
   font-size: 20px;
 }
 
