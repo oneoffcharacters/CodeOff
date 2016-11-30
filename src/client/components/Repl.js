@@ -23,9 +23,9 @@ class Repl extends React.Component {
                           //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: mockChallenge, 
-        challengeProgress: 1, //The current challenge index which the user is on
-        challengeResults:'', // Shows the win/lose status of this particular client
+        challenge: mockChallenge,
+        challengeProgress: 2, //
+        challengeResults:'',
         //Dummy data for building the gameheader component
         playerNames: {
           me: 'Guy',
