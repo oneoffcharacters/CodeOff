@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 utils.installTmpDependencies();
 
 app.get('/api/test', (req, res) => {
-    res.status(200)
+  res.status(200)
 })
 
 app.post('/api/test', (req, res) => {
@@ -42,6 +42,15 @@ app.post('/api/test', (req, res) => {
       eslint: utils.eslintOnText(text.attempt, 'attempt.js'),
     });
   })
+})
+
+app.post('/api/exec', (req, res) => {
+  utils.execString(req.body.attempt, (err, data) => {
+    res.status(200).json({
+      err: err,
+      data: data
+    })
+  });
 })
 
 // SERVER

@@ -4,7 +4,7 @@
   "description": "Mario kart meets coding challenges",
   "main": "src/server/server.js",
   "scripts": {
-    "start": "concurrently \"nodemon src/server/server.js\" \"nodemon src/services/testing/server.js\"",
+    "start": "concurrently \"nodemon src/server/server.js\" \"nodemon src/services/code/server.js\"",
     "test": "mocha --require test/helpers/setup.js",
     "build": "webpack -p --config webpack.config.js --progress --profile --colors",
     "build-w": "webpack -p --config webpack.config.js --progress --profile --colors --watch",

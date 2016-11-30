@@ -57,6 +57,19 @@ const mochaOnFile = (filePath, callback) => {
 // solution:
 // test:
 // }
+exports.execString = (string, callback) => {
+  // Create temp directory
+  var temp = tmp.dirSync({prefix: '/attempt-', unsafeCleanup: true});
+  var tempDir = path.parse(temp.name).base;
+  var attempt = tmp.fileSync({prefix: `/${tempDir}/attempt-`, postfix: '.js', keep: true});
+  fs.writeFileSync(attempt.name, string);
+
+  exec(`node ${attempt.name}`, (error, stdout, stderr) => {
+    callback(stderr, stdout)
+    temp.removeCallback();
+  });
+};
+
 exports.mochaOnText = (text, callback) => {
   var testRequirements = '';
   console.log('JUST ENTERED MOCHAONTEXT');
