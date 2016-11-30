@@ -41,10 +41,10 @@ class Repl extends React.Component {
             score: 190
           }],
         currentGameStats: { //Shows the current progression of both clients through this game
-          me: 3,
-          opponent: 4,
-          score: 60,
-          total: 7
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
         },
         powerups: { //Stores the functionality on how to handle a particular powerup
           codeFreeze: {
@@ -340,6 +340,16 @@ class Repl extends React.Component {
             this.state.battleSocket.emit('responseInfo', responseObj);
           })
 
+          this.state.battleSocket.on('updateScore', (data) => {
+            console.log('The data in updateScore is ', data)
+            if (data.clientID != this.state.clientID) {
+              //Opponent has updated their score
+              const currentGameStats = this.state.currentGameStats;
+              currentGameStats.opponent = data.tests
+              this.setState({currentGameStats: currentGameStats})
+            }
+          })
+
           this.state.battleSocket.on('opponent resigned', (data) => {
               this.closeBattleSocket(this.state.currentGameType)
               if (data.client === this.state.clientID) {
@@ -476,9 +486,7 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        console.log('The codeResponse is ', codeResponse)
         //Handle writing the results to the console
-        console.log('codeResponse', codeResponse);
         const data = JSON.parse(codeResponse.data)
         const testStats = this.summariseTestResults(data, codeResponse.score)
         const testBody = this.prettyTestBody(data);
@@ -488,7 +496,21 @@ class Repl extends React.Component {
         return codeResponse
       })
       .then((codeResponse) => {
-
+        //if the current score is greater, than update the score in the state
+        if (codeResponse.score > this.state.currentGameStats.score) {
+          const currentGameStats = this.state.currentGameStats;
+          currentGameStats.score = codeResponse.score;
+          currentGameStats.me = JSON.parse(codeResponse.data).stats.passes
+          console.log('in the if', currentGameStats)
+          
+          this.setState({currentGameStats: currentGameStats},
+            //Also emit event with new passing test cases
+            this.state.battleSocket.emit('newScore', {
+              tests: this.state.currentGameStats.me,
+              score: this.state.currentGameStats.score,
+              clientID: this.state.clientID
+            }));
+        }
       })
       .catch((err) => {
         throw new Error('The response from the Testing server is invalid', err);
