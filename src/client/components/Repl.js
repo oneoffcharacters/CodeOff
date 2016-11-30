@@ -376,7 +376,7 @@ class Repl extends React.Component {
       })
       .then((codeResponse) => {
         console.log('The code response is', codeResponse)
-        context.state.console.Write(codeResponse.text)
+        context.state.console.Write(codeResponse.data)
       })
       .catch((err) => {
         throw new Error('The response from the REPL server is invalid');
