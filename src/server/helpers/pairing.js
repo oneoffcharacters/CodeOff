@@ -80,6 +80,11 @@ const createNamespace = (ID, io, ...users) => {
       })
     });
 
+    socket.on('newScore', (data) => {
+      console.log('the newscore is ', data)
+      nsp.emit('updateScore', data);
+    })
+
     socket.on('requestInfo', (data) => {
       console.log('The request for info has been recieved', data)
       nsp.emit('requestInfo', data);

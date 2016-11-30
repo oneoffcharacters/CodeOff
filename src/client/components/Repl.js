@@ -31,53 +31,58 @@ class Repl extends React.Component {
           me: 'Guy',
           opponent: 'Sherman'
         },
-        gameProgress: [ //Shows the outcomes of previous games
-          {
-            winner: 'me',
-            score: 170
-          },
-          {
-            winner: 'opponent',
-            score: 190
-          }],
+        gameProgress: [], //Shows the outcomes of previous games
         currentGameStats: { //Shows the current progression of both clients through this game
-          me: 3,
-          opponent: 4,
-          total: 7
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
         },
         powerups: { //Stores the functionality on how to handle a particular powerup
-          codeFreeze: () => { //Opponenet cannot type for 5 seconds
-            this.editor.setReadOnly(true);
-            const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
-            setTimeout(boundRevert, 5000)
-          }, 
-          deleteLine: () => { //Opponent will have a random line deleted
-            const lineLength = this.editor.session.getLength();
-            const randomLine = Math.ceil(Math.random() * lineLength)
-            this.editor.gotoLine(randomLine);
-            this.editor.removeLines()
-          }, 
-          blackout: () => { //Entire editor will be black for 5 seconds
-            this.editor.setTheme("ace/theme/powerup-blinded");
-            setTimeout(() => {
-              this.editor.setTheme("ace/theme/dreamweaver")
-            }, 5000)
-          }, 
-          typeDelete: () => { //Every keystroke will delete a word, not type a character
-            const context = this;
-            this.editor.on('change', (e) => {
-              console.log('There was a change', e)
-              this.editor.removeWordLeft()
-            })
-            setTimeout(() => {
-              context.editor.session.removeAllListeners('change')}, 5000)
-          }, 
+          codeFreeze: {
+            action: () => { //Opponenet cannot type for 5 seconds
+              this.editor.setReadOnly(true);
+              const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
+              setTimeout(boundRevert, 5000)
+            },
+            helpful: false 
+          },
+          deleteLine: { //Opponent will have a random line deleted
+            action: () => { 
+              const lineLength = this.editor.session.getLength();
+              const randomLine = Math.ceil(Math.random() * lineLength)
+              this.editor.gotoLine(randomLine);
+              this.editor.removeLines()
+            },
+            helpful: false
+          },
+          blackout: {//Entire editor will be black for 5 seconds
+            action: () => { 
+              this.editor.setTheme("ace/theme/powerup-blinded");
+              setTimeout(() => {
+                this.editor.setTheme("ace/theme/dreamweaver")
+              }, 5000)
+            },
+            helpful: false
+          },
+          typeDelete: {
+            action: () => { //Every keystroke will delete a word, not type a character
+              const context = this;
+              this.editor.on('change', (e) => {
+                console.log('There was a change', e)
+                context.editor.removeWordLeft()
+              })
+              setTimeout(() => {
+                context.editor.session.removeAllListeners('change')}, 5000)
+            },
+            helpful: false
+          }
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
           //* addUserText: {}, //Add text specified by the attacker in a comment
           // viewAnswer: {}, //View the answer for a limited period of time
           //* flipClient: {},
-          viewOpponent: {}
+          // viewOpponent: {}
         }
       };
     }
@@ -208,12 +213,40 @@ class Repl extends React.Component {
    
     //Set outcome in the state to be rendered
     //Initiate the new game countdown
-    processWinOrLoss (outcome) {
+    processWinOrLoss (outcome, winningScore) {
       if (outcome === 'win') {
-        this.setState({challengeResults: 'You Won'})
+        let temp = this.state.gameProgress;
+        temp.push({
+            winner: 'me',
+            score: winningScore
+        })
+        this.setState({
+          challengeResults: 'You Won',
+          gameProgress: temp,
+          currentGameStats: {
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
+          }
+        },console.log('The currentGameStats are', this.state.currentGameStats))
         console.log('You are victorious')
       } else if (outcome === 'loss'){
-        this.setState({challengeResults: 'You Lost'})
+          let temp = this.state.gameProgress;
+            temp.push({
+                winner: 'opponent',
+                score: winningScore
+            })
+        this.setState({
+          challengeResults: 'You Lost',
+          gameProgress: temp,
+          currentGameStats: {
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
+          }
+        },console.log('The currentGameStats are', this.state.currentGameStats))
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
         this.setState({challengeResults: 'Opponent Resigned'})
@@ -306,9 +339,10 @@ class Repl extends React.Component {
 
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
-              this.processWinOrLoss('win');
+              console.log('The data in processWinOrLoss is ',  data)
+              this.processWinOrLoss('win', data.score);
             } else {
-              this.processWinOrLoss('loss');
+              this.processWinOrLoss('loss', data.score);
             }
           })
 
@@ -327,6 +361,16 @@ class Repl extends React.Component {
             this.state.battleSocket.emit('responseInfo', responseObj);
           })
 
+          this.state.battleSocket.on('updateScore', (data) => {
+            console.log('The data in updateScore is ', data)
+            if (data.clientID != this.state.clientID) {
+              //Opponent has updated their score
+              const currentGameStats = this.state.currentGameStats;
+              currentGameStats.opponent = data.tests
+              this.setState({currentGameStats: currentGameStats})
+            }
+          })
+
           this.state.battleSocket.on('opponent resigned', (data) => {
               this.closeBattleSocket(this.state.currentGameType)
               if (data.client === this.state.clientID) {
@@ -337,9 +381,12 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
-            if (data.clientID === this.state.clientID && this.state.powerup[data.powerup].helpful) {
+            console.log('data.powerup', data.powerup)
+            console.log('this.state.powerup', this.state.powerups)
+            console.log('this.state.powerups[data.powerup]', this.state.powerups[data.powerup])
+            if (data.clientID === this.state.clientID && this.state.powerups[data.powerup].helpful) {
               this.state.powerups[data.powerup].action();
-            } else if (data.clientID != this.state.clientID && !(this.state.powerup[data.powerup].helpful)){
+            } else if (data.clientID != this.state.clientID && !(this.state.powerups[data.powerup].helpful)){
               this.state.powerups[data.powerup].action();
             }
           })
@@ -386,7 +433,7 @@ class Repl extends React.Component {
     }
 
     //Process the testing SUMMARY STATS from the service to be in a nice format for the console
-    summariseTestResults (results) {
+    summariseTestResults (results, score) {
           const summaryStats = {
             run: results.stats.tests,
             passed: results.stats.passes,
@@ -400,7 +447,17 @@ class Repl extends React.Component {
             const qty = summaryStats[key];
             summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
           }
-          return (' ' + summaryArray.join(' | ') + '\n\n')
+
+          const summaryString = (' ' + summaryArray.join(' | ') + '\n')
+
+          let scoreString = '';
+          if (score > this.state.currentGameStats.score) {
+            scoreString = 'You beat your last attempt of ' + this.state.currentGameStats.score + ' with a score of ' + score
+          } else {
+            scoreString = 'This attempt of ' + score + ' was worse than your highest of ' + this.state.currentGameStats.score
+          }
+
+          return (summaryString +  scoreString + '\n\n')
     }
 
     //Process the FULL STATS from the testing service to be in a nice format for the console
@@ -450,13 +507,31 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        console.log('codeResponse', codeResponse);
+        //Handle writing the results to the console
         const data = JSON.parse(codeResponse.data)
-        const testStats = this.summariseTestResults(data)
+        const testStats = this.summariseTestResults(data, codeResponse.score)
         const testBody = this.prettyTestBody(data);
 
         context.state.console.Write(testStats)
         context.state.console.Write(testBody)
+        return codeResponse
+      })
+      .then((codeResponse) => {
+        //if the current score is greater, than update the score in the state
+        if (codeResponse.score > this.state.currentGameStats.score) {
+          const currentGameStats = this.state.currentGameStats;
+          currentGameStats.score = codeResponse.score;
+          currentGameStats.me = JSON.parse(codeResponse.data).stats.passes
+          console.log('in the if', currentGameStats)
+          
+          this.setState({currentGameStats: currentGameStats},
+            //Also emit event with new passing test cases
+            this.state.battleSocket.emit('newScore', {
+              tests: this.state.currentGameStats.me,
+              score: this.state.currentGameStats.score,
+              clientID: this.state.clientID
+            }));
+        }
       })
       .catch((err) => {
         throw new Error('The response from the Testing server is invalid', err);

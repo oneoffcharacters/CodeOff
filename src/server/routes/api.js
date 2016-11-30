@@ -48,12 +48,12 @@ router.post('/mocha', (req, res) => {
         "test": challenge.test
       })
         .then(resp => {
-        console.log('AXIOS RESPONSE', resp.data.data);
+        // console.log('AXIOS RESPONSE, ', resp.data.score);
         const data = JSON.parse(resp.data.data)
         //TODO: Add check to see if they passed all test cases
         console.log('comparison', data.stats.passes,data.stats.tests)
         if (data.stats.passes === data.stats.tests) {
-          namespaces[req.body.pairID].socket.emit('game won', {client: req.body.clientID})
+          namespaces[req.body.pairID].socket.emit('game won', {client: req.body.clientID, score: resp.data.score})
         }
         res.status(200).json(resp.data);
         })

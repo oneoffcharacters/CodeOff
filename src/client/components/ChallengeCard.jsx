@@ -26,7 +26,6 @@ export default class ChallengeCard extends React.Component {
 	render() {
 		const progress = this.props.progress
 		const examples = this.props.challenge[progress].examples ? this.props.challenge[progress].examples : []
-		console.log(this.props)
 		return (
 			<div id="challengeModal" className="challenge expanded">
 				<div className="challenge-title"><h2>{this.props.challenge[progress].title || 'Start a game to get a challenge'}</h2></div>
