@@ -46,38 +46,50 @@ class Repl extends React.Component {
           total: 7
         },
         powerups: { //Stores the functionality on how to handle a particular powerup
-          codeFreeze: () => { //Opponenet cannot type for 5 seconds
-            this.editor.setReadOnly(true);
-            const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
-            setTimeout(boundRevert, 5000)
-          }, 
-          deleteLine: () => { //Opponent will have a random line deleted
-            const lineLength = this.editor.session.getLength();
-            const randomLine = Math.ceil(Math.random() * lineLength)
-            this.editor.gotoLine(randomLine);
-            this.editor.removeLines()
-          }, 
-          blackout: () => { //Entire editor will be black for 5 seconds
-            this.editor.setTheme("ace/theme/powerup-blinded");
-            setTimeout(() => {
-              this.editor.setTheme("ace/theme/dreamweaver")
-            }, 5000)
-          }, 
-          typeDelete: () => { //Every keystroke will delete a word, not type a character
-            const context = this;
-            this.editor.on('change', (e) => {
-              console.log('There was a change', e)
-              this.editor.removeWordLeft()
-            })
-            setTimeout(() => {
-              context.editor.session.removeAllListeners('change')}, 5000)
-          }, 
+          codeFreeze: {
+            action: () => { //Opponenet cannot type for 5 seconds
+              this.editor.setReadOnly(true);
+              const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
+              setTimeout(boundRevert, 5000)
+            },
+            helpful: false 
+          },
+          deleteLine: { //Opponent will have a random line deleted
+            action: () => { 
+              const lineLength = this.editor.session.getLength();
+              const randomLine = Math.ceil(Math.random() * lineLength)
+              this.editor.gotoLine(randomLine);
+              this.editor.removeLines()
+            },
+            helpful: false
+          },
+          blackout: {//Entire editor will be black for 5 seconds
+            action: () => { 
+              this.editor.setTheme("ace/theme/powerup-blinded");
+              setTimeout(() => {
+                this.editor.setTheme("ace/theme/dreamweaver")
+              }, 5000)
+            },
+            helpful: false
+          },
+          typeDelete: {
+            action: () => { //Every keystroke will delete a word, not type a character
+              const context = this;
+              this.editor.on('change', (e) => {
+                console.log('There was a change', e)
+                context.editor.removeWordLeft()
+              })
+              setTimeout(() => {
+                context.editor.session.removeAllListeners('change')}, 5000)
+            },
+            helpful: false
+          }
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
           //* addUserText: {}, //Add text specified by the attacker in a comment
           // viewAnswer: {}, //View the answer for a limited period of time
           //* flipClient: {},
-          viewOpponent: {}
+          // viewOpponent: {}
         }
       };
     }
@@ -337,9 +349,12 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
-            if (data.clientID === this.state.clientID && this.state.powerup[data.powerup].helpful) {
+            console.log('data.powerup', data.powerup)
+            console.log('this.state.powerup', this.state.powerups)
+            console.log('this.state.powerups[data.powerup]', this.state.powerups[data.powerup])
+            if (data.clientID === this.state.clientID && this.state.powerups[data.powerup].helpful) {
               this.state.powerups[data.powerup].action();
-            } else if (data.clientID != this.state.clientID && !(this.state.powerup[data.powerup].helpful)){
+            } else if (data.clientID != this.state.clientID && !(this.state.powerups[data.powerup].helpful)){
               this.state.powerups[data.powerup].action();
             }
           })
