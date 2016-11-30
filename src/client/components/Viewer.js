@@ -5,7 +5,6 @@ let publicSocket;
 
 class Viewer extends React.Component {
     constructor(props) {
-      //TODO: I will need to be passed a prop of the namespace that I am going to listen on
       super(props);
       this.state = {
         text:{
@@ -19,22 +18,19 @@ class Viewer extends React.Component {
           player2:''
         },
         gameTimer: 0,
-        nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
+        nextRoundTimer:0,
         gameTimerInterval:'',
         battleSocket: '',
         challenge: [{}],
-        challengeResults:''
+        challengeResults:'',
+        challengeProgress: 0
       };
     }
 
     componentDidMount() {
       this.editor1 = this.editorSetup('1');
       this.editor2 = this.editorSetup('2');
-      // {
-      // //xsy: this.editor1,
-      // //abs: this.editor.2
       this.socket = this.setupSocket();
-      // }
     }
 
     closeBattleSocket (newType) {
@@ -66,7 +62,6 @@ class Viewer extends React.Component {
     }
 
     setupSocket() {
-      // e.preventDefault()
       publicSocket = io();
 
       //Creates a unique client ID that this client will listen for socket events on
@@ -76,13 +71,6 @@ class Viewer extends React.Component {
       publicSocket.on('connect', (data) => {
         console.log('The client has connected to the server socket for viewing');
       });
-
-      //KEEP THIS TODO: the time will need to be sent from clients on initialization
-      // const boundTick = this.tickTime.bind(this)
-      // this.setState({
-      //   gameTimerInterval: setInterval(boundTick, 1000)
-      // })
-
 
       // TODO: Uncomment this, it is just to get the page rendered
       this.setState({
@@ -112,7 +100,12 @@ class Viewer extends React.Component {
               player2: opponents[1]
             }
           })
-          //Set a mapping of 
+        })
+
+        this.state.battleSocket.on('game won', (data) => {
+          console.log('Viewer recieved game won')
+          const currentProgress = this.state.challengeProgress + 1
+          this.setState({challengeProgress: currentProgress});
         })
 
         this.state.battleSocket.on('updateText', (data) => {
@@ -148,7 +141,7 @@ class Viewer extends React.Component {
             </div>
             <div className="no-pad repl-panel col-sm-12 col-md-6" id="editor-container-2">
               <div id="editor2"></div>
-              <ChallengeCard challenge={this.state.challenge} />
+              <ChallengeCard challenge={this.state.challenge} progress={this.state.challengeProgress} />
             </div>
           </div> 
         </div>
