@@ -337,10 +337,10 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
-            if (data.clientID === this.state.clientID) {
-              //You used a the powerup
-            } else {
-              this.state.powerups[data.powerup]();
+            if (data.clientID === this.state.clientID && this.state.powerup[data.powerup].helpful) {
+              this.state.powerups[data.powerup].action();
+            } else if (data.clientID != this.state.clientID && !(this.state.powerup[data.powerup].helpful)){
+              this.state.powerups[data.powerup].action();
             }
           })
         }
