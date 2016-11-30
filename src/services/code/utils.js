@@ -110,4 +110,22 @@ exports.eslintOnText = (text, fileName) => {
   var cli = new CLIEngine(CLIEngineOptions);
 
   return cli.executeOnText(text, fileName);
-};
+}
+
+exports.scoreResults = (tests, lint) => {
+const testsObj = JSON.parse(tests)
+const duration = testsObj.stats.duration;
+const percentageComplete = testsObj.stats.passes/testsObj.stats.tests;
+const errors = lint.errorCount;
+const warnings = lint.warningCount;
+let penalty = 0;
+let score = percentageComplete;
+
+//Count the penalties
+penalty += duration > 0 ? (1/duration) : 0
+penalty += errors > 0 ? (0.1/errors)  : 0
+penalty += warnings > 0 ? (0.001/warnings)  : 0
+
+score *= (1 - penalty);
+return score;
+}

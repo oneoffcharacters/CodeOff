@@ -35,11 +35,14 @@ app.post('/api/test', (req, res) => {
 
   console.log('REQUEST RECEIVED');
   utils.mochaOnText(text, (err, data) => {
+    const lintResults = utils.eslintOnText(text.attempt, 'attempt.js');
+    const score = utils.scoreResults(data, lintResults)
     // Send err and data from mocha
     res.status(200).json({
       err: err,
       data: data,
-      eslint: utils.eslintOnText(text.attempt, 'attempt.js'),
+      eslint: lintResults,
+      score: score,
     });
   })
 })
