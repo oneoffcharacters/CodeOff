@@ -2,7 +2,7 @@
 
 // Packages
 const router = require('express').Router();
-const handlers = require('./handlers');
+// const handlers = require('./handlers');
 const axios = require('axios');
 let namespaces = require('../helpers/pairing').namespaces
 // Modules
@@ -11,7 +11,7 @@ const challengeCtrl = require('../../db/controllers/challenge');
 const testServiceURL = 'http://localhost:3001/api/test';
 
 // Run the code from the editor and return the result
-router.post('/codeOutput', handlers.codeOutput);
+// router.post('/codeOutput', handlers.codeOutput);
 // router.post('/testCode', handlers.testCode);
 
 // Returns a random challenge, used to provide client with random challenge
