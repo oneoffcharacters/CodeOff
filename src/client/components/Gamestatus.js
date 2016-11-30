@@ -2,22 +2,6 @@ import React from 'react';
 
 
 const Gamestatus = (props) => {
-	console.log(props)
-	// key = {i} 
-	// challengeProgress={props.challengeProgress}
-	// challenge={props.challenge} 
-	// gameProgress={props.gameProgress} 
-	// currentGameStats={props.currentGameStats} 
-	// playerNames={props.playerNames} />
-
-	console.log('Props in gamestatus', props)
-
-	//Decide if it is the current game
-		//If it is, assign this variable to the split config
-		//Else, create it as the singular mode
-			//Decide on the styling based on who one it
-			console.log('props.gameProgress', props.gameProgress)
-			console.log('props.gameNumber', props.gameNumber)
 
 	if (props.gameNumber === props.challengeProgress) {
 		return (
