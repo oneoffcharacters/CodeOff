@@ -79,6 +79,17 @@ const createNamespace = (ID, io, ...users) => {
         client: data.client
       })
     });
+
+    socket.on('requestInfo', (data) => {
+      console.log('The request for info has been recieved', data)
+      nsp.emit('requestInfo', data);
+    })
+
+    socket.on('responseInfo', (data) => {
+      console.log('The response info has been receieved by the server', data)
+      nsp.emit('responseInfo', data)
+    })
+
     socket.on('i resigned', (data) => {
       delete queueIDList[data.opponent];
       delete queueIDList[data.client]

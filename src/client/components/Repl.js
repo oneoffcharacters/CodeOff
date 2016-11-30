@@ -136,7 +136,7 @@ class Repl extends React.Component {
       if (challengeProgress > 2) {
         this.terminateGame(true)
       } else {
-          this.battleSocket.emit('newgame', {clientID: clientID}) //Emit newgame event for viewer to listen to
+          // this.state.battleSocket.emit('newgame', {clientID: clientID}) //Emit newgame event for viewer to listen to
           this.setState({
             challengeProgress: challengeProgress,
             text: challenges[challengeProgress].templateFunction,
@@ -309,6 +309,21 @@ class Repl extends React.Component {
             } else {
               this.processWinOrLoss('loss');
             }
+          })
+
+          this.state.battleSocket.on('requestInfo', (data) => {
+            console.log('The request for information has been recieved by the main client', data)
+            //Iterate over all the keys in data
+            let responseObj = {};
+            console.log('The state in request info is', this.state)
+            for (var key in data) {
+              console.log('The key is',  key)
+              //Get the value from the state for all of the keys
+              responseObj[key] = this.state[key];
+            }
+            console.log('responseObj', responseObj)
+            //Emit an event called responseInfo which will contain an object of all of those values
+            this.state.battleSocket.emit('responseInfo', responseObj);
           })
 
           this.state.battleSocket.on('opponent resigned', (data) => {

@@ -33,6 +33,8 @@ class Viewer extends React.Component {
       this.socket = this.setupSocket();
     }
 
+
+
     closeBattleSocket (newType) {
       //In the case the user is quitting playing and does not want to continue
         this.setState({
@@ -72,14 +74,24 @@ class Viewer extends React.Component {
         console.log('The client has connected to the server socket for viewing');
       });
 
-      // TODO: Uncomment this, it is just to get the page rendered
       this.setState({
         battleSocket: io('/' + this.state.pairID)
       }, () => {
         this.state.battleSocket.on('connect', (data) => {
+          console.log('Getting connected to battlesocket')
           //TODO: Get the challenge from the server
           //TODO: Get the player ID's from the server
+          this.state.battleSocket.emit('requestInfo', {challenge:true})
           console.log('Connected to the battleSocket and the data is',  data)
+        })
+
+        this.state.battleSocket.on('responseInfo', (data) => {
+          console.log('Viewer is getting the responseInfo')
+          let newState = {}
+          for (var key in data) {
+            newState[key] = data[key];
+          }
+          this.setState(newState);
         })
 
         this.state.battleSocket.on('userinput', (data) => {
