@@ -72,11 +72,12 @@ class Repl extends React.Component {
             setTimeout(() => {
               context.editor.session.removeAllListeners('change')}, 5000)
           }, 
-          freeForm: {}, //Disable syntax highlighting for x seconds
-          easyMode: {}, //Delete a random test case from the current question
-          addRandomText: {}, //Add random text to the client,
-          viewAnswer: {}, //View the answer for a limited period of time
-          flipClient: {}
+          // freeForm: {}, //Disable syntax highlighting for x seconds
+          //* easyMode: {}, //Delete a random test case from the current question
+          //* addUserText: {}, //Add text specified by the attacker in a comment
+          // viewAnswer: {}, //View the answer for a limited period of time
+          //* flipClient: {},
+          viewOpponent: {}
         }
       };
     }
@@ -94,10 +95,10 @@ class Repl extends React.Component {
       }
     }
 
-    usePowerup(powerup, type) {
+    usePowerup(powerup) {
       this.state.battleSocket.emit('powerup', {
         powerup: powerup,
-        clientID: this.state.clientID//,
+        clientID: this.state.clientID
       })
     }
 
@@ -337,6 +338,7 @@ class Repl extends React.Component {
 
           this.state.battleSocket.on('powerupUsed', (data) => {
             if (data.clientID === this.state.clientID) {
+              //You used a the powerup
             } else {
               this.state.powerups[data.powerup]();
             }
