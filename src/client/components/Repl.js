@@ -51,18 +51,17 @@ class Repl extends React.Component {
             setTimeout(boundRevert, 5000)
           }, //Opponenet cannot type for x seconds
           deleteLine: () => {
-            console.log('Delete line has run')
-            //Get length of all the lines editor.session.getLength();
             const lineLength = this.editor.session.getLength();
-            //Find a random line to delete
             const randomLine = Math.ceil(Math.random() * lineLength)
-            console.log('randomLine', randomLine)
-            //Select that line
             this.editor.gotoLine(randomLine);
-            //Editor.removeLines()
             this.editor.removeLines()
           }, //Opponent will have a random line deleted
-          changeBackground: {}, //Background color will be changed to something random for x seconds
+          blackout: () => {
+            this.editor.setTheme("ace/theme/powerup-blinded");
+            setTimeout(() => {
+              this.editor.setTheme("ace/theme/dreamweaver")
+            }, 5000)
+          }, //Background color will be changed to something random for x seconds
           typeDelete: {}, //Every keystroke will delete a character, not type one
           freeForm: {}, //Disable syntax highlighting for x seconds
           easyMode: {}, //Delete a random test case from the current question
@@ -260,6 +259,7 @@ class Repl extends React.Component {
       ace.require("ace/ext/language_tools");
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/dreamweaver");
+      // editor.setTheme("ace/theme/powerup-blinded");
       editor.getSession().setMode("ace/mode/javascript");
       editor.getSession().setUseSoftTabs(true);
       editor.setHighlightActiveLine(false);
