@@ -19,18 +19,19 @@ class Repl extends React.Component {
         opponentID:'',
         currentGameType:'No Game',
         gameTimer: 0,
-        nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
+        nextRoundTimer:0, //Counts down from 10 when game is over
+                          //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: mockChallenge,
-        challengeProgress: 1, //
-        challengeResults:'',
+        challenge: mockChallenge, 
+        challengeProgress: 1, //The current challenge index which the user is on
+        challengeResults:'', // Shows the win/lose status of this particular client
         //Dummy data for building the gameheader component
         playerNames: {
           me: 'Guy',
           opponent: 'Sherman'
         },
-        gameProgress: [
+        gameProgress: [ //Shows the outcomes of previous games
           {
             winner: 'me',
             score: 170
@@ -39,30 +40,30 @@ class Repl extends React.Component {
             winner: 'opponent',
             score: 190
           }],
-        currentGameStats: {
+        currentGameStats: { //Shows the current progression of both clients through this game
           me: 3,
           opponent: 4,
           total: 7
         },
-        powerups: {
-          codeFreeze: () => {
+        powerups: { //Stores the functionality on how to handle a particular powerup
+          codeFreeze: () => { //Opponenet cannot type for 5 seconds
             this.editor.setReadOnly(true);
             const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
             setTimeout(boundRevert, 5000)
-          }, //Opponenet cannot type for x seconds
-          deleteLine: () => {
+          }, 
+          deleteLine: () => { //Opponent will have a random line deleted
             const lineLength = this.editor.session.getLength();
             const randomLine = Math.ceil(Math.random() * lineLength)
             this.editor.gotoLine(randomLine);
             this.editor.removeLines()
-          }, //Opponent will have a random line deleted
-          blackout: () => {
+          }, 
+          blackout: () => { //Entire editor will be black for 5 seconds
             this.editor.setTheme("ace/theme/powerup-blinded");
             setTimeout(() => {
               this.editor.setTheme("ace/theme/dreamweaver")
             }, 5000)
-          }, //Background color will be changed to something random for x seconds
-          typeDelete: () => {
+          }, 
+          typeDelete: () => { //Every keystroke will delete a word, not type a character
             const context = this;
             this.editor.on('change', (e) => {
               console.log('There was a change', e)
@@ -70,7 +71,7 @@ class Repl extends React.Component {
             })
             setTimeout(() => {
               context.editor.session.removeAllListeners('change')}, 5000)
-          }, //Every keystroke will delete a character, not type one
+          }, 
           freeForm: {}, //Disable syntax highlighting for x seconds
           easyMode: {}, //Delete a random test case from the current question
           addRandomText: {}, //Add random text to the client,
@@ -79,9 +80,6 @@ class Repl extends React.Component {
         }
       };
     }
-    // setOverwrite(Boolean overwrite)
-    // Pass in true to enable overwrites in your session, or false to disable. If overwrites is enabled, any text you enter will type over any text after it. If the value of overwrite changes, this function also emites the changeOverwrite event.
-    // removeWordLeft()
     componentDidMount() {
       this.editor = this.editorSetup();
       this.socket = this.setupSocket();
@@ -96,44 +94,33 @@ class Repl extends React.Component {
       }
     }
 
-    usePowerup(powerup, type) { //TODO: Add type so that it can be processed to benifit you or harm you
+    usePowerup(powerup, type) {
       this.state.battleSocket.emit('powerup', {
         powerup: powerup,
         clientID: this.state.clientID//,
-        // type: type
       })
     }
 
-    //Increment the time to be displayed
+    //Increment the clock to be displayed
     tickTime () {
       let time = this.state.gameTimer
       this.setState({gameTimer: (time + 1)})
     }
 
-    //TODO: Complete didWin function
-    // didWin() {
-    //   this.state.battleSocket.emit('i won', 
-    //     {client: this.state.clientID}
-    //   )
-    // }
-
-    //Todo: Update these two functions to be called from the Subheader and actually do the desired actions
     startFreshGame(type) {
-      console.log('Type that is input',  type)
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
-        this.editor.setValue('', -1); //TODO:Changed this
-        this.state.console.Reset();  //TODO:Changed this
+        this.editor.setValue('', -1);
+        this.state.console.Reset();
         this.setState({
           currentGameType: type,
-          challengeProgress: 0}, () => {
-          console.log('this.state.currentGameType in callback', this.state.currentGameType)
+          challengeProgress: 0
+        }, () => {
           if (type === 'Battle') {
             this.pairMe();
           } else if (type === 'Solo') {
             this.pairMe();
-            console.log('Solo game started')
           }
         })
         console.log(this.state.currentGameType)
@@ -144,11 +131,12 @@ class Repl extends React.Component {
       //Update the editor and the text state to have the value of the template function
       const challengeProgress = this.state.challengeProgress + 1
       const challenges = this.state.challenge
-      this.state.console.Reset() //TODO:Changed this
+      this.state.console.Reset()
 
       if (challengeProgress > 2) {
         this.terminateGame(true)
       } else {
+          this.battleSocket.emit('newgame', {clientID: clientID}) //Emit newgame event for viewer to listen to
           this.setState({
             challengeProgress: challengeProgress,
             text: challenges[challengeProgress].templateFunction,
@@ -163,17 +151,18 @@ class Repl extends React.Component {
         gameTimer: 0,
         gameTimerInterval:''
       })
-      console.log('The time has been reset and stopped')
     }
 
+    //Start the countdown until the new game and perform action at 0
     newGameCountdown () {
-      //Start the delay
+      const context = this;
+      
       this.resetAndStopTime()
       this.setState({nextRoundTimer: 10})
       
+      
+      //Create the countdown intervals to 0
       let delay = 0;
-      const context = this;
-      //Count down until the next round
       while (delay < this.state.nextRoundTimer) {
         delay++;
         const changeTime = (newTime) => {
@@ -181,17 +170,15 @@ class Repl extends React.Component {
         }
         const boundTime = changeTime.bind(context, context.state.nextRoundTimer - delay)
         setTimeout(boundTime, 1000 * delay);
-        console.log('After timeout created', this.state.nextRoundTimer)
       }
-      console.log('this.state.currentGameType', this.state.currentGameType)
-      //After the countdown has completed, start the new timer
+
+      //After the countdown has completed, start the new game timer
       const boundReset = context.newChallengeAndTime.bind(context, context.state.currentGameType)
       setTimeout(boundReset, context.state.nextRoundTimer * 1000)
     }
 
     //Request the server to add this user to the queue
     pairMe() {
-      console.log('The pairing request has been run')
       //Called only when startFreshGame is called
       publicSocket.emit('message', {
         clientID: this.state.clientID,
@@ -204,11 +191,9 @@ class Repl extends React.Component {
     newChallengeAndTime(type) {
       //Called when:
         //A user has lost or won and needs a new challenge / the time reset
-      //TODO: Get a new challenge
-      //TODO: Start timer again
+      const boundTick = this.tickTime.bind(this)
       this.resetAndStopTime()
       this.startNextGame()
-      const boundTick = this.tickTime.bind(this)
       this.setState({
         gameTimerInterval: setInterval(boundTick, 1000),
       })
@@ -219,12 +204,10 @@ class Repl extends React.Component {
       }
 
     }
-    //newChallengeAndTime //A user has lost or won and needs a new challenge / the time reset
-    //startFreshGame //Not in game at all, or opponent has left
+   
+    //Set outcome in the state to be rendered
+    //Initiate the new game countdown
     processWinOrLoss (outcome) {
-      console.log('outcome', outcome)
-      //User has won a game - clear timer, interval, newChallengeAndTime
-      //User loses a game - clear timer, interval, newChallengeAndTime
       if (outcome === 'win') {
         this.setState({challengeResults: 'You Won'})
         console.log('You are victorious')
@@ -238,7 +221,7 @@ class Repl extends React.Component {
     }
 
     closeBattleSocket (newType) {
-      //In the case the user is quitting playing and does not want to continue
+      //Called in the case the user is quitting playing and does not want to continue
         this.setState({
           currentGameType: newType,
           pairID: '',
@@ -248,17 +231,20 @@ class Repl extends React.Component {
       }
 
     terminateGame (keepPlaying) {
-      //User clicks end game - clear timer, interval, notify opponent
-      //User has won by default - clear timer, interval, startFreshGame
+      //This is called when:
+        //User clicks end game
+        //User has won by default (an opponent has disconnected or resigned)
       this.resetAndStopTime();
       this.setState({
         currentGameType: 'No Game',
         challenge: [{}]
       })
-      //This is the case that the opponent has resigned
+      
       if (keepPlaying) {
+        //The case that the opponent has resigned
         this.startFreshGame(this.state.currentGameType)
       } else {
+        //It was you who resigned
         this.state.battleSocket.emit('i resigned', 
           {client: this.state.clientID,
             opponent: this.state.opponentID}
@@ -267,10 +253,10 @@ class Repl extends React.Component {
     }
 
     editorSetup () {
+      //Set up the editor with standard preferences
       ace.require("ace/ext/language_tools");
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/dreamweaver");
-      // editor.setTheme("ace/theme/powerup-blinded");
       editor.getSession().setMode("ace/mode/javascript");
       editor.getSession().setUseSoftTabs(true);
       editor.setHighlightActiveLine(false);
@@ -280,8 +266,6 @@ class Repl extends React.Component {
       editor.resize();
       editor.setAutoScrollEditorIntoView(true);
       editor.setValue('console.log(\'hello world\');', 1)
-      editor.session.setOption({
-        enableLiveAutocompletion: true})
 
       return editor;
     }
@@ -303,75 +287,51 @@ class Repl extends React.Component {
         //On init, update the pairID and opponentID
         if (data.type === 'initBattle') {
           const boundTick = this.tickTime.bind(this)
-          //TODO: Fix this possibly causing full re render every time
           this.setState({
-            gameTimerInterval: setInterval(boundTick, 1000)
+            gameTimerInterval: setInterval(boundTick, 1000),
+            pairID: data.pairID,
+            battleSocket: io('/' + data.pairID),
+            challenge: data.challenge,
+            text: data.challenge[0].templateFunction
           })
 
           if (this.state.currentGameType === 'Battle') {
             this.setState({
-              pairID: data.pairID,
-              opponentID: data.opponentID,
-              battleSocket: io('/' + data.pairID),
-              challenge: data.challenge,
-              text: data.challenge[0].templateFunction
-            }, console.log('The new state challenge is', this.state.challenge))
-          } else if ( this.state.currentGameType === 'Solo') {
-            this.setState({
-              pairID: data.pairID,
-              battleSocket: io('/' + data.pairID),
-              challenge: data.challenge,
-              text: data.challenge.templateFunction
+              opponentID: data.opponentID
             })
           }
 
           this.editor.setValue(data.challenge[0].templateFunction, -1)
 
           this.state.battleSocket.on('game won', (data) => {
-            // const challengeProgress = this.state.challengeProgress
-            // if (challengeProgress < 2) {
-            //   this.setState({challengeProgress: challengeProgress + 1})
-            // } else {
-            //   //TODO: Handle what happens in the case that the game limit is reached
-            // }
             if (data.client === this.state.clientID) {
-              // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('win');
             } else {
-              // this.newChallengeAndTime(this.state.currentGameType)
               this.processWinOrLoss('loss');
             }
           })
+
           this.state.battleSocket.on('opponent resigned', (data) => {
-            //If the resignation came from a participant (and not just a viewer disconnection message)
-            // if (this.state.opponentID != data.client && this.state.clientID != data.client) {
               this.closeBattleSocket(this.state.currentGameType)
               if (data.client === this.state.clientID) {
                 console.log('You resigned')
               } else {
                 this.processWinOrLoss('opponent resigned');
-                console.log('You win by default, the other guy resigned', data)
-                //Refactor this to have similar logic to 'game won'
-                // this.terminateGame(true)
               }
-            // }
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
-            console.log('The data on reciept of powerup', data)
             if (data.clientID === this.state.clientID) {
-              console.log('You used the powerup: ' + data.powerup)
             } else {
-              console.log('Your opponent used the powerup: ' + data.powerup)
               this.state.powerups[data.powerup]();
             }
           })
         }
-        console.log('The client was notified of a succesful pair!', data)
       })
     }
 
     //Update the value of the text editor into the state on every keypress
+    //Transmit an event so it can be recieved by any viewer
     handleKeyPress (e) {
       var text = this.editor.getValue();
       this.setState({text: text}, () => {
@@ -381,14 +341,6 @@ class Repl extends React.Component {
         })
       })
     }
-
-    // prependConsole (jqconsole, newText) {
-    //   let currText = jqconsole.Dump();
-    //   console.log('currText', currText)
-    //   const result = newText + currText
-    //   jqconsole.Reset()
-    //   jqconsole.Write(result)
-    // }
 
     //Submit the value of the code in the editor to the server for evaluation
     // then write response to console
@@ -416,6 +368,7 @@ class Repl extends React.Component {
       })
     }
 
+    //Process the testing SUMMARY STATS from the service to be in a nice format for the console
     summariseTestResults (results) {
           const summaryStats = {
             run: results.stats.tests,
@@ -433,6 +386,7 @@ class Repl extends React.Component {
           return (' ' + summaryArray.join(' | ') + '\n\n')
     }
 
+    //Process the FULL STATS from the testing service to be in a nice format for the console
     prettyTestBody (results) {
       let resultsBody = [];
       results.passes.forEach((test) => {
@@ -442,12 +396,10 @@ class Repl extends React.Component {
         resultsBody.push('(pending) - ' + 'it ' + test.title)
       })
       results.failures.forEach((test) => {
-        console.log('Each failure', test)
           let tempBody = '';
           tempBody += ( '(failed) - ' + test.err.message );
           tempBody += ( '\n  ' + 'it ' + test.title );
           tempBody += ( '\n  ' + test.err.stack);
-          console.log(tempBody)
           resultsBody.push(tempBody)
       })
       return (resultsBody.join('\n') + '\n\n')
@@ -459,10 +411,8 @@ class Repl extends React.Component {
     submitCode() {
       const context = this;
       const challengeProgress = this.state.challengeProgress
-      console.log('Submit called')
-      //Add these back in after testing to complete the actual post req
       const codeSubmission = (this.state.text + 'module.exports = ' + this.state.challenge[challengeProgress].functionName + ';')
-      console.log('codeSubmission', codeSubmission)
+
       fetch('api/mocha',  {
         method: 'post', 
         headers: {
@@ -483,19 +433,12 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
-        console.log('codeResponse', codeResponse.data)
         const data = JSON.parse(codeResponse.data)
-        console.log('data', data)
         const testStats = this.summariseTestResults(data)
         const testBody = this.prettyTestBody(data);
-        console.log('data', data)
-        //=====Mock data to test writing=======
-        // const testStats = context.summariseTestResults(context.mockTest);
-        // const testBody = context.prettyTestBody(context.mockTest);
+
         context.state.console.Write(testStats)
         context.state.console.Write(testBody)
-        console.log(codeResponse)
-      //Add these back in after testing to complete the actual post req
       })
       .catch((err) => {
         throw new Error('The response from the Testing server is invalid', err);
@@ -523,7 +466,6 @@ class Repl extends React.Component {
       });
     }
 
-    //TODO: Remove didWin from being passed into Subheader as it is just for testing
   render() {
     return (
         <div className="repl">
