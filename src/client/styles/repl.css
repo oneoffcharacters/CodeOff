@@ -343,9 +343,8 @@ button:focus {
 /*====Gamestatus====*/
 
 .gamestatus {
-  border: 1px solid transparent;
+  border: 1px solid #2E383F;
   border-radius: 5px;
-  background-color: #309AE9;
   height: 3em;
   width: 10em;
   text-align: center;
@@ -353,14 +352,33 @@ button:focus {
   margin-right: 1em;
 }
 
-.gamestatus_score {
+.current-game {
+  background-image: linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
+  background-image: -o-linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
+  background-image: -moz-linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
+  background-image: -webkit-linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
+  background-image: -ms-linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
+}
+
+.won {
+  background-color: #309AE9;
+}
+
+.inactive {
+  background-color: grey;
+}
+
+.lost {
+  background-color: #FF4A0C;
+}
+
+.gamestatus-score {
   color: white;
   font-size: 20px;
 }
 
-.lost {
-  background-color: red;
+.gamestatus-current {
+  color: white;
+  font-size: 10px;
 }
-
-
 
