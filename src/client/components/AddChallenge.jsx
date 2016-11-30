@@ -120,32 +120,39 @@ export default class AddChallenge extends React.Component {
           <h3 className="AddChallengeHeader">Create a new challenge!</h3>
           <div className="AddChallengeForm">
             <form action="submit" onSubmit={this.onFormSubmit}>
-              <div>
-                <input className="AddChallengeInput" type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} placeholder="title" />
+              <div className="AddChallengeInputDiv">
+                <p>Title<br /> ex: Max Number</p>
+                <input className="AddChallengeInput" type="text" value={this.state.title} name="" onChange={this.onTitleChangeHandle} />
               </div>
-              <div>
-                <input className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} placeholder="function name" />
+              <div className="AddChallengeInputDiv">
+                <p>Function Name<br /> Example: maxNumber</p>
+                <input className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle} />
               </div>
-              <div>  
-                <input className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle} placeholder="difficulty" />
+              <div className="AddChallengeInputDiv">  
+                <p>Difficulty: hard, medium or easy</p>
+                <input className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle} />
               </div>
-              <div>  
-                <input className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle} placeholder="solutions" />
+              <div className="AddChallengeInputDiv">  
+                <p>Solutions</p>
+                <input className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle} />
               </div>
-              <div>  
-                <input className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle} placeholder="prompt" />
+              <div className="AddChallengeInputDiv">  
+                <p>Prompt <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
+                <input className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle} />
               </div>
-              <div>  
-                <input className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle} placeholder="template function" />
+              <div className="AddChallengeInputDiv">  
+                <p>Template Function</p>
+                <input className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle} />
               </div>
-              <div>
-                <p>Examples must be within in an array separated by commas.</p>  
-                <input className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle} placeholder="examples" />
+              <div className="AddChallengeInputDiv">
+                <p>Examples: must be within in an array separated by commas.<br />[maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
+                <input className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle} />
               </div>
-              <div>  
-                <input className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle} placeholder="test" />
+              <div className="AddChallengeInputDiv"> 
+                <p>Test</p> 
+                <input className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle} />
               </div>
-              <div>
+              <div className="AddChallengeInputDiv">
                 <button className="AddChallengeButton" onClick={this.onButtonPress}>Add Challenge</button>
               </div>
             </form>
