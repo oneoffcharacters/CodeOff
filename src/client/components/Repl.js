@@ -31,15 +31,7 @@ class Repl extends React.Component {
           me: 'Guy',
           opponent: 'Sherman'
         },
-        gameProgress: [ //Shows the outcomes of previous games
-          {
-            winner: 'me',
-            score: 170
-          },
-          {
-            winner: 'opponent',
-            score: 190
-          }],
+        gameProgress: [], //Shows the outcomes of previous games
         currentGameStats: { //Shows the current progression of both clients through this game
           me: 0,
           opponent: 0,
@@ -221,12 +213,40 @@ class Repl extends React.Component {
    
     //Set outcome in the state to be rendered
     //Initiate the new game countdown
-    processWinOrLoss (outcome) {
+    processWinOrLoss (outcome, winningScore) {
       if (outcome === 'win') {
-        this.setState({challengeResults: 'You Won'})
+        let temp = this.state.gameProgress;
+        temp.push({
+            winner: 'me',
+            score: winningScore
+        })
+        this.setState({
+          challengeResults: 'You Won',
+          gameProgress: temp,
+          currentGameStats: {
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
+          }
+        },console.log('The currentGameStats are', this.state.currentGameStats))
         console.log('You are victorious')
       } else if (outcome === 'loss'){
-        this.setState({challengeResults: 'You Lost'})
+          let temp = this.state.gameProgress;
+            temp.push({
+                winner: 'opponent',
+                score: winningScore
+            })
+        this.setState({
+          challengeResults: 'You Lost',
+          gameProgress: temp,
+          currentGameStats: {
+          me: 0,
+          opponent: 0,
+          score: 0,
+          total: 0
+          }
+        },console.log('The currentGameStats are', this.state.currentGameStats))
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
         this.setState({challengeResults: 'Opponent Resigned'})
@@ -319,9 +339,10 @@ class Repl extends React.Component {
 
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
-              this.processWinOrLoss('win');
+              console.log('The data in processWinOrLoss is ',  data)
+              this.processWinOrLoss('win', data.score);
             } else {
-              this.processWinOrLoss('loss');
+              this.processWinOrLoss('loss', data.score);
             }
           })
 

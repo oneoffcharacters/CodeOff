@@ -126,6 +126,6 @@ penalty += duration > 0 ? (1/duration) : 0
 penalty += errors > 0 ? (0.1/errors)  : 0
 penalty += warnings > 0 ? (0.001/warnings)  : 0
 
-Math.floor(score *= (1 - penalty));
+score = Math.floor(score *= (1 - penalty));
 return score;
 }
