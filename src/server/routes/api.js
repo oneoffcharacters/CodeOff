@@ -9,6 +9,7 @@ let namespaces = require('../helpers/pairing').namespaces
 const challengeCtrl = require('../../db/controllers/challenge');
 // Env variables
 const testServiceURL = 'http://localhost:3001/api/test';
+const execServiceURL = 'http://localhost:3001/api/exec';
 
 // Run the code from the editor and return the result
 // router.post('/codeOutput', handlers.codeOutput);
@@ -20,6 +21,19 @@ router.post('/challenge',  challengeCtrl.addChallenge);
 
 // router.get('/challenge/:id', challengeCtrl.serveChallenge); // returns individual challenge
 // router.post('/api/challenge', challengeCtrl.postChallenge); //for when posting challenge is available
+
+router.post('/codeOutput', (req, res) => {
+  console.log('INSIDE CODE OUTPUT!');
+  // console.log(req.body);
+  // res.status(200);
+  return axios.post(execServiceURL, {
+    "attempt": req.body.code
+  })
+    .then(resp => {
+      console.log('INSIDE CODE OUTPUT RESPONSE!');
+      res.status(200).json(resp.data);
+    })
+});
 
 router.post('/mocha', (req, res) => {
   // use req.body.qId -> query database for the challenge attempted
