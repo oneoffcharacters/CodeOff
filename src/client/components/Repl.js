@@ -43,6 +43,7 @@ class Repl extends React.Component {
         currentGameStats: { //Shows the current progression of both clients through this game
           me: 3,
           opponent: 4,
+          score: 60,
           total: 7
         },
         powerups: { //Stores the functionality on how to handle a particular powerup
@@ -401,7 +402,7 @@ class Repl extends React.Component {
     }
 
     //Process the testing SUMMARY STATS from the service to be in a nice format for the console
-    summariseTestResults (results) {
+    summariseTestResults (results, score) {
           const summaryStats = {
             run: results.stats.tests,
             passed: results.stats.passes,
@@ -415,7 +416,17 @@ class Repl extends React.Component {
             const qty = summaryStats[key];
             summaryArray.push(qty + (qty===1 ? ' test ' : ' tests ') + key)
           }
-          return (' ' + summaryArray.join(' | ') + '\n\n')
+
+          const summaryString = (' ' + summaryArray.join(' | ') + '\n')
+
+          let scoreString = '';
+          if (score > this.state.currentGameStats.score) {
+            scoreString = 'You beat your last attempt of ' + this.state.currentGameStats.score + ' with a score of ' + score
+          } else {
+            scoreString = 'This attempt of ' + score + ' was worse than your highest of ' + this.state.currentGameStats.score
+          }
+
+          return (summaryString +  scoreString + '\n\n')
     }
 
     //Process the FULL STATS from the testing service to be in a nice format for the console
@@ -465,13 +476,19 @@ class Repl extends React.Component {
         return output.json();
       })
       .then((codeResponse) => {
+        console.log('The codeResponse is ', codeResponse)
+        //Handle writing the results to the console
         console.log('codeResponse', codeResponse);
         const data = JSON.parse(codeResponse.data)
-        const testStats = this.summariseTestResults(data)
+        const testStats = this.summariseTestResults(data, codeResponse.score)
         const testBody = this.prettyTestBody(data);
 
         context.state.console.Write(testStats)
         context.state.console.Write(testBody)
+        return codeResponse
+      })
+      .then((codeResponse) => {
+
       })
       .catch((err) => {
         throw new Error('The response from the Testing server is invalid', err);

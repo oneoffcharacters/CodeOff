@@ -115,7 +115,7 @@ exports.eslintOnText = (text, fileName) => {
 exports.scoreResults = (tests, lint) => {
 const testsObj = JSON.parse(tests)
 const duration = testsObj.stats.duration;
-const percentageComplete = testsObj.stats.passes/testsObj.stats.tests;
+const percentageComplete = (testsObj.stats.passes/testsObj.stats.tests) * 100
 const errors = lint.errorCount;
 const warnings = lint.warningCount;
 let penalty = 0;
@@ -126,6 +126,6 @@ penalty += duration > 0 ? (1/duration) : 0
 penalty += errors > 0 ? (0.1/errors)  : 0
 penalty += warnings > 0 ? (0.001/warnings)  : 0
 
-score *= (1 - penalty);
+Math.floor(score *= (1 - penalty));
 return score;
 }
