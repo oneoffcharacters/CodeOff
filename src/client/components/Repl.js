@@ -62,15 +62,26 @@ class Repl extends React.Component {
               this.editor.setTheme("ace/theme/dreamweaver")
             }, 5000)
           }, //Background color will be changed to something random for x seconds
-          typeDelete: {}, //Every keystroke will delete a character, not type one
+          typeDelete: () => {
+            const context = this;
+            this.editor.on('change', (e) => {
+              console.log('There was a change', e)
+              this.editor.removeWordLeft()
+            })
+            setTimeout(() => {
+              context.editor.session.removeAllListeners('change')}, 5000)
+          }, //Every keystroke will delete a character, not type one
           freeForm: {}, //Disable syntax highlighting for x seconds
           easyMode: {}, //Delete a random test case from the current question
           addRandomText: {}, //Add random text to the client,
-          viewAnswer: {} //View the answer for a limited period of time
+          viewAnswer: {}, //View the answer for a limited period of time
+          flipClient: {}
         }
       };
     }
-
+    // setOverwrite(Boolean overwrite)
+    // Pass in true to enable overwrites in your session, or false to disable. If overwrites is enabled, any text you enter will type over any text after it. If the value of overwrite changes, this function also emites the changeOverwrite event.
+    // removeWordLeft()
     componentDidMount() {
       this.editor = this.editorSetup();
       this.socket = this.setupSocket();
