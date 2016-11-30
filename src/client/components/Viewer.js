@@ -22,7 +22,7 @@ class Viewer extends React.Component {
         nextRoundTimer:0, //While this is > 0, show the ChallengeResults component
         gameTimerInterval:'',
         battleSocket: '',
-        challenge: {},
+        challenge: [{}],
         challengeResults:''
       };
     }
@@ -133,13 +133,6 @@ class Viewer extends React.Component {
         pairID: e.target.value
       });
     }
-
-    // handleSubmit (e) {
-    //   this.setState({
-    //     battleSocket: 
-    //   })
-    //   console.log('e in submit', e)
-    // }
 
   render() {
     console.log('this.props.params.namespace', this.props.params.namespace)
