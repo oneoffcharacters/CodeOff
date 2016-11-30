@@ -24,7 +24,7 @@ class Repl extends React.Component {
         gameTimerInterval:'',
         battleSocket: '',
         challenge: mockChallenge,
-        challengeProgress: 2, //
+        challengeProgress: 0, //
         challengeResults:'',
         //Dummy data for building the gameheader component
         playerNames: {
