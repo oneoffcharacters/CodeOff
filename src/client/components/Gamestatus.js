@@ -6,9 +6,9 @@ const Gamestatus = (props) => {
 	if (props.gameNumber === props.challengeProgress) {
 		return (
 			<div className="gamestatus current-game">
-				{props.currentGameStats.me} {props.currentGameStats.me > 1 ? 'Tests' : 'Test'} Passing
+				{props.currentGameStats.opponent} {props.currentGameStats.me > 1 ? 'Tests' : 'Test'} Passing
 				<br />
-				{props.currentGameStats.opponent} {props.currentGameStats.opponent > 1 ? 'Tests' : 'Test'} Passing
+				{props.currentGameStats.me} {props.currentGameStats.opponent > 1 ? 'Tests' : 'Test'} Passing
 			</div>
 			)
 	} else if (props.gameNumber > props.challengeProgress) {
