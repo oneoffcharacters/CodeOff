@@ -24,7 +24,7 @@ const Subheader = ({ nextRoundTimer, powerups, usePowerup, runCode, currentGameT
 	return (
 		<div className="subheader row no-marg">
 			<GametypeOptions startFreshGame={startFreshGame} terminateGame={terminateGame} />
-			<Powerups  powerups={powerups} usePowerup={usePowerup}/>
+			{currentGameType && <Powerups  powerups={powerups} usePowerup={usePowerup} currentGameType={currentGameType} />}
 			<span className="gametype">{currentGameType}</span>
 			<span className="gametimer">{"Time: " + prettyTime(gameTimer)}</span>
 			<button onClick={runCode} className="btn btn-default action" type="submit">Run</button>
