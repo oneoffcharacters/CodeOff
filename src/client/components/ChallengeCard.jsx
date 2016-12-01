@@ -19,10 +19,7 @@ export default class ChallengeCard extends React.Component {
 		  }
 		});
 	}
-
-
 	
-
 	render() {
 		const progress = this.props.progress
 		const examples = this.props.challenge[progress].examples ? this.props.challenge[progress].examples : []
