@@ -1,3 +1,4 @@
+// import packages
 import React from 'react';
 
 const GametypeOptions = ({ startFreshGame , terminateGame}) => {
@@ -11,7 +12,7 @@ const GametypeOptions = ({ startFreshGame , terminateGame}) => {
         <li key = {i} onClick={() => startFreshGame(type)}>{type}</li>
       ))}
         <li className="divider"></li>
-        <li onClick={() => terminateGame(false)} >End Game</li>
+        <li onClick={() => terminateGame(false)}>End Game</li>
       </ul>
     </div>
   )
