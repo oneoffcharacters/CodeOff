@@ -1,7 +1,7 @@
 // import packages
 import React from 'react';
 
-const GametypeOptions = ({ startFreshGame , terminateGame}) => {
+const GametypeOptions = ({startFreshGame , terminateGame}) => {
   const gameTypes = ['Solo', 'Battle']
   
   return (

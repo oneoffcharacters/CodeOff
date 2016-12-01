@@ -1,7 +1,7 @@
 // import packages
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Router, IndexRedirect, browserHistory } from 'react-router';
+import {Route, Router, IndexRedirect, browserHistory} from 'react-router';
 
 // import components
 import App from './App';

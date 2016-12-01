@@ -5,7 +5,7 @@ import React from 'react';
 import GametypeOptions from './GametypeOptions';
 import Powerups from './Powerups';
 
-const Subheader = ({ powerups, usePowerup, runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin , submitCode}) => {
+const Subheader = ({powerups, usePowerup, runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin , submitCode}) => {
 	const prettyTime = function(time) {
 		let minutes = Math.floor(time / 60);
 		let seconds = time - minutes * 60;
