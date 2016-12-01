@@ -45,7 +45,8 @@ class Repl extends React.Component {
               const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
               setTimeout(boundRevert, 5000)
             },
-            helpful: false 
+            helpful: false,
+            quantity: 0
           },
           deleteLine: { //Opponent will have a random line deleted
             action: () => { 
@@ -54,7 +55,8 @@ class Repl extends React.Component {
               this.editor.gotoLine(randomLine);
               this.editor.removeLines()
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           },
           blackout: {//Entire editor will be black for 5 seconds
             action: () => { 
@@ -63,7 +65,8 @@ class Repl extends React.Component {
                 this.editor.setTheme("ace/theme/dreamweaver")
               }, 5000)
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           },
           typeDelete: {
             action: () => { //Every keystroke will delete a word, not type a character
@@ -75,7 +78,8 @@ class Repl extends React.Component {
               setTimeout(() => {
                 context.editor.session.removeAllListeners('change')}, 5000)
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           }
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
@@ -197,11 +201,13 @@ class Repl extends React.Component {
     newChallengeAndTime(type) {
       //Called when:
         //A user has lost or won and needs a new challenge / the time reset
+      const freshGameStats = { me: 0, opponent: 0, score: 0, total: 0}
       const boundTick = this.tickTime.bind(this)
       this.resetAndStopTime()
       this.startNextGame()
       this.setState({
         gameTimerInterval: setInterval(boundTick, 1000),
+        currentGameStats: freshGameStats
       })
       if (type === 'Battle') {
         console.log('Battle will be continued')
@@ -223,14 +229,8 @@ class Repl extends React.Component {
         })
         this.setState({
           challengeResults: 'You Won',
-          gameProgress: temp,
-          currentGameStats: {
-          me: 0,
-          opponent: 0,
-          score: 0,
-          total: 0
-          }
-        },console.log('The currentGameStats are', this.state.currentGameStats))
+          gameProgress: temp
+        })
         console.log('You are victorious')
       } else if (outcome === 'loss'){
           let temp = this.state.gameProgress;
@@ -241,13 +241,7 @@ class Repl extends React.Component {
         this.setState({
           challengeResults: 'You Lost',
           gameProgress: temp,
-          currentGameStats: {
-          me: 0,
-          opponent: 0,
-          score: 0,
-          total: 0
-          }
-        },console.log('The currentGameStats are', this.state.currentGameStats))
+        })
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
         this.setState({challengeResults: 'Opponent Resigned'})
@@ -520,6 +514,11 @@ class Repl extends React.Component {
       })
       .then((codeResponse) => {
         //if the current score is greater, than update the score in the state
+        console.log('codeResponse', codeResponse)
+        //At this stage, process win or loss 
+        //If it was a winning game then
+          //Update the current score
+
         if (codeResponse.score > this.state.currentGameStats.score) {
           const currentGameStats = this.state.currentGameStats;
           currentGameStats.score = codeResponse.score;
