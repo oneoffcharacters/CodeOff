@@ -28,6 +28,10 @@ You can elect to signup for an account, or for even faster play just click "play
 
 ## Development
 
+- Webpack
+- Babel
+- Socket.io-client
+
 ### Installing Dependencies
 
 From within the root directory:
