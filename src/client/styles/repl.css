@@ -317,11 +317,22 @@ button:focus {
   background-color: #2E383F;
 }
 
+.game-dashboard-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-left: 13%;
+}
+
 .game-dashboard {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+
+/*.powerup-icon {
+  align-self: flex-start;
+}*/
 
 .game-logo {
   color: #fff;
@@ -340,6 +351,12 @@ button:focus {
   -webkit-text-fill-color: transparent;
 }
 
+/*.powerup-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+*/
 /*====Gamestatus====*/
 
 .gamestatus {
