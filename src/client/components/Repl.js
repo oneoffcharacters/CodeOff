@@ -46,7 +46,7 @@ class Repl extends React.Component {
               setTimeout(boundRevert, 5000)
             },
             helpful: false,
-            quantity: 0
+            quantity: 1
           },
           deleteLine: { //Opponent will have a random line deleted
             action: () => { 
@@ -105,10 +105,21 @@ class Repl extends React.Component {
     }
 
     usePowerup(powerup) {
+      console.log('this', this)
+      const resourceQuantity = this.state.powerups[powerup].quantity
+      console.log('Old qty', resourceQuantity)
+      if (resourceQuantity > 0) {
+        const newQuantity = resourceQuantity - 1;
+        console.log('newQuantity', newQuantity)
+        const newPowerups = this.state.powerups
+        newPowerups[powerup].quantity = newQuantity;
+        console.log('newPowerups', newPowerups)
+        this.setState({powerups: newPowerups})
       this.state.battleSocket.emit('powerup', {
         powerup: powerup,
         clientID: this.state.clientID
       })
+      }
     }
 
     //Increment the clock to be displayed

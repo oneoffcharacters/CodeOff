@@ -8,7 +8,7 @@ const Powerups = ({ powerups, usePowerup }) => {
       <button id="gameoptions" className="btn btn-secondary fa fa-bars" type="button" data-toggle="dropdown"></button>
       <ul className="dropdown-menu">
       {powerupList.map((powerup, i) => (
-        <li key = {i} onClick={() => usePowerup(powerup)}>{powerup}</li>
+        <li key = {i} onClick={() => usePowerup(powerup)}>{powerup + ": " + powerups[powerup].quantity}</li>
       ))}
       </ul>
     </div>
