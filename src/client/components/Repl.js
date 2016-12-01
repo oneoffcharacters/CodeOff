@@ -45,7 +45,8 @@ class Repl extends React.Component {
               const boundRevert = this.editor.setReadOnly.bind(this.editor, false);
               setTimeout(boundRevert, 5000)
             },
-            helpful: false 
+            helpful: false,
+            quantity: 0
           },
           deleteLine: { //Opponent will have a random line deleted
             action: () => { 
@@ -54,7 +55,8 @@ class Repl extends React.Component {
               this.editor.gotoLine(randomLine);
               this.editor.removeLines()
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           },
           blackout: {//Entire editor will be black for 5 seconds
             action: () => { 
@@ -63,7 +65,8 @@ class Repl extends React.Component {
                 this.editor.setTheme("ace/theme/dreamweaver")
               }, 5000)
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           },
           typeDelete: {
             action: () => { //Every keystroke will delete a word, not type a character
@@ -75,7 +78,8 @@ class Repl extends React.Component {
               setTimeout(() => {
                 context.editor.session.removeAllListeners('change')}, 5000)
             },
-            helpful: false
+            helpful: false,
+            quantity: 0
           }
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
