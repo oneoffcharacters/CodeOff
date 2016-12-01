@@ -282,28 +282,20 @@ button:focus {
 .LobbyHeader {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .LobbyTitle {
   margin-left: 45%;
 }
 
-.LobbyGoBackBtn {
-  margin-left: 25%;
-  margin-top: 1.5%;
+.LobbyBtn {
   border: 1px solid transparent;
   border-radius: 10px;
   width: 5em;
   height: 2em;
-}
-
-.LobbyRefreshBtn {
-  margin-left: 0.5%;
-  margin-top: 1.5%;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  width: 5em;
-  height: 2em;
+  color: black;
+  font-size: 1em;
 }
 
 .LobbyUlCtn {
