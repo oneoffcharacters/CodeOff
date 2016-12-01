@@ -15,7 +15,7 @@ import Register from './Register';
 import NotFound from './NotFound';
 import AddChallenge from './AddChallenge';
 
-export default class Anchor extends React.Component {
+class Anchor extends React.Component {
 	render() {
 		return(
 			<div className='routerHide'>
