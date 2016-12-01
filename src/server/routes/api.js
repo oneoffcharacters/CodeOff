@@ -68,6 +68,36 @@ router.post('/mocha', (req, res) => {
     })
 });
 
+router.post('/mocha/addchallenge', (req, res) => {
+  return axios.post(testServiceURL, {
+    "attempt": req.body.code,
+    "solution": req.body.solutions,
+    "test": req.body.test
+  })
+    .then(resp => {
+      console.log('req body', req.body);  
+      // if this happens and resp.data.err is > 0 JSON.parse will throw unexpected end of input error
+      // check if resp.data.err length is greater than 0
+        // if yes then send back err
+      if(resp.data.err.length > 0) {
+        res.send(resp.data.err);
+      } else {
+        console.log('AXIOS RESPONSE', resp.data.data);
+        // const data = JSON.parse(resp.data.data)
+        //TODO: Add check to see if they passed all test cases
+        console.log('comparison', data.stats.passes,data.stats.tests)
+        if (data.stats.passes === data.stats.tests) {
+          // namespaces[req.body.pairID].socket.emit('game won', {client: req.body.clientID})
+          console.log('tests pass');
+        }
+        res.status(200).json(resp.data);
+      }
+    })  
+    .catch(err => {
+    console.error(err);
+    })
+});
+
 // eventually we will want Object.keys(namespaces)
 router.get('/lobbies', (req, res) => {
   res.json(Object.keys(namespaces))

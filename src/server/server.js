@@ -11,8 +11,8 @@ const app = express();
 const port = 3000;
 
 const AuthenticationController = require('./controllers/auth'),  
-passportService = require('../../config/passport'),
-passport = require('passport');
+      passportService = require('../../config/passport'),
+      passport = require('passport');
 const protectedRoutes = require('./routes/protectedRoutes');
 
 // ---------- MIDDLEWARE ----------
@@ -25,9 +25,9 @@ const requireLogin = passport.authenticate('local', { session: false });
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",  
-REQUIRE_OWNER = "Owner",
-REQUIRE_CLIENT = "Client",
-REQUIRE_MEMBER = "Member"; 
+      REQUIRE_OWNER = "Owner",
+      REQUIRE_CLIENT = "Client",
+      REQUIRE_MEMBER = "Member"; 
 
 // SERVE STATIC ASSETS
 app.use(express.static('src/client'));
@@ -57,10 +57,10 @@ app.use('/protected', protectedRoutes);
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
 
 
-  app.get('/*', function (request, response){
-    console.log('the path sent ', path.resolve('src/client', 'index.html'));
-    response.sendFile(path.resolve('src/client', 'index.html'));
-  });
+app.get('/*', function (request, response){
+  console.log('catch all');
+  response.sendFile(path.resolve('src/client', 'index.html'));
+});
 
 
 // SERVER
