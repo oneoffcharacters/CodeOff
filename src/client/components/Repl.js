@@ -408,13 +408,16 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
+            var dataFromClient = data.clientID === this.state.clientID;
+            var powerupIsHelpful = this.state.powerups[data.powerup].helpful;
+            var usePowerup = this.state.powerups[data.powerup].action;
             console.log('data.powerup', data.powerup)
             console.log('this.state.powerup', this.state.powerups)
             console.log('this.state.powerups[data.powerup]', this.state.powerups[data.powerup])
-            if (data.clientID === this.state.clientID && this.state.powerups[data.powerup].helpful) {
-              this.state.powerups[data.powerup].action();
-            } else if (data.clientID != this.state.clientID && !(this.state.powerups[data.powerup].helpful)){
-              this.state.powerups[data.powerup].action();
+            if (dataFromClient) {
+              powerupIsHelpful && usePowerup();
+            } else {
+              !powerupIsHelpful && usePowerup();
             }
           })
         }
