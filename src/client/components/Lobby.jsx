@@ -38,8 +38,8 @@ export default class Lobby extends React.Component {
 			<div className="LobbyCtn">
 				<div className='LobbyHeader'>
 					<h3 className='LobbyTitle'>Games in Progress</h3>
-					<Link to="/landing"><button className='LobbyBtn'>Go Back</button></Link>
 					<button className='LobbyBtn' onClick={this.RefreshLobbies}>Refresh</button>
+					<Link to="/landing"><button className='GoBackBtn'>Go Back</button></Link>
 				</div>
 				<hr />
 				<ul className='LobbyUlCtn'>
