@@ -213,12 +213,13 @@ class Repl extends React.Component {
    
     //Set outcome in the state to be rendered
     //Initiate the new game countdown
-    processWinOrLoss (outcome, winningScore) {
+    processWinOrLoss (outcome, winningData) {
+      console.log('winningData', winningData)
       if (outcome === 'win') {
         let temp = this.state.gameProgress;
         temp.push({
             winner: 'me',
-            score: winningScore
+            score: winningData.score
         })
         this.setState({
           challengeResults: 'You Won',
@@ -235,7 +236,7 @@ class Repl extends React.Component {
           let temp = this.state.gameProgress;
             temp.push({
                 winner: 'opponent',
-                score: winningScore
+                score: winningData.score
             })
         this.setState({
           challengeResults: 'You Lost',
@@ -328,6 +329,7 @@ class Repl extends React.Component {
             challenge: data.challenge,
             text: data.challenge[0].templateFunction
           })
+          console.log('the challenge is', data.challenge)
 
           if (this.state.currentGameType === 'Battle') {
             this.setState({
@@ -340,9 +342,9 @@ class Repl extends React.Component {
           this.state.battleSocket.on('game won', (data) => {
             if (data.client === this.state.clientID) {
               console.log('The data in processWinOrLoss is ',  data)
-              this.processWinOrLoss('win', data.score);
+              this.processWinOrLoss('win', data);
             } else {
-              this.processWinOrLoss('loss', data.score);
+              this.processWinOrLoss('loss', data);
             }
           })
 
@@ -521,8 +523,8 @@ class Repl extends React.Component {
         if (codeResponse.score > this.state.currentGameStats.score) {
           const currentGameStats = this.state.currentGameStats;
           currentGameStats.score = codeResponse.score;
-          currentGameStats.me = JSON.parse(codeResponse.data).stats.passes
-          console.log('in the if', currentGameStats)
+          const testResults = JSON.parse(codeResponse.data)
+          currentGameStats.me = testResults.stats.passes
           
           this.setState({currentGameStats: currentGameStats},
             //Also emit event with new passing test cases

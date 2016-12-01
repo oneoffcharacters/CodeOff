@@ -30,7 +30,21 @@ const mockQuestions = [
         it("should return the min number for negatives", () => { expect(attempt(-3, -1)).to.equal(solution(-3,-1)) }); \
         it("should return the min number for positives & negatives", () => { expect(attempt(-1, 1)).to.equal(solution(-1,1)) }); \
       })'
-  }
+  },
+    {
+      'title': 'Same Number',
+      'functionName': 'sameNumber',
+      'difficulty': 'Easy',
+      'solutions': 'function sameNumber (first, second) {return first === second}; module.exports = sameNumber',
+      'prompt': 'Create a function sameNumber that will return true if both numbers are the same',
+      'templateFunction': 'function sameNumber (first, second) { \n return first === second\n } ',
+      'examples': ['sameNumber(3,3) = true', 'sameNumber(-1,-3) = false'],
+      'test': 'const expect = require("chai").expect; \
+        describe("test", () => { \
+          it("should return true for two of the same numbers", () => { expect(attempt(2, 2)).to.equal(solution(2, 2)) }); \
+          it("should return false for two different numbers", () => { expect(attempt(-3, -1)).to.equal(solution(-3,-1)) }); \
+        })'
+    }
 ];
 
 mockQuestions.forEach((seed, i) => {
