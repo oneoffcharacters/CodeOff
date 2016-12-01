@@ -1,4 +1,7 @@
+// import packages
 import React from 'react';
+
+// import components
 import Landing from './Landing';
 import Header from './Header'
 
