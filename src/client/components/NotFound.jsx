@@ -1,4 +1,7 @@
+// import packages
 import React from 'react';
+
+// import components
 import Footer from './Footer';
 
 const notFound = props => {
