@@ -1,3 +1,4 @@
+// import packages
 import React from 'react';
 
 export default class DashboardHeader extends React.Component {
@@ -17,6 +18,4 @@ export default class DashboardHeader extends React.Component {
     )
   }
 }
-
-
 // DashboardHeaderPicture will come from the currently logged in user's state
