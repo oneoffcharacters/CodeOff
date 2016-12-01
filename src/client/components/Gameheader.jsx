@@ -23,7 +23,8 @@ const Gameheader = (props) => {
 								challenge={props.challenge} 
 								gameProgress={props.gameProgress} 
 								currentGameStats={props.currentGameStats} 
-								playerNames={props.playerNames} />
+								playerNames={props.playerNames}
+								currentGameType={props.currentGameType} />
 						))}
 					</div>
 				</div>

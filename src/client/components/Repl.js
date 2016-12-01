@@ -56,36 +56,20 @@ class Repl extends React.Component {
       }
     }
 
-    setNestedState(parent, newChildren) {
-      const stateObj = this.state[parent]
-      for (var key in newChildren) {
-        stateObj[key] = newChildren[key]
-      }
-      this.setState({parent: stateObj});
-    }
-
-    resetGameStats() {
-      this.setNestedState(challengeDetails, 
-        {gameStats: {
-          me: 0,
-          opponent: 0,
-          score: 0,
-          total: 0
-        }}
-      )
-    }
-
     usePowerup(powerup) {
       const resourceQuantity = this.state.powerups[powerup].quantity
       if (resourceQuantity > 0) {
+        //Decriment the quantity of the used powerup that are available
         const newQuantity = resourceQuantity - 1;
         const newPowerups = this.state.powerups
         newPowerups[powerup].quantity = newQuantity;
         this.setState({powerups: newPowerups})
-      this.state.battleSocket.emit('powerup', {
-        powerup: powerup,
-        clientID: this.state.clientID
-      })
+
+        //Notify the server that the powerup has been used
+        this.state.battleSocket.emit('powerup', {
+          powerup: powerup,
+          clientID: this.state.clientID
+        })
       }
     }
 
@@ -96,6 +80,10 @@ class Repl extends React.Component {
     }
 
     startFreshGame(type) {
+      if (this.state.challenge[0].title) {
+        console.log('Tried to destroy game')
+        this.terminateGame(false);
+      }
       //Called when:
         // a user is not even in an existing game
         // a user has had their opponent leave
@@ -123,7 +111,6 @@ class Repl extends React.Component {
       if (challengeProgress > 2) {
         this.terminateGame(true)
       } else {
-          // this.state.battleSocket.emit('newgame', {clientID: clientID}) //Emit newgame event for viewer to listen to
           this.setState({
             challengeProgress: challengeProgress,
             text: challenges[challengeProgress].templateFunction,
@@ -133,6 +120,7 @@ class Repl extends React.Component {
     }
 
     resetAndStopTime () {
+      const freshGameStats = { me: 0, opponent: 0, score: 0, total: 0}
       clearInterval(this.state.gameTimerInterval)
       this.setState({
         gameTimer: 0,
@@ -145,7 +133,7 @@ class Repl extends React.Component {
       const context = this;
       
       this.resetAndStopTime()
-      this.setState({nextRoundTimer: 10})
+      this.setState({nextRoundTimer: 5})
       
       
       //Create the countdown intervals to 0
@@ -164,7 +152,6 @@ class Repl extends React.Component {
       setTimeout(boundReset, context.state.nextRoundTimer * 1000)
     }
 
-    //Request the server to add this user to the queue
     pairMe() {
       //Called only when startFreshGame is called
       publicSocket.emit('message', {
@@ -188,46 +175,44 @@ class Repl extends React.Component {
       })
     }
    
-    //Set outcome in the state to be rendered
-    //Initiate the new game countdown
+    randomPowerup(powerups) {
+      let randomIndex = Math.floor(Math.random() * powerups.length);
+      let randomPowerup = powerups[randomIndex];
+      let tempPowerups = this.state.powerups;
+      tempPowerups[randomPowerup].quantity += 1;
+      return tempPowerups;
+    }
+
+    newPrevGameStats(winner, winningData) {
+      let temp = this.state.gameProgress;
+      temp.push({
+          winner: winner,
+          score: winningData.score
+      })
+      return temp;
+    }
+
     processWinOrLoss (outcome, winningData) {
       if (outcome === 'win') {
-        let winAvailable = ['codeFreeze', 'blackout'];
-        let randomIndex = Math.floor(Math.random() * winAvailable.length);
-        let randomPowerup = winAvailable[randomIndex];
-        let tempPow = this.state.powerups;
-        tempPow[randomPowerup].quantity += 1;
-
-
-        let temp = this.state.gameProgress;
-        temp.push({
-            winner: 'me',
-            score: winningData.score
-        })
+        const newPowerups = this.randomPowerup(['codeFreeze', 'blackout']);
+        const newPrevGameStats = this.newPrevGameStats('me', winningData)
+        
         this.setState({
           challengeResults: 'You Won',
-          gameProgress: temp,
-          powerups: tempPow
+          gameProgress: newPrevGameStats,
+          powerups: newPowerups
         })
       } else if (outcome === 'loss'){
         
-        let winAvailable = ['deleteLine', 'typeDelete']; 
-        let randomIndex = Math.floor(Math.random() * winAvailable.length);
-        let randomPowerup = winAvailable[randomIndex];
-        let tempPow = this.state.powerups;
-        tempPow[randomPowerup].quantity += 1; //Always give a peak in addition to this
-
-
-          let temp = this.state.gameProgress;
-            temp.push({
-                winner: 'opponent',
-                score: winningData.score
-            })
+        const newPowerups = this.randomPowerup(['codeFreeze', 'blackout']);
+        const newPrevGameStats = this.newPrevGameStats('opponent', winningData)
+        
         this.setState({
           challengeResults: 'You Lost',
-          gameProgress: temp,
-          powerups: tempPow
+          gameProgress: newPrevGameStats,
+          powerups: newPowerups
         })
+
       } else if (outcome === 'opponent resigned') {
         this.setState({challengeResults: 'Opponent Resigned'})
       }
@@ -248,10 +233,15 @@ class Repl extends React.Component {
       //This is called when:
         //User clicks end game
         //User has won by default (an opponent has disconnected or resigned)
+
+      const freshGameStats = { me: 0, opponent: 0, score: 0, total: 0}
       this.resetAndStopTime();
       this.setState({
         currentGameType: 'No Game',
-        challenge: [{}]
+        challenge: [{}],
+        gameProgress: [],
+        challengeProgress: 0,
+        currentGameStats: freshGameStats
       })
       
       if (keepPlaying) {
@@ -502,7 +492,7 @@ class Repl extends React.Component {
         //At this stage, process win or loss 
         //If it was a winning game then
           //Update the current score
-
+          console.log('codeResponse', codeResponse)
         if (codeResponse.score > this.state.currentGameStats.score) {
           const currentGameStats = this.state.currentGameStats;
           currentGameStats.score = codeResponse.score;
@@ -517,9 +507,6 @@ class Repl extends React.Component {
               clientID: this.state.clientID
             }));
         }
-      })
-      .catch((err) => {
-        throw new Error('The response from the Testing server is invalid', err);
       })
     }
 
@@ -552,7 +539,8 @@ class Repl extends React.Component {
                     challenge={this.state.challenge} 
                     gameProgress={this.state.gameProgress} 
                     currentGameStats={this.state.currentGameStats} 
-                    playerNames={this.state.playerNames} />
+                    playerNames={this.state.playerNames}
+                    currentGameType={this.state.currentGameType} />
           <Subheader
                     startFreshGame={this.startFreshGame.bind(this)} 
                     gameTimer={this.state.gameTimer} 
@@ -564,10 +552,11 @@ class Repl extends React.Component {
                     submitCode={this.submitCode.bind(this)}
                     usePowerup={this.usePowerup.bind(this)} 
                     powerups={this.state.powerups}
-                    nextRoundTimer={this.state.nextRoundTimer} />
+                    nextRoundTimer={this.state.nextRoundTimer}
+                    currentGameType={this.state.currentGameType} />
           {(!!this.state.nextRoundTimer) && <ChallengeResults 
                     nextRoundTimer={this.state.nextRoundTimer} 
-                    terminateGame={this.terminateGame.bind(this)} 
+                    terminateGame={this.terminateGame.bind(this, false)} 
                     challengeResults={this.state.challengeResults} />}
           <div className="row repl-wrapper">
             <div className="repl-panel col-sm-12 col-md-6" id="editor-container">
