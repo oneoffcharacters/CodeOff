@@ -80,10 +80,27 @@ class Repl extends React.Component {
             },
             helpful: false,
             quantity: 0
-          }
+          },
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
-          //* addUserText: {}, //Add text specified by the attacker in a comment
+          addUserText: {
+            action: () => {
+              console.log('add user text powerup used');
+              this.state.battleSocket.emit('requestInfo', {clientID: true, text: true})
+              var datafn = (data) => {
+                if(this.state.opponentID === data.clientID)
+                  console.log(data.text);
+              };
+              var datafn2 = (data) => {
+                if(this.state.opponentID === data.client)
+                  console.log(data.text);
+              };
+              this.state.battleSocket.on('responseInfo', datafn);
+              this.state.battleSocket.removeListner('responseInfo', datafn);
+              this.state.battleSocket.on('updateText', datafn2);
+            },
+            helpful: true
+          }, //Add text specified by the attacker in a comment
           // viewAnswer: {}, //View the answer for a limited period of time
           //* flipClient: {},
           // viewOpponent: {}
