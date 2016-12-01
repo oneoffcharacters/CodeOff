@@ -214,6 +214,7 @@ class Repl extends React.Component {
         })
 
       } else if (outcome === 'opponent resigned') {
+        // this.terminateGame(true)
         this.setState({challengeResults: 'Opponent Resigned'})
       }
       this.newGameCountdown()
