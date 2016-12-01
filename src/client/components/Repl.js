@@ -56,7 +56,7 @@ class Repl extends React.Component {
               this.editor.removeLines()
             },
             helpful: false,
-            quantity: 0
+            quantity: 1
           },
           blackout: {//Entire editor will be black for 5 seconds
             action: () => { 
@@ -66,7 +66,7 @@ class Repl extends React.Component {
               }, 5000)
             },
             helpful: false,
-            quantity: 0
+            quantity: 1
           },
           typeDelete: {
             action: () => { //Every keystroke will delete a word, not type a character
@@ -79,7 +79,7 @@ class Repl extends React.Component {
                 context.editor.session.removeAllListeners('change')}, 5000)
             },
             helpful: false,
-            quantity: 0
+            quantity: 1
           },
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
@@ -436,16 +436,26 @@ class Repl extends React.Component {
           })
 
           this.state.battleSocket.on('powerupUsed', (data) => {
-            var dataFromClient = data.clientID === this.state.clientID;
+            var dataFromSelf = data.clientID === this.state.clientID;
             var powerupIsHelpful = this.state.powerups[data.powerup].helpful;
             var usePowerup = this.state.powerups[data.powerup].action;
             console.log('data.powerup', data.powerup)
             console.log('this.state.powerup', this.state.powerups)
             console.log('this.state.powerups[data.powerup]', this.state.powerups[data.powerup])
-            if (dataFromClient) {
-              powerupIsHelpful && usePowerup();
+            if (dataFromSelf) {
+              if (powerupIsHelpful) {
+                this.state.console.Write('You used the powerup ' + data.powerup + '\n\n')
+                usePowerup();
+              } else {
+                this.state.console.Write('You destroyed your opponents with ' + data.powerup + '\n\n')
+              }
             } else {
-              !powerupIsHelpful && usePowerup();
+              if (!powerupIsHelpful) {
+                this.state.console.Write('BAM! Your opponent used the powerup ' + data.powerup + '\n')
+                usePowerup();
+              } else {
+                this.state.console.Write('Your opponent used the superpower ' + data.powerup + '\n')
+              }
             }
           })
         }
