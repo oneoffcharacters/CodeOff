@@ -1,3 +1,4 @@
+// import packages
 import React from 'react';
 
 export default class Footer extends React.Component {
@@ -14,7 +15,7 @@ export default class Footer extends React.Component {
         </div>
 
         <div className="Footer-Question">
-          <button className="QuestionButton" type="submit">Ask Question</button>
+          <button className="QuestionButton" type="submit">Meet the Team</button>
         </div>
       </div>
     )
