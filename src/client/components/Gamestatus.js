@@ -1,8 +1,7 @@
+// import packages
 import React from 'react';
 
-
 const Gamestatus = (props) => {
-
 	if (props.gameNumber === props.challengeProgress) {
 		return (
 			<div className="gamestatus current-game">
