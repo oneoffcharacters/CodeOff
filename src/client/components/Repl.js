@@ -13,48 +13,33 @@ class Repl extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
+        //Client Objects
         text:"console.log('hello world');",
-        seriesDetails: {
-          clientID: '',
-          pairID: '',
-          opponentID: '',
-          battleSocket: '',
-          gameType: 'No Game',
-          elapsedTime: 0,
-          elapsedInterval: '',
-          currentChallengeNumber: 0,
-          previousGameStats: [],
-        },
-        challengeDetails: {
-          challenges: [{}],
-          timeUntilNextRound: 0,
-          gameStats: {}
-        },
-        client: {
-          console: '',
-          text: "console.log('hello world');"
-        },
         console:'', 
-        clientID:'', //Included
-        pairID:'',   //Included
-        opponentID:'', //Included
-        currentGameType:'No Game', //Included
-        gameTimer: 0, //Included
-        nextRoundTimer:0, //Included
-        gameTimerInterval:'', //Included
-        battleSocket: '', //Included
-        challenge: [{}], //Included
-        challengeProgress: 0, //
-        challengeResults:'', //Included
-        gameProgress: [], ////Included
-        currentGameStats: { me: 0, opponent: 0, score: 0, total: 0},
         powerups: { //Stores the functionality on how to handle a particular powerup
           codeFreeze: powerupDef.codeFreeze,
           deleteLine: powerupDef.deleteLine,
           blackout: powerupDef.blackout,
           typeDelete: powerupDef.typeDelete,
           peek: powerupDef.peek
-        }
+        },
+
+        //Challenge Details
+        nextRoundTimer:0,
+        challenge: [{}],
+        currentGameStats: { me: 0, opponent: 0, score: 0, total: 0},
+        
+        //Series Details
+        clientID:'',
+        pairID:'',  
+        opponentID:'',
+        currentGameType:'No Game',
+        gameTimer: 0,
+        gameTimerInterval:'',
+        battleSocket: '',
+        challengeProgress: 0,
+        challengeResults:'',
+        gameProgress: [],
       };
     }
     componentDidMount() {
