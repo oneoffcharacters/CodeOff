@@ -90,8 +90,6 @@ export default class register extends React.Component {
       <div>
         <div>
           <h3>Get started by creating an account!</h3>
-          <h3>{this.state.user}</h3>
-          <h3>{this.state.pw}</h3>
           <form action="submit" onSubmit={this.onFormSubmit}>
             <input type="text" value={this.state.user} name="userinp" onChange={this.onUserChangeHandle} placeholder="user" />
             <input type="password" value={this.state.pw} name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
