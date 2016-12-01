@@ -233,6 +233,16 @@ class Repl extends React.Component {
     processWinOrLoss (outcome, winningData) {
       console.log('winningData', winningData)
       if (outcome === 'win') {
+        //have a list of weak powerups
+        //Determine which powerup to supply
+        //make copy of powerups object, make new copy with incremented resource, set new to prev
+        let winAvailable = ['codeFreeze', 'blackout'];
+        let randomIndex = Math.floor(Math.random() * winAvailable.length);
+        let randomPowerup = winAvailable[randomIndex];
+        let tempPow = this.state.powerups;
+        tempPow[randomPowerup].quantity += 1;
+
+
         let temp = this.state.gameProgress;
         temp.push({
             winner: 'me',
@@ -240,10 +250,19 @@ class Repl extends React.Component {
         })
         this.setState({
           challengeResults: 'You Won',
-          gameProgress: temp
+          gameProgress: temp,
+          powerups: tempPow
         })
         console.log('You are victorious')
       } else if (outcome === 'loss'){
+        
+        let winAvailable = ['deleteLine', 'typeDelete']; 
+        let randomIndex = Math.floor(Math.random() * winAvailable.length);
+        let randomPowerup = winAvailable[randomIndex];
+        let tempPow = this.state.powerups;
+        tempPow[randomPowerup].quantity += 1; //Always give a peak in addition to this
+
+
           let temp = this.state.gameProgress;
             temp.push({
                 winner: 'opponent',
@@ -252,6 +271,7 @@ class Repl extends React.Component {
         this.setState({
           challengeResults: 'You Lost',
           gameProgress: temp,
+          powerups: tempPow
         })
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
