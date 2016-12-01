@@ -1,7 +1,10 @@
+// import packages
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import { Route, Router, IndexRedirect, browserHistory } from 'react-router';
+
+// import components
+import App from './App';
 import Repl from './Repl';
 import Viewer from './Viewer';
 import Dashboard from './Dashboard';
