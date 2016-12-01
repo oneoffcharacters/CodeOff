@@ -197,11 +197,13 @@ class Repl extends React.Component {
     newChallengeAndTime(type) {
       //Called when:
         //A user has lost or won and needs a new challenge / the time reset
+      const freshGameStats = { me: 0, opponent: 0, score: 0, total: 0}
       const boundTick = this.tickTime.bind(this)
       this.resetAndStopTime()
       this.startNextGame()
       this.setState({
         gameTimerInterval: setInterval(boundTick, 1000),
+        currentGameStats: freshGameStats
       })
       if (type === 'Battle') {
         console.log('Battle will be continued')
@@ -223,14 +225,8 @@ class Repl extends React.Component {
         })
         this.setState({
           challengeResults: 'You Won',
-          gameProgress: temp,
-          currentGameStats: {
-          me: 0,
-          opponent: 0,
-          score: 0,
-          total: 0
-          }
-        },console.log('The currentGameStats are', this.state.currentGameStats))
+          gameProgress: temp
+        })
         console.log('You are victorious')
       } else if (outcome === 'loss'){
           let temp = this.state.gameProgress;
@@ -241,13 +237,7 @@ class Repl extends React.Component {
         this.setState({
           challengeResults: 'You Lost',
           gameProgress: temp,
-          currentGameStats: {
-          me: 0,
-          opponent: 0,
-          score: 0,
-          total: 0
-          }
-        },console.log('The currentGameStats are', this.state.currentGameStats))
+        })
         console.log('You lost')
       } else if (outcome === 'opponent resigned') {
         this.setState({challengeResults: 'Opponent Resigned'})
@@ -520,6 +510,11 @@ class Repl extends React.Component {
       })
       .then((codeResponse) => {
         //if the current score is greater, than update the score in the state
+        console.log('codeResponse', codeResponse)
+        //At this stage, process win or loss 
+        //If it was a winning game then
+          //Update the current score
+
         if (codeResponse.score > this.state.currentGameStats.score) {
           const currentGameStats = this.state.currentGameStats;
           currentGameStats.score = codeResponse.score;
