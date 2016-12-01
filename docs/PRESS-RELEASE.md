@@ -1,4 +1,4 @@
-# Project Name #
+# CodeOff #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+Online Coding Challenge battleground featuring multiple testing sequences, powerups, and spectator viewing!
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+For coders worldwide to engage in friendly or competitive challeneges against each other, or just brush up with some solo challenges! Live viewing is also available, watch top coders battle each other, or spend some time watching friends code off!
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+What makes coding fun is solving challenges. Prove your skills against others in live competition, with the twist of powerups to make things really exciting! Passing your tests and crushing the opponent? Why not freeze their code to prove your dominance! Need a pick up or helpful hint? Peek at the others code or even turn the opponents speed against him when all his insertions become deletions!
 
 ## Problem ##
-  > Describe the problem your product solves.
+Solving challenges is fun, but doing it alone can get boring or dull a sense of urgency. Doing things alone is often times
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+CodeOff resolves this by introducing live competition to really spark the feeling of accomplishment when you win! Show off your skills against your friends and others, fire off powerups against the competiton, and become the top hacker in the world. 
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+"There is no better feeling than crushing the competition while simultaneously freezing or blacking out their code" -Robbie Gifford (Hacker Master)
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+From the homepage just select "play now", and then select your mode of choice (solo, or battle)!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+"I got blacked out and frozen so hard I ragequit immediately, 0/5 stars...would play again" -Sherman Chen (Sore Loser)
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+If you've gotten this far you have read too much, instead go try out the excitement for yourself! 
