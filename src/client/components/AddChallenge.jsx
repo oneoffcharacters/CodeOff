@@ -24,6 +24,8 @@ export default class AddChallenge extends React.Component {
     this.onTestChangeHandle = this.onTestChangeHandle.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
+    this.onTestSubmit = this.onTestSubmit.bind(this);
+    this.onTestPress = this.onTestPress.bind(this);
   }
 
   onTitleChangeHandle(e) {
@@ -58,6 +60,7 @@ export default class AddChallenge extends React.Component {
     this.setState({test: e.target.value});
   }
 
+
   onFormSubmit(e) {
     e.preventDefault();
     console.log('form submitted');
@@ -81,7 +84,7 @@ export default class AddChallenge extends React.Component {
       body: challengeInputs 
     })
     .then(() => {
-      console.log('post request successful');
+      console.log('submit post request successful');
       this.setState({
         title: '',
         functionName: '',
@@ -94,7 +97,7 @@ export default class AddChallenge extends React.Component {
       });
       console.log('state after request to /api/challenge =', this.state); 
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       this.setState({
         title: '',
@@ -113,6 +116,39 @@ export default class AddChallenge extends React.Component {
     this.onFormSubmit();
   }
 
+
+  onTestSubmit(e) {
+    console.log('test submitted');
+
+    let testInputs = JSON.stringify({
+      code: this.state.templateFunction,
+      solutions: this.state.solutions,
+      test: this.state.test
+    });
+
+    fetch('api/mocha/addchallenge', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: testInputs
+    })
+    .then(() => {
+      console.log('test post request submitted');
+      console.log('testInputs', testInputs);
+      console.log('this.state', this.state);
+
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+  onTestPress() {
+    this.onTestSubmit();
+  }
+
+
   render() {
     return (
       <div>
@@ -122,40 +158,43 @@ export default class AddChallenge extends React.Component {
             <form action="submit" onSubmit={this.onFormSubmit}>
               <div className="AddChallengeInputDiv">
                 <p><b>Title</b><br /> ex: Max Number</p>
-                <textarea className="AddChallengeInput" type="text" rows="5" value={this.state.title} name="" onChange={this.onTitleChangeHandle}></textarea>
+                <textarea className="AddChallengeInput" type="text" value={this.state.title}  onChange={this.onTitleChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
-                <p><b>Function Name</b><br /> Example: maxNumber</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.functionName} name="" onChange={this.onFunctionNameChangeHandle}></textarea>
+                <p><b>Function Name</b><br /> ex: maxNumber</p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.functionName} onChange={this.onFunctionNameChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p><b>Difficulty: Easy, Medium, or Hard</b></p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.difficulty} name="" onChange={this.onDifficultyChangeHandle}></textarea>
+                <p><b>Difficulty:</b><br />ex: Easy, Medium, or Hard</p>
+                <textarea className="AddChallengeInput" type="text" value={this.state.difficulty} onChange={this.onDifficultyChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Solutions</b></p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.solutions} name="" onChange={this.onSolutionsChangeHandle}></textarea>
+                <textarea className="AddChallengeInput" type="text" value={this.state.solutions} onChange={this.onSolutionsChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Prompt</b> <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.prompt} name="" onChange={this.onPromptChangeHandle}></textarea>
+                <textarea className="AddChallengeInput" type="text" value={this.state.prompt} onChange={this.onPromptChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Template Function</b></p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.templateFunction} name="" onChange={this.onTemplateFunctionChangeHandle}></textarea>
+                <textarea className="AddChallengeInput" type="text" value={this.state.templateFunction} onChange={this.onTemplateFunctionChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
-                <p><b>Examples: must be within in an array separated by commas.</b><br />[maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
-                <textarea className="AddChallengeInput" type="text" value={this.state.examples} name="" onChange={this.onExamplesChangeHandle}></textarea>
+                <p><b>Examples:</b> must be within in an array separated by commas.<br />ex: [maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
+                <textarea className="AddChallengeInput" type="text" value={this.state.examples} onChange={this.onExamplesChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv"> 
-                <p><b>Test</b></p> 
-                <textarea className="AddChallengeInput" type="text" value={this.state.test} name="" onChange={this.onTestChangeHandle}></textarea>
+                <p><b>Chai Assertion Test</b></p> 
+                <textarea className="AddChallengeInput" type="text" value={this.state.test} onChange={this.onTestChangeHandle}>const expect = require("chai").expect;</textarea>
               </div>
               <div className="AddChallengeInputDiv">
-                <button className="AddChallengeButton" onClick={this.onButtonPress}>Add Challenge</button>
+                <button className="AddChallengeSubmitButton" onClick={this.onButtonPress}>Submit</button>
               </div>
             </form>
+            <div className="AddChallengeInputDiv">
+              <button className="AddChallengeTestButton" onClick={this.onTestPress}>Test</button>
+            </div>
           </div>
         </div>
         <Footer />

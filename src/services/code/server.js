@@ -39,6 +39,7 @@ app.post('/api/test', (req, res) => {
     const score = utils.scoreResults(data, lintResults)
     // Send err and data from mocha
     res.status(200).json({
+      'Access-Control-Allow-Origin': 'http://localhost:3000/addchallenge',
       err: err,
       data: data,
       eslint: lintResults,
