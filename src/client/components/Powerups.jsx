@@ -1,7 +1,7 @@
 // import packages
 import React from 'react';
 
-const Powerups = ({ powerups, usePowerup }) => {
+const Powerups = ({powerups, usePowerup}) => {
   const powerupList = Object.keys(powerups)
   
   return (

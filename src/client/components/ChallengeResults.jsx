@@ -1,7 +1,7 @@
 // import packages
 import React from 'react';
 
-const ChallengeResults = ({ terminateGame, nextRoundTimer , challengeResults }) => {
+const ChallengeResults = ({terminateGame, nextRoundTimer , challengeResults}) => {
 	return (
 		<div className="result-card">
 			<div className="result-title">{challengeResults}!</div>

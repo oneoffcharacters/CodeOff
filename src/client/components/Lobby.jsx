@@ -1,6 +1,6 @@
 // import packages
 import React from 'react';
-import { Router, Link } from 'react-router';
+import {Router, Link} from 'react-router';
 
 // import components
 import Footer from './Footer';
