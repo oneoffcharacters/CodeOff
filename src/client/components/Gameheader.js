@@ -1,4 +1,7 @@
+// import packages
 import React from 'react';
+
+// import components
 import Gamestatus from './Gamestatus'
 
 const Gameheader = (props) => {
@@ -32,7 +35,6 @@ const Gameheader = (props) => {
 				<div className="username"></div>
 			</div>
 		</div>
-
 	)
 }
 
