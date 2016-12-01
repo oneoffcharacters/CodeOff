@@ -23,9 +23,6 @@ const Gameheader = (props) => {
 								playerNames={props.playerNames} />
 						))}
 					</div>
-					<div className="game-dashbard powerup-icon">
-						<img src='./assets/images/powerup.png' height='45%' width='45%' alt='powerup-icon'/>
-					</div>
 				</div>
 			</div>
 			<div className="powerup">
