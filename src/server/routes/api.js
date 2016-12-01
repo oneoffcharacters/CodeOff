@@ -75,22 +75,27 @@ router.post('/mocha/addchallenge', (req, res) => {
     "test": req.body.test
   })
     .then(resp => {
-      console.log('req body', req.body);  
+      // console.log('req body', req.body); 
       // if this happens and resp.data.err is > 0 JSON.parse will throw unexpected end of input error
       // check if resp.data.err length is greater than 0
-        // if yes then send back err
+      // if yes then send back err
       if(resp.data.err.length > 0) {
         res.send(resp.data.err);
       } else {
-        console.log('AXIOS RESPONSE', resp.data.data);
-        // const data = JSON.parse(resp.data.data)
+        // console.log('AXIOS RESPONSE', resp.data.data);
+        const data = JSON.parse(resp.data.data)
         //TODO: Add check to see if they passed all test cases
-        console.log('comparison', data.stats.passes,data.stats.tests)
-        if (data.stats.passes === data.stats.tests) {
-          // namespaces[req.body.pairID].socket.emit('game won', {client: req.body.clientID})
+        var resDataStats = JSON.parse(resp.data.data).stats;
+        console.log('comparison', resDataStats);
+        if (resDataStats.passes === resDataStats.tests) {
           console.log('tests pass');
+          res.status(200).json(resp.data);
+          // res.send('all tests pass');
+        } else {
+          console.log('all tests do not pass, please try again');
+          res.status(200).json(resp.data); 
+          // res.send('error in submitting tests, please try again');
         }
-        res.status(200).json(resp.data);
       }
     })  
     .catch(err => {

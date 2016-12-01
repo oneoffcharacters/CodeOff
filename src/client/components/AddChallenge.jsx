@@ -12,7 +12,9 @@ export default class AddChallenge extends React.Component {
       prompt: '',
       templateFunction: '',
       examples: '',
-      test: ''
+      test: '',
+      chaiTestsPassing: false,
+      errResponse: ''
     };
     this.onTitleChangeHandle = this.onTitleChangeHandle.bind(this);
     this.onFunctionNameChangeHandle = this.onFunctionNameChangeHandle.bind(this);
@@ -133,10 +135,28 @@ export default class AddChallenge extends React.Component {
       },
       body: testInputs
     })
-    .then(() => {
+    .then((resp) => {
       console.log('test post request submitted');
-      console.log('testInputs', testInputs);
-      console.log('this.state', this.state);
+      // console.log('testInputs', testInputs);
+      // console.log('this.state', this.state);
+      // console.log('resp.json', resp.json());
+      // console.log('resp', resp.body);
+      return resp.json();
+    })
+    .then((respJSON) => {
+      console.log('respJSON', respJSON);
+      const responseData = JSON.parse(respJSON.data)
+      console.log('The test data is', responseData)
+      // console.log(respJSON.data.tests);
+      if(responseData.stats.passes !== responseData.stats.tests) {
+        this.setState({
+          errResponse: JSON.stringify(responseData)
+        });
+      } else {
+        this.setState({
+          chaiTestsPassing: true
+        });
+      }
 
     })
     .catch((err) => {
@@ -150,10 +170,18 @@ export default class AddChallenge extends React.Component {
 
 
   render() {
+    var disabled = !this.state.chaiTestsPassing ? 'disabled' : ''
+    console.log('disabled', disabled)
     return (
       <div>
         <div>
-          <h3 className="AddChallengeHeader">Create a new challenge!</h3>
+          <h3 className="AddChallengeHeader">Create a new challenge</h3>
+          <p>Follow the steps below to add a challenge.</p>
+          <ol>
+            <li>Fill out all of the boxes below with info on the challenge you would like to add.</li>
+            <li>Click on the Validate Tests button to confirm that your Chai assertion tests work.</li>
+            <li>If all test cases pass for your function then click on the Add Challenge button.</li>
+          </ol>
           <div className="AddChallengeForm">
             <form action="submit" onSubmit={this.onFormSubmit}>
               <div className="AddChallengeInputDiv">
@@ -169,7 +197,7 @@ export default class AddChallenge extends React.Component {
                 <textarea className="AddChallengeInput" type="text" value={this.state.difficulty} onChange={this.onDifficultyChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p><b>Solutions</b></p>
+                <p><b>Solution Function(s)</b><br />Write a function and make sure to export it using "module.exports = SolutionFunction"</p>
                 <textarea className="AddChallengeInput" type="text" value={this.state.solutions} onChange={this.onSolutionsChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
@@ -177,7 +205,7 @@ export default class AddChallenge extends React.Component {
                 <textarea className="AddChallengeInput" type="text" value={this.state.prompt} onChange={this.onPromptChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p><b>Template Function</b></p>
+                <p><b>Template Function Attempt</b><br />Write a function and make sure to export it using "module.exports = TemplateFunctionAttempt"</p>
                 <textarea className="AddChallengeInput" type="text" value={this.state.templateFunction} onChange={this.onTemplateFunctionChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
@@ -185,15 +213,19 @@ export default class AddChallenge extends React.Component {
                 <textarea className="AddChallengeInput" type="text" value={this.state.examples} onChange={this.onExamplesChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv"> 
-                <p><b>Chai Assertion Test</b></p> 
-                <textarea className="AddChallengeInput" type="text" value={this.state.test} onChange={this.onTestChangeHandle}>const expect = require("chai").expect;</textarea>
+                <p><b>Chai Assertion Test</b><br />Include "const expect = require("chai").expect;" before writing tests within a describe() block as it() statements</p> 
+                <textarea className="AddChallengeInput" type="text" value={this.state.test} onChange={this.onTestChangeHandle}></textarea>
               </div>
+
               <div className="AddChallengeInputDiv">
-                <button className="AddChallengeSubmitButton" onClick={this.onButtonPress}>Submit</button>
+                <button className="AddChallengeSubmitButton" disabled = {disabled} onClick={this.onButtonPress}>Add Challenge</button>
+              </div>
+              <div>
+                {this.state.errResponse}
               </div>
             </form>
             <div className="AddChallengeInputDiv">
-              <button className="AddChallengeTestButton" onClick={this.onTestPress}>Test</button>
+              <button className="AddChallengeTestButton" onClick={this.onTestPress}>Validate Tests</button>
             </div>
           </div>
         </div>
