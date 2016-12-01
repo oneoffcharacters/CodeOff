@@ -131,22 +131,11 @@ class Viewer extends React.Component {
       })
     }
 
-    handleKeyPress (e) {
-      const context = this;
-
-      context.setState({
-        pairID: e.target.value
-      });
-    }
 
   render() {
     console.log('this.props.params.namespace', this.props.params.namespace)
     return (
         <div className="viewer">
-          <form onSubmit={this.setupSocket.bind(this)}>
-            <input type="text" name="name" onKeyUp={this.handleKeyPress.bind(this)}/>
-            <input type="submit" value="Submit" />
-          </form>
           <div className="row repl-wrapper">
             <div className="repl-panel col-sm-12 col-md-6" id="editor-container-1">
               <div id="editor1"></div>
