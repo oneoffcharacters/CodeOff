@@ -10,6 +10,10 @@ button:focus {
   outline: 0;
 }
 
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
 /*=======================
 =====Editor & Console====
 =======================*/
@@ -100,12 +104,14 @@ button:focus {
 }
 
 /*=====Subheader======*/
-.subheader {
+/*.subheader {
   background: #555E6B;
-}
+}*/
 
 .subheader {
  display: block;
+ background: #555E6B;
+ padding-top: 0.5em;
 }
 
 .subheader .btn{
@@ -136,6 +142,20 @@ button:focus {
   color: white;
   vertical-align: bottom;
   background-color: rgba(0, 0, 255, 0.0);
+}
+
+#powerup {
+  background-image: url(../assets/images/powerup.png);
+  background-color: transparent;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+  -webkit-transform: rotateY(360deg); /* Safari */
+  transform: rotateY(180deg);
 }
 
 .dropdown-menu li {
@@ -321,7 +341,6 @@ button:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding-left: 13%;
 }
 
 .game-dashboard {
