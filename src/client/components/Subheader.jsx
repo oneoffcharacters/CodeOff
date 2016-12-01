@@ -5,7 +5,8 @@ import React from 'react';
 import GametypeOptions from './GametypeOptions';
 import Powerups from './Powerups';
 
-const Subheader = ({powerups, usePowerup, runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin , submitCode}) => {
+const Subheader = ({nextRoundTimer, powerups, usePowerup, runCode, currentGameType, gameTimer, startFreshGame , terminateGame, didWin , submitCode}) => {
+	
 	const prettyTime = function(time) {
 		let minutes = Math.floor(time / 60);
 		let seconds = time - minutes * 60;
@@ -18,14 +19,16 @@ const Subheader = ({powerups, usePowerup, runCode, currentGameType, gameTimer, s
 		return finalTime;
 	}
 
+	const isDisabled = nextRoundTimer > 0 ? true : false;
+
 	return (
 		<div className="subheader row no-marg">
 			<GametypeOptions startFreshGame={startFreshGame} terminateGame={terminateGame} />
 			<Powerups  powerups={powerups} usePowerup={usePowerup}/>
 			<span className="gametype">{currentGameType}</span>
 			<span className="gametimer">{"Time: " + prettyTime(gameTimer)}</span>
-			<button onClick={runCode} className="btn btn-default run runCodeBtn" type="submit">Run</button>
-			<button onClick={submitCode} className="btn btn-default submitBtn" type="submit">Submit</button>
+			<button onClick={runCode} className="btn btn-default action" type="submit">Run</button>
+			<button onClick={submitCode} disabled={isDisabled} className="btn btn-default action" type="submit">Submit</button>
 		</div>
 	)
 }
