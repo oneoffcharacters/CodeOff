@@ -87,14 +87,12 @@ router.post('/mocha/addchallenge', (req, res) => {
         //TODO: Add check to see if they passed all test cases
         var resDataStats = JSON.parse(resp.data.data).stats;
         console.log('comparison', resDataStats);
-        if (resDataStats.passes === resDataStats.tests) {
+        if (resDataStats.passes === resDataStats.tests && resDataStats.tests > 0) {
           console.log('tests pass');
           res.status(200).json(resp.data);
-          // res.send('all tests pass');
         } else {
           console.log('all tests do not pass, please try again');
           res.status(200).json(resp.data); 
-          // res.send('error in submitting tests, please try again');
         }
       }
     })  
