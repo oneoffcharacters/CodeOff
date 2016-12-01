@@ -1,9 +1,12 @@
+// import packages
 import React from 'react';
+
+// import components
 import DashboardHeader from './DashboardHeader';
 import Leaderboard from './Leaderboard';
 import Profile from './Profile';
 
-class Dashboard extends React.Component {
+export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
@@ -17,5 +20,3 @@ class Dashboard extends React.Component {
     )
   }
 }
-
-export default Dashboard
