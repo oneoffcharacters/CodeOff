@@ -58,7 +58,7 @@ class Repl extends React.Component {
             helpful: false,
             quantity: 1
           },
-          blackout: {//Entire editor will be black for 5 seconds
+          blackout: { //Entire editor will be black for 5 seconds
             action: () => { 
               this.editor.setTheme("ace/theme/powerup-blinded");
               setTimeout(() => {
@@ -81,25 +81,18 @@ class Repl extends React.Component {
             helpful: false,
             quantity: 1
           },
-          // freeForm: {}, //Disable syntax highlighting for x seconds
-          //* easyMode: {}, //Delete a random test case from the current question
           peek: {
-            action: () => {
-              console.log('add user text powerup used');
+            action: () => { //See the opponents text in the console for 5 seconds
               this.state.battleSocket.emit('requestInfo', {clientID: true, text: true})
               var datafn = (data) => {
                 if(this.state.opponentID === data.clientID) {
                   this.state.console.Write(data.text);
-                  console.log('OPPONENT DATA', data.text);
                 }
-                // this is happening asynchronously, before console log happens
-                // this.state.battleSocket.removeListener('responseInfo', datafn);
               };
               var datafn2 = (data) => {
                 if(this.state.opponentID === data.client) {
                   this.state.console.Reset();
                   this.state.console.Write(data.text);
-                  console.log(data.text);
                 }
               };
               this.state.battleSocket.on('responseInfo', datafn);
@@ -111,10 +104,7 @@ class Repl extends React.Component {
             },
             helpful: true,
             quantity: 1
-          }, //Add text specified by the attacker in a comment
-          // viewAnswer: {}, //View the answer for a limited period of time
-          //* flipClient: {},
-          // viewOpponent: {}
+          },
         }
       };
     }
@@ -652,7 +642,8 @@ class Repl extends React.Component {
                     // didWin={this.didWin.bind(this)}
                     submitCode={this.submitCode.bind(this)}
                     usePowerup={this.usePowerup.bind(this)} 
-                    powerups={this.state.powerups} />
+                    powerups={this.state.powerups}
+                    nextRoundTimer={this.state.nextRoundTimer} />
           {(!!this.state.nextRoundTimer) && <ChallengeResults 
                     nextRoundTimer={this.state.nextRoundTimer} 
                     terminateGame={this.terminateGame.bind(this)} 

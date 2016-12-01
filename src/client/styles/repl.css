@@ -162,7 +162,7 @@ button:focus {
   padding-left: 10px;
 }
 
-.runCodeBtn {
+.action {
   text-align: center;
   width: 7em;
   margin-top: 0.2%;
@@ -174,12 +174,15 @@ button:focus {
   border: 1px solid transparent;
 }
 
-.runCodeBtn:hover {
+.action:hover {
   background-color: #e07f08;
   color: #efeded;
 }
 
-.submitBtn {
+.action:disabled {
+  background-color: #D8D8D8;
+}
+/*.submitBtn {
   text-align: center;
   width: 7em;
   margin-top: 0.2%;
@@ -192,7 +195,7 @@ button:focus {
 .submitBtn:hover {
   background-color: #e07f08;
   color: #efeded;
-}
+}*/
 
 /*=======Console========*/
 #console-terminal-editor {
