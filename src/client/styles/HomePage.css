@@ -86,7 +86,6 @@ button:focus {
   font-size: 18px;
   font-weight: bold;
   color: #FFFFFF;
-  letter-spacing: 3.6px;
   height: 2em;
   width: 9em;
   margin-right: 1%;
@@ -101,7 +100,6 @@ button:focus {
   font-size: 18px;
   font-weight: bold;
   color: #555E6B;
-  letter-spacing: 3.6px;
   height: 2em;
   width: 9em;
 }
