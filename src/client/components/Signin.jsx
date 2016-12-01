@@ -1,9 +1,11 @@
+// import packages
 import React from 'React';
+
+// import components
 import Header from './Header';
 import Footer from './Footer';
 
 const authUrl = 'http://localhost:3000/api/auth/login';
-
 
 export default class Signin extends React.Component {
 	constructor() {
@@ -34,8 +36,6 @@ export default class Signin extends React.Component {
 				"name": this.state.user,
 				"password": this.state.pw
 		});
-
-		console.log('this is the post data, ', credentials);
 
 		fetch('http://localhost:3000/api/auth/login', {
 			method: 'post',
@@ -87,19 +87,15 @@ export default class Signin extends React.Component {
 	}	
 
 	render () {
-
 		return (
 			<div>
 				<div>
 					<h3>Welcome Back!</h3>
-					<h3>{this.state.user}</h3>
-					<h3>{this.state.pw}</h3>
 					<form action="submit" onSubmit={this.onFormSubmit}>
 						<input type="text" value={this.state.user} name="userinp" onChange={this.onUserChangeHandle} placeholder="user" />
 						<input type="password" value={this.state.pw} name="pwinp" onChange={this.onPwChangeHandle} placeholder="password"/>
 						<button onClick={this.onButtonPress}>Sign In!</button>
 					</form>
-
 				</div>
 				<Footer />
 			</div>
