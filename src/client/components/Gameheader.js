@@ -1,7 +1,6 @@
 import React from 'react';
 import Gamestatus from './Gamestatus'
 
-
 const Gameheader = (props) => {
 	return (
 		<div className="gameheader">
@@ -11,20 +10,22 @@ const Gameheader = (props) => {
 			</div>
 			<div className="center-dashboard">
 				<div className="game-logo">Code<span className="game-logo-alt">Off</span></div>
-				<div className="game-dashboard">
-					{props.challenge.map((game, i) => (
-						<Gamestatus
-							key = {i}
-							gameNumber = {i} 
-							challengeProgress={props.challengeProgress}
-							challenge={props.challenge} 
-							gameProgress={props.gameProgress} 
-							currentGameStats={props.currentGameStats} 
-							playerNames={props.playerNames} />
-					))}
-					<div className="game-status"></div>
-					<div className="game-status current"></div>
-					<div className="game-status unplayed"></div>
+				<div className="game-dashboard-wrapper">
+					<div className="game-dashboard">
+						{props.challenge.map((game, i) => (
+							<Gamestatus
+								key = {i}
+								gameNumber = {i} 
+								challengeProgress={props.challengeProgress}
+								challenge={props.challenge} 
+								gameProgress={props.gameProgress} 
+								currentGameStats={props.currentGameStats} 
+								playerNames={props.playerNames} />
+						))}
+					</div>
+					<div className="game-dashbard powerup-icon">
+						<img src='./assets/images/powerup.png' height='45%' width='45%' alt='powerup-icon'/>
+					</div>
 				</div>
 			</div>
 			<div className="powerup">
