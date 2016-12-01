@@ -1,3 +1,4 @@
+// import packages
 import React from 'react';
 
 const Powerups = ({ powerups, usePowerup }) => {
