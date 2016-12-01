@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/oneoffcharacters/thesis#readme",
   "dependencies": {
+    "auto-bind": "^0.1.0",
     "axios": "^0.15.2",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.6",
