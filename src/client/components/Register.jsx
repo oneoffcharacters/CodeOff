@@ -1,4 +1,7 @@
+// import packages
 import React from 'React';
+
+// import components
 import Footer from './Footer';
 
 export default class register extends React.Component {
