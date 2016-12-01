@@ -1,5 +1,5 @@
 # base image
-FROM node:argon
+FROM node:latest
 
 # create app directory
 RUN mkdir -p /usr/src/app
@@ -13,4 +13,5 @@ RUN npm install
 COPY . /usr/src/app
 
 EXPOSE 3000
+EXPOSE 3001
 CMD [ "npm", "run", "dev" ]
