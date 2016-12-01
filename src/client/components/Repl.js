@@ -83,23 +83,34 @@ class Repl extends React.Component {
           },
           // freeForm: {}, //Disable syntax highlighting for x seconds
           //* easyMode: {}, //Delete a random test case from the current question
-          addUserText: {
+          peek: {
             action: () => {
               console.log('add user text powerup used');
               this.state.battleSocket.emit('requestInfo', {clientID: true, text: true})
               var datafn = (data) => {
-                if(this.state.opponentID === data.clientID)
-                  console.log(data.text);
+                if(this.state.opponentID === data.clientID) {
+                  this.state.console.Write(data.text);
+                  console.log('OPPONENT DATA', data.text);
+                }
+                // this is happening asynchronously, before console log happens
+                // this.state.battleSocket.removeListener('responseInfo', datafn);
               };
               var datafn2 = (data) => {
-                if(this.state.opponentID === data.client)
+                if(this.state.opponentID === data.client) {
+                  this.state.console.Reset();
+                  this.state.console.Write(data.text);
                   console.log(data.text);
+                }
               };
               this.state.battleSocket.on('responseInfo', datafn);
-              this.state.battleSocket.removeListner('responseInfo', datafn);
               this.state.battleSocket.on('updateText', datafn2);
+              setTimeout(() => {
+                this.state.console.Reset();
+                this.state.battleSocket.removeListener('updateText', datafn2);
+              }, 5000)
             },
-            helpful: true
+            helpful: true,
+            quantity: 1
           }, //Add text specified by the attacker in a comment
           // viewAnswer: {}, //View the answer for a limited period of time
           //* flipClient: {},
@@ -472,6 +483,7 @@ class Repl extends React.Component {
       })
       .then((codeResponse) => {
         console.log('The code response is', codeResponse)
+        context.state.console.Reset();
         context.state.console.Write(codeResponse.data)
       })
       .catch((err) => {
