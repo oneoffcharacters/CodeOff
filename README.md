@@ -1,6 +1,6 @@
-# Project Name
+# CodeOff
 
-CodeOff
+Online Coding Challenge battleground featuring multiple testing sequences, powerups, and spectator viewing!
 
 ## Team
 
