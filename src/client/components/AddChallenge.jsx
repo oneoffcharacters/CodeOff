@@ -148,13 +148,14 @@ export default class AddChallenge extends React.Component {
       const responseData = JSON.parse(respJSON.data)
       console.log('The test data is', responseData)
       // console.log(respJSON.data.tests);
-      if(responseData.stats.passes !== responseData.stats.tests) {
+      if(responseData.stats.passes !== responseData.stats.tests || responseData.stats.tests === 0) {
         this.setState({
           errResponse: JSON.stringify(responseData)
         });
       } else {
         this.setState({
-          chaiTestsPassing: true
+          chaiTestsPassing: true,
+          errResponse: ''
         });
       }
 
@@ -173,15 +174,17 @@ export default class AddChallenge extends React.Component {
     var disabled = !this.state.chaiTestsPassing ? 'disabled' : ''
     console.log('disabled', disabled)
     return (
-      <div>
-        <div>
-          <h3 className="AddChallengeHeader">Create a new challenge</h3>
-          <p>Follow the steps below to add a challenge.</p>
-          <ol>
-            <li>Fill out all of the boxes below with info on the challenge you would like to add.</li>
-            <li>Click on the Validate Tests button to confirm that your Chai assertion tests work.</li>
-            <li>If all test cases pass for your function then click on the Add Challenge button.</li>
-          </ol>
+      <div className="AddChallenge">
+        <div className="AddChallengeDescription">
+            <div>
+            <h3 className="AddChallengeHeader">Create a new challenge</h3>
+            <p >Follow the steps below to add a challenge.</p>
+            <ol>
+              <li>Fill out all of the boxes below with info on the challenge you would like to add.</li>
+              <li>Click on the Validate Tests button to confirm that your Chai assertion tests work.</li>
+              <li>If all test cases pass for your function then click on the Add Challenge button.</li>
+            </ol>
+          </div>
           <div className="AddChallengeForm">
             <form action="submit" onSubmit={this.onFormSubmit}>
               <div className="AddChallengeInputDiv">
@@ -198,7 +201,7 @@ export default class AddChallenge extends React.Component {
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Solution Function(s)</b><br />Write a function and make sure to export it using "module.exports = SolutionFunction"</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.solutions} onChange={this.onSolutionsChangeHandle}></textarea>
+                <textarea className="AddChallengeInput FunctionOrTestInput" type="text" value={this.state.solutions} onChange={this.onSolutionsChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Prompt</b> <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
@@ -206,7 +209,7 @@ export default class AddChallenge extends React.Component {
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Template Function Attempt</b><br />Write a function and make sure to export it using "module.exports = TemplateFunctionAttempt"</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.templateFunction} onChange={this.onTemplateFunctionChangeHandle}></textarea>
+                <textarea className="AddChallengeInput FunctionOrTestInput" type="text" value={this.state.templateFunction} onChange={this.onTemplateFunctionChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
                 <p><b>Examples:</b> must be within in an array separated by commas.<br />ex: [maxNumber(3,4) = 4, maxNumber(-1,-3) = -1]</p>  
@@ -214,7 +217,7 @@ export default class AddChallenge extends React.Component {
               </div>
               <div className="AddChallengeInputDiv"> 
                 <p><b>Chai Assertion Test</b><br />Include "const expect = require("chai").expect;" before writing tests within a describe() block as it() statements</p> 
-                <textarea className="AddChallengeInput" type="text" value={this.state.test} onChange={this.onTestChangeHandle}></textarea>
+                <textarea className="AddChallengeInput FunctionOrTestInput" type="text" value={this.state.test} onChange={this.onTestChangeHandle}></textarea>
               </div>
 
               <div className="AddChallengeInputDiv">
