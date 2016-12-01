@@ -395,6 +395,8 @@ button:focus {
   color: white;
 }
 
+
+
 .current-game {
   background-image: linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
   background-image: -o-linear-gradient(bottom, #309AE9 50%, #FF4A0C 50%);
