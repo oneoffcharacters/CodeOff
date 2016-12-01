@@ -26,7 +26,7 @@ export default class ChallengeCard extends React.Component {
 		const examples = this.props.challenge[progress].examples ? this.props.challenge[progress].examples : []
 		return (
 			<div id="challengeModal" className="challenge expanded">
-				<div className="challenge-title"><h2>{this.props.challenge[progress].title || this.props.currentGameType === 'No Game' ? 'Start a game to get a challenge' : 'Waiting for a partner'}</h2></div>
+				<div className="challenge-title"><h2>{this.props.challenge[progress].title || (this.props.currentGameType === 'No Game' ? 'Start a game to get a challenge' : 'Waiting for a partner')}</h2></div>
 				<div className="challenge-prompt">{this.props.challenge[progress].prompt}</div>
 				<div className="challenge-examples">{examples.map((example, index) => {
 					return <div key={index} className="challenge-example">{'Example ' + (parseInt(index) +1) + ': ' + example}</div>

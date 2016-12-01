@@ -548,7 +548,6 @@ class Repl extends React.Component {
                     pairMe={this.pairMe.bind(this)} 
                     runCode={this.runCode.bind(this)} 
                     terminateGame={this.terminateGame.bind(this)}
-                    // didWin={this.didWin.bind(this)}
                     submitCode={this.submitCode.bind(this)}
                     usePowerup={this.usePowerup.bind(this)} 
                     powerups={this.state.powerups}
