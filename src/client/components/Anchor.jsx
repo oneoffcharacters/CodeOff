@@ -22,8 +22,8 @@ class Anchor extends React.Component {
 			<Router history={browserHistory}>
 				<Route path="/gameroom" component={Repl}/>
 				<Route path="/" component={App}>
-					<IndexRedirect to="/landing" />
-					<Route path="/landing" component={Landing}/>
+					<IndexRedirect to="/home" />
+					<Route path="/home" component={Landing}/>
 					<Route path="/viewer/:namespace" component={Viewer} />
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/signin" component={Signin}/>
