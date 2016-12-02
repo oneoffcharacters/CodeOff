@@ -52,7 +52,11 @@ mockQuestions.forEach((seed, i) => {
     if (!err && !questions.length) {
     	const newChallenge = new Challenge(seed)
     	newChallenge.save((err, data) => {
-    		if (err) {console.log('Error in writing mock files', err)};
+        if (err) {
+          console.log('Error in writing mock files', err)
+        } else {
+          return 'Mock files written'
+        };
     	})
     }
   });
