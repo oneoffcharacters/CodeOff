@@ -189,28 +189,28 @@ export default class AddChallenge extends React.Component {
             <form action="submit" onSubmit={this.onFormSubmit}>
               <div className="AddChallengeInputDiv">
                 <p><b>Title</b><br /> ex: Max Number</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.title}  onChange={this.onTitleChangeHandle}></textarea>
+                <input className="AddChallengeInput" type="text" value={this.state.title}  onChange={this.onTitleChangeHandle}></input>
               </div>
               <div className="AddChallengeInputDiv">
                 <p><b>Function Name</b><br /> ex: maxNumber</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.functionName} onChange={this.onFunctionNameChangeHandle}></textarea>
+                <input className="AddChallengeInput" type="text" value={this.state.functionName} onChange={this.onFunctionNameChangeHandle}></input>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Difficulty:</b><br />ex: Easy, Medium, or Hard</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.difficulty} onChange={this.onDifficultyChangeHandle}></textarea>
+                <input className="AddChallengeInput" type="text" value={this.state.difficulty} onChange={this.onDifficultyChangeHandle}></input>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p><b>Solution Function(s)</b><br />Write a function and make sure to export it using "module.exports = SolutionFunction". See example below.</p>
+                <p><b>Solution Function</b><br />Write a solution and make sure to export it using "module.exports = SolutionFunction". See example below.</p>
                 <img src="assets/images/AddChallengeFunctionExample.png" />
                 <textarea className="AddChallengeInput FunctionOrTestInput" type="text" value={this.state.solutions} onChange={this.onSolutionsChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">  
                 <p><b>Prompt</b> <br /> ex: Create a function maxNumber that will return the max of two numbers</p>
-                <textarea className="AddChallengeInput" type="text" value={this.state.prompt} onChange={this.onPromptChangeHandle}></textarea>
+                <input className="AddChallengeInput" type="text" value={this.state.prompt} onChange={this.onPromptChangeHandle}></input>
               </div>
               <div className="AddChallengeInputDiv">  
-                <p><b>Template Function Attempt</b><br />Write a function and make sure to export it using "module.exports = TemplateFunctionAttempt". See example below.</p>
-                <img src="assets/images/AddChallengeFunctionExample.png" />
+                <p><b>Template Function</b><br />Write a template function that includes the function name and any arguments it requires. See example below.</p>
+                <img src="assets/images/AddChallengeFunctionTemplate.png" />
                 <textarea className="AddChallengeInput FunctionOrTestInput" type="text" value={this.state.templateFunction} onChange={this.onTemplateFunctionChangeHandle}></textarea>
               </div>
               <div className="AddChallengeInputDiv">
