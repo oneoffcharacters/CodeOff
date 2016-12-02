@@ -5,7 +5,9 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-const authUrl = 'http://localhost:3000/api/auth/login';
+// import url
+import {prodUrl} from '../../../config/main.js';
+// const authUrl = 'http://localhost:3000/api/auth/login';
 
 export default class Signin extends React.Component {
 	constructor() {
@@ -37,7 +39,7 @@ export default class Signin extends React.Component {
 				"password": this.state.pw
 		});
 
-		fetch('http://localhost:3000/api/auth/login', {
+		fetch(`${prodUrl}/api/auth/login`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json'
@@ -59,7 +61,7 @@ export default class Signin extends React.Component {
 			})
 		})
 		.then(() => {
-			fetch('http://localhost:3000/protected', {
+			fetch(`${prodUrl}/protected`, {
 				method: 'get',
 				headers: {
 					'Content-Type': 'application/json',

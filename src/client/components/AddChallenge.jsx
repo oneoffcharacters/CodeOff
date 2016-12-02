@@ -4,6 +4,9 @@ import React from 'react';
 // import components
 import Footer from './Footer';
 
+// import url
+import {prodUrl} from '../../../config/main.js';
+
 export default class AddChallenge extends React.Component {
   constructor() {
     super();
@@ -81,7 +84,7 @@ export default class AddChallenge extends React.Component {
       test: this.state.test
     });
 
-    fetch('http://localhost:3000/api/challenge', {
+    fetch(`${prodUrl}/api/challenge`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'

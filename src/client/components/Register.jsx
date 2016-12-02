@@ -4,6 +4,9 @@ import React from 'react';
 // import components
 import Footer from './Footer';
 
+// import url
+import {prodUrl} from '../../../config/main.js';
+
 export default class register extends React.Component {
   constructor() {
     super()
@@ -36,7 +39,7 @@ export default class register extends React.Component {
 
     console.log('this is the post data, ', credentials);
 
-    fetch('http://localhost:3000/api/auth/register', {
+    fetch(`${prodUrl}/api/auth/register`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
