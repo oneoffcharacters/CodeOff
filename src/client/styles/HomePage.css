@@ -233,12 +233,53 @@ button:focus {
 /*Team*/
 
 .aboutus-ctn {
+  background-color: #d8d8d8;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #ffffff;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .aboutus-title {
-  color: red;
+  color: #E67F38;
+  font-family: .SFNSText-Regular;
+  font-size: 3em;
+  text-align: center;
+}
+
+.profile-ctn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.about-profile {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 35%;
+  width: 35%;
+  margin: 2%;
+  border: 0.7em solid #2C3840;
+  border-radius: 1em;
+}
+
+.profile-name {
+  background-color: #ffffff;
+  font-family: .SFNSText-Regular;
+  font-size: 2em;
+  text-align: center;
+}
+
+.about-pic {
+  height: 100%;
+  width: 100%;
+}
+
+.profile-blurb {
+  background-color: #ffffff;
+  font-family: .SFNSText-Regular;
+  padding: 5px;
+  text-align: justify;
 }
