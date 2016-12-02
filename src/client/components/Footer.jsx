@@ -1,5 +1,6 @@
 // import packages
 import React from 'react';
+import {Link} from 'react-router';
 
 export default class Footer extends React.Component {
   render() {
@@ -13,7 +14,7 @@ export default class Footer extends React.Component {
           <p className="AboutUsText">We want to make people awesome at coding. So here we are.</p>
         </div>
         <div className="Footer-Question">
-          <button className="QuestionButton" type="submit">Meet the Team</button>
+          <Link to="/aboutus"><button className="QuestionButton" type="submit">Meet the Team</button></Link>
         </div>
       </div>
     )

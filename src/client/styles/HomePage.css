@@ -229,3 +229,16 @@ button:focus {
   height: 35em;
   width: 100%;
 }
+
+/*Team*/
+
+.aboutus-ctn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.aboutus-title {
+  color: red;
+}

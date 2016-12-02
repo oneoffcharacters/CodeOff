@@ -14,6 +14,7 @@ import Lobby from './Lobby';
 import Register from './Register';
 import NotFound from './NotFound';
 import AddChallenge from './AddChallenge';
+import Team from './Team';
 
 class Anchor extends React.Component {
 	render() {
@@ -30,6 +31,7 @@ class Anchor extends React.Component {
 					<Route path="/lobby" component={Lobby}/>
 					<Route path="/register" component={Register}/>
 					<Route path="/addchallenge" component={AddChallenge}/>
+					<Route path="/aboutus" component={Team}/>
 					<Route path="/*" component={NotFound}/>
 				</Route>
 			</Router>
