@@ -100,10 +100,20 @@ button:focus {
   color: #E67F38;
   height: 2em;
   width: 9em;
+  margin-right: 1%;
 }
 
-
-
+.AddChallengeBtn {
+  background: #FFFFFF;
+  border: 1px transparent;
+  border-radius: 100px;
+  font-family: .SFNSDisplay-Regular;
+  font-size: 18px;
+  font-weight: bold;
+  color: #E67F38;
+  height: 2em;
+  width: 9em;
+}
 
 /*Features*/
 .Features {
