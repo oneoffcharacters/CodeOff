@@ -10,6 +10,7 @@ export default class Hero extends React.Component {
         <div className="HeroButtons">
           <Link to="/gameroom"><button className="PlayNow" type="submit">Play Now</button></Link>
           <Link to="/lobby"><button className="LearnMore" type="submit">View Lobby</button></Link>
+          <Link to="/addchallenge"><button className="AddChallengeBtn" type="submit">Add A Challenge</button></Link>
         </div>
       </div>
     )
