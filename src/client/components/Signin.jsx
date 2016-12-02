@@ -1,5 +1,5 @@
 // import packages
-import React from 'React';
+import React from 'react';
 
 // import components
 import Header from './Header';
