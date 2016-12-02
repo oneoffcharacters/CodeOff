@@ -5,6 +5,9 @@ import {Router, Link} from 'react-router';
 // import components
 import Footer from './Footer';
 
+// import url
+import {prodUrl} from '../../../config/main.js';
+
 export default class Lobby extends React.Component {
 	constructor() {
 		super()
@@ -15,7 +18,7 @@ export default class Lobby extends React.Component {
 	}
 
 	RefreshLobbies() {
-		fetch('http://localhost:3000/api/lobbies')
+		fetch(`${prodUrl}/api/lobbies`)
 			.then(resp => {
 				return resp.json()
 			})
