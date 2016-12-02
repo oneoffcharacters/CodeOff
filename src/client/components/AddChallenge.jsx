@@ -1,4 +1,7 @@
-import React from 'React';
+// import packages
+import React from 'react';
+
+// import components
 import Footer from './Footer';
 
 export default class AddChallenge extends React.Component {
