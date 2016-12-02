@@ -181,7 +181,7 @@ export default class AddChallenge extends React.Component {
             <p >Follow the steps below to add a challenge.</p>
             <ol>
               <li>Fill out all of the boxes below with info on the challenge you would like to add.</li>
-              <li>Click on the Validate Tests button to confirm that your Chai assertion tests work.</li>
+              <li>Click on the Validate Tests button to confirm that all of your Chai assertion tests pass. If the tests don't pass you'll see the error at the bottom of the page.</li>
               <li>If all test cases pass for your function then click on the Add Challenge button.</li>
             </ol>
           </div>
