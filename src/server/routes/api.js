@@ -70,7 +70,7 @@ router.post('/mocha', (req, res) => {
 
 router.post('/mocha/addchallenge', (req, res) => {
   return axios.post(testServiceURL, {
-    "attempt": req.body.code,
+    "attempt": req.body.solutions,
     "solution": req.body.solutions,
     "test": req.body.test
   })
