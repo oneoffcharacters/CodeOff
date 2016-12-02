@@ -83,8 +83,7 @@ router.post('/mocha/addchallenge', (req, res) => {
         res.send(resp.data.err);
       } else {
         // console.log('AXIOS RESPONSE', resp.data.data);
-        const data = JSON.parse(resp.data.data)
-        //TODO: Add check to see if they passed all test cases
+        const data = JSON.parse(resp.data.data);
         var resDataStats = JSON.parse(resp.data.data).stats;
         console.log('comparison', resDataStats);
         if (resDataStats.passes === resDataStats.tests && resDataStats.tests > 0) {
@@ -98,7 +97,7 @@ router.post('/mocha/addchallenge', (req, res) => {
     })  
     .catch(err => {
     console.error(err);
-    })
+    });
 });
 
 // eventually we will want Object.keys(namespaces)
